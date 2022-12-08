@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+useradd -m $1
+#echo "$1  hard    nproc   100" >> /etc/security/limits.conf
+#echo "$1  hard    nofile  500" >> /etc/security/limits.conf
+echo "${1} ALL=(ALL) NOPASSWD: /usr/bin/pacman" >> /etc/sudoers
+su -c "mkdir -p /home/${1}/.ssh" $1
+cat /root/.ssh/authorized_keys >> /home/$1/.ssh/authorized_keys
+chown -R $1:$1 /home/$1

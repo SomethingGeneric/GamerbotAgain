@@ -2,8 +2,8 @@
 from discord.ext import commands, tasks
 
 # Mine
-from channel_state import VoiceState
-from util_functions import *
+from .channel_state import VoiceState
+from .util_functions import *
 
 
 class Speak(commands.Cog):
