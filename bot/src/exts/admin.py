@@ -25,6 +25,6 @@ async def bot_info(ctx):
 
 
 def setup(bot):
-    print('Loading Admin Ext.')
+    print("Loading Admin Ext.")
     bot.add_slash_command(bot_info)
-    print('Admin Ext. Loaded')
+    print("Admin Ext. Loaded")

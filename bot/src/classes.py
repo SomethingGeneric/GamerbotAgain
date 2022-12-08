@@ -16,7 +16,9 @@ class Warn:
     user = int
     date = datetime
 
-    def __init__(self, reason, author, user, date=datetime.now(), id_=random.getrandbits(63)):
+    def __init__(
+        self, reason, author, user, date=datetime.now(), id_=random.getrandbits(63)
+    ):
         self.id = id_
         self.reason = reason
         self.author = author
@@ -31,7 +33,9 @@ class Note:
     user = int
     date = datetime
 
-    def __init__(self, content, author, user, date=datetime.now(), id_=random.getrandbits(63)):
+    def __init__(
+        self, content, author, user, date=datetime.now(), id_=random.getrandbits(63)
+    ):
         self.id = id_
         self.content = content
         self.author = author
@@ -50,7 +54,11 @@ class Note:
         )
         embed.add_field(
             name="Author",
-            value=(bot.get_user(self.author).mention if bot.get_user(self.author) else "Unknown"),
+            value=(
+                bot.get_user(self.author).mention
+                if bot.get_user(self.author)
+                else "Unknown"
+            ),
             inline=True,
         )
         embed.add_field(
@@ -63,8 +71,13 @@ class Note:
             value=str(self.id),
             inline=True,
         )
-        embed.set_thumbnail((bot.get_user(self.user).display_avatar.url if bot.get_user(
-            self.user) else "https://cdn.discordapp.com/embed/avatars/0.png"))
+        embed.set_thumbnail(
+            (
+                bot.get_user(self.user).display_avatar.url
+                if bot.get_user(self.user)
+                else "https://cdn.discordapp.com/embed/avatars/0.png"
+            )
+        )
         return embed
 
 
@@ -118,19 +131,19 @@ class Server:
         self.users.append(user)
 
     def initialise(self):
-        if not os.path.exists(f'data/{self.id}.pickle'):
-            with open(f'data/{self.id}.pickle', 'wb') as f:
+        if not os.path.exists(f"data/{self.id}.pickle"):
+            with open(f"data/{self.id}.pickle", "wb") as f:
                 pickle.dump(self, f)
 
     def save(self):
-        with open(f'data/{self.id}.pickle', 'wb') as f:
+        with open(f"data/{self.id}.pickle", "wb") as f:
             pickle.dump(self, f)
 
 
 def server(id_: int):
-    if not os.path.exists(f'data/{id_}.pickle'):
+    if not os.path.exists(f"data/{id_}.pickle"):
         server_ = Server(id_)
         server_.initialise()
 
-    with open(f'data/{id_}.pickle', 'rb') as f:
+    with open(f"data/{id_}.pickle", "rb") as f:
         return pickle.load(f)

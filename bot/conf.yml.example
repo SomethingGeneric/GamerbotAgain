@@ -1,2 +1,36 @@
 ---
 token: "token goes here!"
+
+MASTODON_URL: ""
+MASTODON_EMAIL: ""
+MASTODON_PASSWORD: ""
+
+# Types: watching, listening, playing
+DEFAULT_STATUS_TYPE: "playing"
+
+# These are currently the only substitutions
+# - {number_users}
+# - {guild_count}
+DEFAULT_STATUS_TEXT: "in {guild_count} servers"
+
+# Any default cogs you don't want to load:
+# Example: UNLOAD_COGS=Internet,Speak
+# Or maybe more likely: UNLOAD_COGS=Shells
+# Blank is fine, too
+UNLOAD_COGS: ""
+
+# Text for messages:
+# Note {command} is the only substitution allowed here (we do auto-mention the user)
+WRONG_PERMS: "You're not a special snowflake, so you can't run `{command}`"
+
+
+# ---------------------
+# How to change these settings:
+# Enable developer mode in discord, and right click a user/channel to get it's ID for the relevant sections
+# --------------------
+
+# NEED TO CHANGE
+# Permissions
+
+# Should the owner get a DM when the bot restarts
+OWNER_DM_RESTART: True
