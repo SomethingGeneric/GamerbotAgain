@@ -18,7 +18,7 @@ intents.members = True
 bot = commands.InteractionBot(
     status=disnake.Status.online,
     intents=intents,
-    #command_sync_flags=command_sync_flags,
+    # command_sync_flags=command_sync_flags,
 )
 
 error = ""

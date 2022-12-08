@@ -1,9 +1,9 @@
 ---
 token: "token goes here!"
 
-MASTODON_URL: ""
-MASTODON_EMAIL: ""
-MASTODON_PASSWORD: ""
+MASTODON_URL: "https://social.xhec.dev"
+MASTODON_EMAIL: "nope@someone.com"
+MASTODON_PASSWORD: "SomeGreatPassword"
 
 # Types: watching, listening, playing
 DEFAULT_STATUS_TYPE: "playing"

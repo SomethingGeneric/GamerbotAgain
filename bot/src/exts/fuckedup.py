@@ -14,37 +14,40 @@ async def on_message(self, message):
             await mchan.send("yeah......", reference=message)
 """
 
+
 @commands.slash_command()
-async def forgor(self, ctx):
+async def forgor(self, inter):
     """🦀🦀🦀🦀🦀"""
     try:
-        await ctx.message.delete()
+        await inter.message.delete()
     except Exception as e:
         # This should only break if we don't have manage message perm
         pass
-    await ctx.response.send_message(
+    await inter.send(
         "https://tenor.com/view/i-forgot-i-forgor-meme-memes-kinemaster-gif-22374063",
     )
 
+
 @commands.slash_command()
-async def elb(self, ctx):
+async def elb(self, inter):
     try:
-        await ctx.message.delete()
+        await inter.message.delete()
     except Exception as e:
         # This should only break if we don't have manage message perm
         pass
-    await ctx.response.send_message(
+    await inter.send(
         "https://tenor.com/view/i-request-elaboration-white-vision-paul-bettany-wandavision-i-want-an-explanation-gif-22928362",
     )
 
+
 @commands.slash_command()
-async def facepalm(self, ctx):
+async def facepalm(self, inter):
     try:
-        await ctx.message.delete()
+        await inter.message.delete()
     except Exception as e:
         # This should only break if we don't have manage message perm
         pass
-    await ctx.response.send_message(
+    await inter.send(
         "https://tenor.com/view/facepalm-anime-jfc-gif-19368854",
     )
 

@@ -3,30 +3,30 @@ from disnake.ext import commands
 
 from .util_functions import *
 
+
 @commands.slash_command()
-async def figlet(ctx, *, text):
+async def figlet(inter, *, text):
     """Fun text art :)"""
     try:
         out = await run_command_shell("figlet " + text.strip())
         if len(out) < 1994:
-            await ctx.response.send_message("```\n " + str(out) + "```")
+            await inter.send("```\n " + str(out) + "```")
         else:
             link = await paste(out)
-            await ctx.response.send_message(
-                ctx.author.mention
+            await inter.send(
+                inter.author.mention
                 + ", the figlet output is too long, so here's a link: "
                 + link
             )
     except Exception as e:
-        await ctx.response.send_message(
+        await inter.send(
             embed=err_msg("Error", "Had an issue running figlet: `" + str(e) + "`")
         )
-        syslog.log(
-            "Memes-Important", "Had an issue running figlet: `" + str(e) + "`"
-        )
+        syslog.log("Memes-Important", "Had an issue running figlet: `" + str(e) + "`")
+
 
 @commands.slash_command()
-async def onceagain(ctx, *, text="for your financial support"):
+async def onceagain(inter, *, text="for your financial support"):
     """What is bernie's campaign this time?"""
     new_text = text
 
@@ -40,19 +40,19 @@ async def onceagain(ctx, *, text="for your financial support"):
         font=arial_font,  # font
     )
     img.save("bernie-gen.png")
-    await ctx.response.send_message(
-        f"{ctx.author.mention} is once again asking...",
+    await inter.send(
+        f"{inter.author.mention} is once again asking...",
         file=disnake.File("bernie-gen.png"),
-        
     )
     os.remove("bernie-gen.png")
 
+
 @commands.slash_command()
-async def bonk(ctx, *, text=""):
+async def bonk(inter, *, text=""):
     """Bonk a buddy"""
 
     if text == "":
-        text = ctx.author.mention
+        text = inter.author.mention
 
     new_text = text.strip()
     extra = ""
@@ -60,20 +60,18 @@ async def bonk(ctx, *, text=""):
     if "<@!" in new_text or "<@" in new_text:
         try:
             pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
-            person = await ctx.bot.fetch_user(int(pid))
+            person = await inter.bot.fetch_user(int(pid))
             if person is not None:
                 new_text = person.display_name
                 extra = "Get bonked, " + person.mention
             else:
-                await ctx.response.send_message("Had trouble getting a user from: " + text)
+                await inter.send("Had trouble getting a user from: " + text)
         except Exception as e:
-            await ctx.response.send_message("We had a failure: `" + str(e) + "`")
+            await inter.send("We had a failure: `" + str(e) + "`")
 
     if new_text != "":
         img = Image.open("images/bonk.png")
-        arial_font = ImageFont.truetype(
-            "fonts/arial.ttf", (50 - len(str(new_text)))
-        )
+        arial_font = ImageFont.truetype("fonts/arial.ttf", (50 - len(str(new_text))))
         draw = ImageDraw.Draw(img)
         draw.text(
             (525 - len(str(new_text)) * 5, 300),
@@ -82,20 +80,21 @@ async def bonk(ctx, *, text=""):
             font=arial_font,
         )
         img.save("bonk-s.png")
-        await ctx.response.send_message(extra, file=disnake.File("bonk-s.png"))
+        await inter.send(extra, file=disnake.File("bonk-s.png"))
         os.remove("bonk-s.png")
     else:
-        await ctx.response.send_message(file=disnake.File("images/bonk.png"))
+        await inter.send(file=disnake.File("images/bonk.png"))
+
 
 @commands.slash_command()
-async def space(ctx, *, who):
+async def space(inter, *, who):
     """Send ur friends to space lol"""
     user = who.strip()
 
     if "<@!" in user or "<@" in user:
         try:
             pid = user.replace("<@!", "").replace("<@", "").replace(">", "")
-            person = await ctx.bot.fetch_user(int(pid))
+            person = await inter.bot.fetch_user(int(pid))
             if person is not None:
                 pfp = str(person.display_avatar.url)
                 os.system("wget " + pfp + " -O prof.webp")
@@ -104,7 +103,7 @@ async def space(ctx, *, who):
                 fg = fg.resize((128, 128))
                 bg.paste(fg, (620, 0), fg.convert("RGBA"))
                 bg.save("temp.png")
-                await ctx.response.send_message(
+                await inter.send(
                     ":rocket::sparkles: See ya later "
                     + person.mention
                     + " :sparkles::rocket:",
@@ -113,32 +112,31 @@ async def space(ctx, *, who):
                 os.remove("temp.png")
                 os.remove("prof.webp")
             else:
-                await ctx.response.send_message("Had trouble getting a user from: " + who)
+                await inter.send("Had trouble getting a user from: " + who)
         except Exception as e:
-            await ctx.response.send_message("We had a failure: `" + str(e) + "`")
+            await inter.send("We had a failure: `" + str(e) + "`")
     else:
-        await ctx.response.send_message(
-            ctx.author.mention + ", who are you sending to space?"
-        )
+        await inter.send(inter.author.mention + ", who are you sending to space?")
+
 
 @commands.slash_command()
-async def pfp(ctx, *, who):
+async def pfp(inter, *, who):
     """Yoink a cool PFP from a user"""
     user = who.strip()
 
     if "<@!" in user or "<@" in user:
         try:
             pid = user.replace("<@!", "").replace("<@", "").replace(">", "")
-            person = await ctx.bot.fetch_user(int(pid))
+            person = await inter.bot.fetch_user(int(pid))
             if person is not None:
                 pfp = str(person.display_avatar.url)
-                await ctx.response.send_message(ctx.author.mention + " here: " + pfp)
+                await inter.send(inter.author.mention + " here: " + pfp)
             else:
-                await ctx.response.send_message("Had trouble getting a user from: " + who)
+                await inter.send("Had trouble getting a user from: " + who)
         except Exception as e:
-            await ctx.response.send_message("We had a failure: `" + str(e) + "`")
+            await inter.send("We had a failure: `" + str(e) + "`")
     else:
-        await ctx.response.send_message(ctx.author.mention + ", that ain't a user.")
+        await inter.send(inter.author.mention + ", that ain't a user.")
 
 
 def setup(bot):

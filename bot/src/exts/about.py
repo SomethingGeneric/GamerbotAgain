@@ -4,31 +4,31 @@ from .util_functions import *
 
 
 @commands.slash_command()
-async def source(ctx):
+async def source(inter):
     """Bot source code link"""
-    await ctx.response.send_message(
+    await inter.send(
         "My source code lives here: https://github.com/SomethingGeneric/Gamerbot"
     )
 
 
 @commands.slash_command()
-async def license(ctx):
+async def license(inter):
     """Bot license file"""
-    await ctx.response.send_message(
+    await inter.send(
         "My license lives here: https://github.com/SomethingGeneric/Gamerbot/-/blob/main/LICENSE",
     )
 
 
 @commands.slash_command()
-async def report(ctx):
+async def report(inter):
     """Report bot issues"""
-    await ctx.response.send_message(
+    await inter.send(
         "You can file issues here: https://github.com/SomethingGeneric/Gamerbot/issues",
     )
 
 
 @commands.slash_command()
-async def version(ctx):
+async def version(inter):
     """Get git info"""
     commit_msg = await run_command_shell(
         "git --no-pager log --decorate=short --pretty=oneline -n1"
@@ -36,23 +36,21 @@ async def version(ctx):
     msg = ""
     msg += "Latest Git commit: \n"
     msg += "```" + commit_msg + "```"
-    await ctx.response.send_message(f"{msg}")
+    await inter.send(f"{msg}")
 
 
 @commands.slash_command()
-async def invite(ctx):
+async def invite(inter):
     """Add me to another server"""
-    await ctx.response.send_message(
+    await inter.send(
         "https://discord.com/api/oauth2/authorize?client_id=763559371628085288&permissions=1629910589175&scope=bot%20applications.commands",
     )
 
 
 @commands.slash_command()
-async def support(ctx):
+async def support(inter):
     """Get support for Gamerbot"""
-    await ctx.response.send_message(
-        "Join our server. :)", "https://discord.gg/j4nAea7cAs"
-    )
+    await inter.send("Join our server. :)", "https://discord.gg/j4nAea7cAs")
 
 
 def setup(bot):
