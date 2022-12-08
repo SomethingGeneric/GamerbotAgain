@@ -7,6 +7,7 @@ import string
 import threading
 import binascii
 
+
 def fancy_msg(title, text, color, footnote=None):
     e = disnake.Embed(colour=color)
     e.add_field(name=title, value=text, inline=False)

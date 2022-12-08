@@ -2,15 +2,16 @@ from disnake.ext import commands
 
 from .util_functions import *
 
-@commands.slash_command(name="source", description="Get a link to the source code")
+
+@commands.slash_command()
 async def source(ctx):
-    # """Bot source code link"""
+    """Bot source code link"""
     await ctx.response.send_message(
         "My source code lives here: https://github.com/SomethingGeneric/Gamerbot"
     )
 
 
-@commands.slash_command(name="license", description="Get a link to the code license")
+@commands.slash_command()
 async def license(ctx):
     """Bot license file"""
     await ctx.response.send_message(
@@ -18,14 +19,15 @@ async def license(ctx):
     )
 
 
-@commands.slash_command(name="report", description="Report bot issues")
+@commands.slash_command()
 async def report(ctx):
     """Report bot issues"""
     await ctx.response.send_message(
         "You can file issues here: https://github.com/SomethingGeneric/Gamerbot/issues",
     )
 
-@commands.slash_command(name="version", description="Get git information")
+
+@commands.slash_command()
 async def version(ctx):
     """Get git info"""
     commit_msg = await run_command_shell(
@@ -37,7 +39,7 @@ async def version(ctx):
     await ctx.response.send_message(f"{msg}")
 
 
-@commands.slash_command(name="invite", description="Get an invite for the bot")
+@commands.slash_command()
 async def invite(ctx):
     """Add me to another server"""
     await ctx.response.send_message(
@@ -45,7 +47,7 @@ async def invite(ctx):
     )
 
 
-@commands.slash_command(name="support", description="Get support for the bot")
+@commands.slash_command()
 async def support(ctx):
     """Get support for Gamerbot"""
     await ctx.response.send_message(
