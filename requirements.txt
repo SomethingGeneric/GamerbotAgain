@@ -1,0 +1,12 @@
+aiohttp
+aiosignal
+async-timeout
+attrs
+charset-normalizer
+disnake
+frozenlist
+idna
+multidict
+peewee
+PyYAML
+yarl
