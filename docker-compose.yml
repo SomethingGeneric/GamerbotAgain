@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  punchingbag:
+    build:
+      context: ./punching-bag
+    restart: unless-stopped
+    container_name: punchingbag
+    networks:
+      funny:
+  bot:
+    build:
+      context: ./bot
+    restart: unless-stopped
+    networks:
+      funny:
+    volumes:
+      - gamerbot-store:/gb-data
+    depends_on:
+      - punchingbag
+
+volumes:
+  gamerbot-store:
+
+networks:
+  funny:
+    driver: bridge
