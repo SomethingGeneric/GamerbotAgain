@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-ip a
-
 usermod -p $(echo "toor" | openssl passwd -6 -stdin) root
 
 [[ ! -d /etc/ssh ]] && mkdir -p /etc/ssh

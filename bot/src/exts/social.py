@@ -130,6 +130,8 @@ async def toot(inter, *, text=""):
     """Send a post out to the fediverse. (Add your handle in the form of a mention)"""
 
     try:
+        await inter.response.defer()
+
         has_attach = False
 
         # TODO: Figure out how to do images w/ slash??
