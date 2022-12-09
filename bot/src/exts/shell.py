@@ -75,7 +75,7 @@ class Shell(commands.Cog):
             await inter.send(f"Error: ```{str(e)}```")
 
     @commands.slash_command()
-    async def bash(self, inter, *, cmd):
+    async def bash(self, inter, *, cmd: str):
         """Run a command"""
         try:
 
@@ -87,7 +87,7 @@ class Shell(commands.Cog):
                 await inter.send(f"Do not `{cmd}`")
                 return
 
-            if str(self, inter.author.id) in ignore:
+            if str(inter.author.id) in ignore:
                 await inter.send("No more bash for you")
                 return
 
@@ -118,7 +118,7 @@ class Shell(commands.Cog):
             await run_command_shell(f"scp {temp_script_fn} {un}@punchingbag:.")
 
             await run_command_shell(f"ssh {un}@punchingbag 'chmod +x {temp_script_fn}'")
-
+ 
             output = await run_command_shell(
                 f"ssh {un}@punchingbag './{temp_script_fn}'"
             )
@@ -137,8 +137,8 @@ class Shell(commands.Cog):
                     msg = "No output"
 
             await inter.send(msg)
-        except Exception as e:
-            await inter.send(f"Error: ```{str(e)}```")
+        except Exception as ex:
+            await inter.send(f"Error: ```{str(ex)}```")
 
 
 def setup(bot):

@@ -1,4 +1,4 @@
-import datetime, yaml
+import datetime, yaml, asyncio
 
 from disnake.ext import commands, tasks
 
@@ -28,6 +28,8 @@ class Status(commands.Cog):
 
     async def set_default_status(self):
         ac_type = None
+
+        await asyncio.sleep(10)
 
         if self.fconfig["DEFAULT_STATUS_TYPE"] == "watching":
             ac_type = disnake.ActivityType.watching
