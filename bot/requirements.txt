@@ -3,7 +3,7 @@ aiosignal
 async-timeout
 attrs
 charset-normalizer
-disnake
+disnake[voice]
 frozenlist
 idna
 multidict

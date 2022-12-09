@@ -25,7 +25,7 @@ error = ""
 load_error = False
 
 for fn in os.listdir("src/exts"):
-    if "util_functions" not in fn and not os.path.isdir(f"src/exts/{fn}"):
+    if "util_functions" not in fn and "channel_state" not in fn and not os.path.isdir(f"src/exts/{fn}"):
         try:
             bot.load_extension(f"src.exts.{fn.replace('.py','')}")
         except Exception as e:
