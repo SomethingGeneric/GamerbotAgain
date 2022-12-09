@@ -134,9 +134,9 @@ class Shell(commands.Cog):
                 msg = f"See output: {link}"
             else:
                 if len(output) != 0:
-                    msg = f"Command '{cmd},' output: \n```{output}```"
+                    msg = f"Command `{cmd}`, output: \n```{output}```"
                 else:
-                    msg = f"Command: '{cmd}', but no output was returned"
+                    msg = f"Command: `{cmd}`, but no output was returned"
 
             await inter.send(msg)
         except Exception as ex:
