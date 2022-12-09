@@ -1,7 +1,7 @@
 from disnake.ext import commands
 from .util_functions import *
 import binascii
-import os
+import os, re
 
 bp = "/gb-data/no_bash.txt"
 
