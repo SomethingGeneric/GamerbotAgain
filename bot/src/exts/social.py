@@ -5,7 +5,7 @@ from time import sleep
 from random import randint
 import os, binascii
 import toml
-import re, yaml
+import re, yaml, asyncio
 
 from .util_functions import *
 
@@ -41,9 +41,9 @@ class Social(commands.Cog):
             if os.path.exists(conf_f):
                 pending = toml.load(conf_f)
 
-            if str(self, inter.author.id) in pending.keys():
+            if str(inter.author.id) in pending.keys():
                 # we have a conf in progress
-                person = pending[str(self, inter.author.id)]
+                person = pending[str(inter.author.id)]
                 if person["code"] == code:
 
                     # commit association to acf
@@ -57,13 +57,13 @@ class Social(commands.Cog):
                     if username[0] != "@":
                         username = "@" + username
 
-                    data[str(self, inter.author.id)] = username
+                    data[str(inter.author.id)] = username
                     f = open(acf, "w")
                     toml.dump(data, f)
                     f.close()
 
                     # remove user info from conf_f
-                    pending.pop(str(self, inter.author.id))
+                    pending.pop(str(inter.author.id))
                     f = open(conf_f, "w")
                     toml.dump(pending, f)
                     f.close()
@@ -95,7 +95,7 @@ class Social(commands.Cog):
             if os.path.exists(conf_f):
                 pending = toml.load(conf_f)
 
-            pending[str(self, inter.author.id)] = person
+            pending[str(inter.author.id)] = person
 
             f = open(conf_f, "w")
             toml.dump(pending, f)
@@ -130,7 +130,7 @@ class Social(commands.Cog):
             await inter.send(f"Error: ```{str(e)}```")
 
     @commands.slash_command()
-    async def toot(self, inter, *, text=""):
+    async def toot(self, inter, media: disnake.Attachment = None, *, text: str = None):
         """Send a post out to the fediverse. (Add your handle in the form of a mention)"""
 
         try:
@@ -138,23 +138,13 @@ class Social(commands.Cog):
 
             has_attach = False
 
-            # TODO: Figure out how to do images w/ slash??
-            """
-            fns = []
-            if (
-                inter.message.attachments is not None
-                and len(self, inter.message.attachments) != 0
-            ):
-                if len(self, inter.message.attachments) > 3:  # 0,1,2,3 = 4 total
-                    await inter.send("Too many attachments")
-                    return
+            med_fn = (
+                "." + str(binascii.b2a_hex(os.urandom(15)).decode("utf-8")) + ".png"
+            )
 
+            if media is not None:
                 has_attach = True
-                for attachment in inter.message.attachments:
-                    fns.append(attachment.filename)
-                    await attachment.save(attachment.filename)
-
-            """
+                await media.save(med_fn)
 
             if not os.path.isfile(f"{volpath}/{ccredpath}"):
                 r = RandomWords()
@@ -165,7 +155,7 @@ class Social(commands.Cog):
                     to_file=f"{volpath}/{ccredpath}",
                 )
 
-            if not has_attach and text == "":
+            if not has_attach and text == "" or text is None:
                 await inter.send("Please include an image and/or some text.")
                 return
 
@@ -191,14 +181,13 @@ class Social(commands.Cog):
 
             cred = f"{un}#{str(dc)}"
 
-            if str(self, inter.author.id) in data.keys():
-                cred = data[str(self, inter.author.id)]
+            if str(inter.author.id) in data.keys():
+                cred = data[str(inter.author.id)]
 
             if has_attach:
                 med = []
-                for fn in fns:
-                    med.append(mastodon.media_post(fn))
-                    sleep(4)
+                med.append(mastodon.media_post(med_fn))
+                await asyncio.sleep(4)
                 res = mastodon.status_post(f"{text} - {cred}", media_ids=med)
             else:
                 res = mastodon.toot(f"{text} - {cred}")
@@ -209,8 +198,7 @@ class Social(commands.Cog):
             await inter.send(f"See your post here: {res['url']}")
 
             if has_attach:
-                for fn in fns:
-                    os.remove(fn)
+                os.remove(med_fn)
 
         except Exception as e:
             await inter.send(f"A thing happened: ```{str(e)}```")

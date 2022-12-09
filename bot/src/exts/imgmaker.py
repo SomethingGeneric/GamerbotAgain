@@ -123,8 +123,7 @@ class ImageMaker(commands.Cog):
             except Exception as e:
                 await inter.send("We had a failure: `" + str(e) + "`")
         else:
-            await inter.send(
-                self, inter.author.mention + ", who are you sending to space?"
+            await inter.send(inter.author.mention + ", who are you sending to space?"
             )
 
     @commands.slash_command()
@@ -138,13 +137,13 @@ class ImageMaker(commands.Cog):
                 person = await inter.bot.fetch_user(int(pid))
                 if person is not None:
                     pfp = str(person.display_avatar.url)
-                    await inter.send(self, inter.author.mention + " here: " + pfp)
+                    await inter.send(inter.author.mention + " here: " + pfp)
                 else:
                     await inter.send("Had trouble getting a user from: " + who)
             except Exception as e:
                 await inter.send("We had a failure: `" + str(e) + "`")
         else:
-            await inter.send(self, inter.author.mention + ", that ain't a user.")
+            await inter.send(inter.author.mention + ", that ain't a user.")
 
 
 def setup(bot):

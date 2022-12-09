@@ -118,7 +118,7 @@ class Shell(commands.Cog):
             await run_command_shell(f"scp {temp_script_fn} {un}@punchingbag:.")
 
             await run_command_shell(f"ssh {un}@punchingbag 'chmod +x {temp_script_fn}'")
- 
+
             output = await run_command_shell(
                 f"ssh {un}@punchingbag './{temp_script_fn}'"
             )
