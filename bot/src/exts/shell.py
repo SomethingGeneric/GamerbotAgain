@@ -78,7 +78,7 @@ class Shell(commands.Cog):
     async def bash(self, inter, *, cmd: str):
         """Run a command"""
         try:
-
+            await inter.response.defer()
             if " " in cmd:
                 if cmd.split(" ")[0] in dont:
                     await inter.send(f"Do not `{cmd.split(' ')[0]}`")
