@@ -20,6 +20,7 @@ async def get_as_json(url):
     except Exception as e:
         return '{"haha":"heeho"}'
 
+
 class InternetStuff(commands.Cog):
     """Internet-ish tools"""
 
@@ -48,7 +49,6 @@ class InternetStuff(commands.Cog):
                 embed=err_msg("Kernel", "Had an issue getting info: `" + str(e) + "`")
             )
 
-
     @commands.slash_command()
     async def search(self, inter, *, query):
         """Use if someone is making you do resarch for them"""
@@ -56,7 +56,6 @@ class InternetStuff(commands.Cog):
         async with inter.typing():
             await asyncio.sleep(1)
         await inter.send(embed=inf_msg("Go to: ", url + urllib.parse.quote(query)))
-
 
     @commands.slash_command()
     async def traceroute(self, inter, *, url):
@@ -79,7 +78,8 @@ class InternetStuff(commands.Cog):
                         inter.author.mention,
                         embed=inf_msg(
                             "Output",
-                            "The traceroute output is too long, so here's a link: " + link,
+                            "The traceroute output is too long, so here's a link: "
+                            + link,
                         ),
                     )
 
@@ -90,7 +90,6 @@ class InternetStuff(commands.Cog):
                 )
         except Exception as e:
             await inter.send(embed=err_msg("Traceroute error", "`" + str(e) + "`"))
-
 
     @commands.slash_command()
     async def whois(self, inter, *, url):
@@ -123,7 +122,6 @@ class InternetStuff(commands.Cog):
         except Exception as e:
             await inter.send(embed=err_msg("Whois error", "`" + str(e) + "`"))
 
-
     @commands.slash_command()
     async def nmap(self, inter, *, url):
         """Scan a url/ip for open ports"""
@@ -147,7 +145,9 @@ class InternetStuff(commands.Cog):
                         ),
                     )
                 else:
-                    await inter.send(embed=inf_msg("Nmap output", "```" + str(out) + "```"))
+                    await inter.send(
+                        embed=inf_msg("Nmap output", "```" + str(out) + "```")
+                    )
             else:
                 await inter.send(
                     inter.author.mention,
@@ -155,7 +155,6 @@ class InternetStuff(commands.Cog):
                 )
         except Exception as e:
             await inter.send(embed=err_msg("NMAP error", "`" + str(e) + "`"))
-
 
     @commands.slash_command()
     async def geoip(self, inter, *, ip):
@@ -181,7 +180,6 @@ class InternetStuff(commands.Cog):
                     "GeoIP error", "Had an issue getting GeoIP data: `" + str(e) + "`"
                 )
             )
-
 
     @commands.slash_command()
     async def ddg(self, inter, *, query):

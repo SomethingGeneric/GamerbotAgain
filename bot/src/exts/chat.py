@@ -21,7 +21,6 @@ class Chat(commands.Cog):
             "https://media.tenor.com/images/a16246936101a550918944740789de8a/tenor.gif",
         )
 
-
     @commands.slash_command()
     async def deadchat(self, inter):
         """When the chat do be dead"""
@@ -29,48 +28,40 @@ class Chat(commands.Cog):
             "https://media.tenor.com/images/f799b7d7993b74a7852e1eaf2695d9d7/tenor.gif",
         )
 
-
     @commands.slash_command()
     async def xd(self, inter):
         """😂😂😂😂😂"""
         await inter.send(file=disnake.File("images/LMAO.jpg"))
-
 
     @commands.slash_command()
     async def kat(self, inter):
         """*sad cat noises*"""
         await inter.send(file=disnake.File("images/krying_kat.png"))
 
-
     @commands.slash_command()
     async def yea(self, inter):
         """it do be like that"""
         await inter.send(file=disnake.File("images/yeah.png"))
-
 
     @commands.slash_command()
     async def no(self, inter):
         """it do not be like that"""
         await inter.send(file=disnake.File("images/no.png"))
 
-
     @commands.slash_command()
     async def stoptalking(self, inter):
         """just do."""
         await inter.send(file=disnake.File("images/stop_talking.png"))
-
 
     @commands.slash_command()
     async def forkbomb(self, inter):
         """rip to myself"""
         await inter.send(file=disnake.File("images/forkbomb.jpg"))
 
-
     @commands.slash_command()
     async def permit(self, inter):
         """go right ahead."""
         await inter.send(file=disnake.File("images/permit_crab.jpg"))
-
 
     @commands.slash_command()
     async def whenthe(self, inter):
@@ -78,7 +69,6 @@ class Chat(commands.Cog):
         await inter.send(
             "https://cdn.discordapp.com/attachments/732599669867413505/921838252275695686/7Vcj8V5vrrN7G71g.mp4"
         )
-
 
     @commands.slash_command()
     async def floppa(self, inter, *, emote=""):
@@ -91,7 +81,6 @@ class Chat(commands.Cog):
                 await inter.send(file=disnake.File("images/floppa/" + emote + ".png"))
             else:
                 await inter.send("No such floppa: `" + emote + "`")
-
 
     @commands.slash_command()
     async def lahmoji(self, inter, *, emote=""):
@@ -111,24 +100,25 @@ class Chat(commands.Cog):
 
             await inter.send("No such lahmoji: `" + emote + "`")
 
-
     @commands.slash_command()
     async def catpic(self, inter):
         """Get a cat pic"""
         r = requests.get("https://cataas.com/cat", allow_redirects=True)
-        name = "".join(random.sample(string.ascii_lowercase + string.digits, 5)) + ".jpeg"
+        name = (
+            "".join(random.sample(string.ascii_lowercase + string.digits, 5)) + ".jpeg"
+        )
         open(name, "wb").write(r.content)
         await inter.send(file=disnake.File(name))
-
 
     @commands.slash_command()
     async def catgif(self, inter):
         """Everybody needs cat gifs in their lifes"""
         r = requests.get("https://cataas.com/cat/gif", allow_redirects=True)
-        name = "".join(random.sample(string.ascii_lowercase + string.digits, 5)) + ".gif"
+        name = (
+            "".join(random.sample(string.ascii_lowercase + string.digits, 5)) + ".gif"
+        )
         open(name, "wb").write(r.content)
         await inter.send(file=disnake.File(name))
-
 
     @commands.slash_command()
     async def catsays(self, inter, *, msg):
@@ -137,10 +127,11 @@ class Chat(commands.Cog):
             "https://cataas.com/cat/says/" + urllib.parse.quote(msg.encode("utf-8")),
             allow_redirects=True,
         )
-        name = "".join(random.sample(string.ascii_lowercase + string.digits, 5)) + ".jpeg"
+        name = (
+            "".join(random.sample(string.ascii_lowercase + string.digits, 5)) + ".jpeg"
+        )
         open(name, "wb").write(r.content)
         await inter.send(file=disnake.File(name))
-
 
     @commands.slash_command()
     async def poll(self, inter, *, info=None):

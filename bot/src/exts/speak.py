@@ -30,7 +30,9 @@ class Speak(commands.Cog):
     def set_done(self):
         self.isDone = True
 
-    async def speak_in_channel(self, inter, text="", chan=None, stealth=False, file=None):
+    async def speak_in_channel(
+        self, inter, text="", chan=None, stealth=False, file=None
+    ):
         if self.voice_client is None and not self.vs.check_state():
             print(
                 "This cog was not playing, nor were others. It's go time.",

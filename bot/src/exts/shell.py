@@ -35,113 +35,113 @@ def remove_ignore(uid):
     reload_ignore()
 
 
-@disnake.ext.commands.is_owner()
-@commands.slash_command(name="add-nobash")
-async def add_nobash(inter, uid):
-    """I hope this is easy to figure out"""
-    write_ignore(uid)
-    await inter.send("Done")
+class Shell(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
 
+    @disnake.ext.commands.is_owner()
+    @commands.slash_command(name="add-nobash")
+    async def add_nobash(self, inter, uid):
+        """I hope this is easy to figure out"""
+        write_ignore(uid)
+        await inter.send("Done")
 
-@disnake.ext.commands.is_owner()
-@commands.slash_command(name="remove-nobash")
-async def remove_nobash(inter, uid):
-    """I hope this is easy to figure out"""
-    remove_ignore(uid)
-    await inter.send("Done")
+    @disnake.ext.commands.is_owner()
+    @commands.slash_command(name="remove-nobash")
+    async def remove_nobash(self, inter, uid):
+        """I hope this is easy to figure out"""
+        remove_ignore(uid)
+        await inter.send("Done")
 
+    @commands.slash_command(name="reset-bash")
+    async def reset_bash(self, inter, confirm="n"):
+        """Reset my bash access"""
+        try:
+            if confirm == "y":
+                un = inter.author.name.lower()
+                un = un.replace("-", "").replace("_", "")
+                if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                    un = un[1:]
+                await inter.send("Resetting your user.")
+                await run_command_shell(
+                    f"ssh punchingbag 'userdel {un} && rm -rf /home/{un}'"
+                )
+                await inter.send("Done.")
+            else:
+                await inter.send(
+                    "Just to confirm, you want to nuke your bash user. If so, re-run with `y`",
+                )
+        except Exception as e:
+            await inter.send(f"Error: ```{str(e)}```")
 
-@commands.slash_command(name="reset-bash")
-async def reset_bash(inter, confirm="n"):
-    """Reset my bash access"""
-    try:
-        if confirm == "y":
+    @commands.slash_command()
+    async def bash(self, inter, *, cmd):
+        """Run a command"""
+        try:
+
+            if " " in cmd:
+                if cmd.split(" ")[0] in dont:
+                    await inter.send(f"Do not `{cmd.split(' ')[0]}`")
+                    return
+            elif cmd in dont:
+                await inter.send(f"Do not `{cmd}`")
+                return
+
+            if str(self, inter.author.id) in ignore:
+                await inter.send("No more bash for you")
+                return
+
+            if ":(){ :|:& };:" in cmd:
+                await inter.send("No forkbombs")
+                return
+
             un = inter.author.name.lower()
             un = un.replace("-", "").replace("_", "")
             if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
                 un = un[1:]
-            await inter.send("Resetting your user.")
-            await run_command_shell(
-                f"ssh punchingbag 'userdel {un} && rm -rf /home/{un}'"
+
+            if un == "root":
+                un += "not"
+
+            await run_command_shell("scp /bot/bin/has_user punchingbag:.")
+            test_user = await run_command_shell(f"ssh punchingbag './has_user {un}'")
+
+            if "n" in test_user:  # no user
+                await run_command_shell("scp /bot/bin/mk_user punchingbag:.")
+                await run_command_shell(f"ssh punchingbag './mk_user {un}'")
+
+            temp_script_fn = "." + str(binascii.b2a_hex(os.urandom(15)).decode("utf-8"))
+
+            with open(temp_script_fn, "w") as f:
+                f.write(cmd)
+
+            await run_command_shell(f"scp {temp_script_fn} {un}@punchingbag:.")
+
+            await run_command_shell(f"ssh {un}@punchingbag 'chmod +x {temp_script_fn}'")
+
+            output = await run_command_shell(
+                f"ssh {un}@punchingbag './{temp_script_fn}'"
             )
-            await inter.send("Done.")
-        else:
-            await inter.send(
-                "Just to confirm, you want to nuke your bash user. If so, re-run with `y`",
-            )
-    except Exception as e:
-        await inter.send(f"Error: ```{str(e)}```")
 
+            await run_command_shell(f"ssh {un}@punchingbag 'rm {temp_script_fn}'")
 
-@commands.slash_command()
-async def bash(inter, *, cmd):
-    """Run a command"""
-    try:
+            msg = ""
 
-        if " " in cmd:
-            if cmd.split(" ")[0] in dont:
-                await inter.send(f"Do not `{cmd.split(' ')[0]}`")
-                return
-        elif cmd in dont:
-            await inter.send(f"Do not `{cmd}`")
-            return
-
-        if str(inter.author.id) in ignore:
-            await inter.send("No more bash for you")
-            return
-
-        if ":(){ :|:& };:" in cmd:
-            await inter.send("No forkbombs")
-            return
-
-        un = inter.author.name.lower()
-        un = un.replace("-", "").replace("_", "")
-        if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-            un = un[1:]
-
-        if un == "root":
-            un += "not"
-
-        await run_command_shell("scp /bot/bin/has_user punchingbag:.")
-        test_user = await run_command_shell(f"ssh punchingbag './has_user {un}'")
-
-        if "n" in test_user:  # no user
-            await run_command_shell("scp /bot/bin/mk_user punchingbag:.")
-            await run_command_shell(f"ssh punchingbag './mk_user {un}'")
-
-        temp_script_fn = "." + str(binascii.b2a_hex(os.urandom(15)).decode("utf-8"))
-
-        with open(temp_script_fn, "w") as f:
-            f.write(cmd)
-
-        await run_command_shell(f"scp {temp_script_fn} {un}@punchingbag:.")
-
-        await run_command_shell(f"ssh {un}@punchingbag 'chmod +x {temp_script_fn}'")
-
-        output = await run_command_shell(f"ssh {un}@punchingbag './{temp_script_fn}'")
-
-        await run_command_shell(f"ssh {un}@punchingbag 'rm {temp_script_fn}'")
-
-        msg = ""
-
-        if len(output) > 1000:
-            link = await paste(output)
-            msg = f"See output: {link}"
-        else:
-            if len(output) != 0:
-                msg = f"```{output}```"
+            if len(output) > 1000:
+                link = await paste(output)
+                msg = f"See output: {link}"
             else:
-                msg = "No output"
+                if len(output) != 0:
+                    msg = f"```{output}```"
+                else:
+                    msg = "No output"
 
-        await inter.send(msg)
-    except Exception as e:
-        await inter.send(f"Error: ```{str(e)}```")
+            await inter.send(msg)
+        except Exception as e:
+            await inter.send(f"Error: ```{str(e)}```")
 
 
 def setup(bot):
     print("Loading shell extension")
-    bot.add_slash_command(add_nobash)
-    bot.add_slash_command(remove_nobash)
-    bot.add_slash_command(reset_bash)
-    bot.add_slash_command(bash)
+    bot.add_cog(Shell(bot))
     print("Done.")
