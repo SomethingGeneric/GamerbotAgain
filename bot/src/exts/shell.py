@@ -79,6 +79,7 @@ class Shell(commands.Cog):
         """Run a command"""
         try:
             await inter.response.defer()
+
             if " " in cmd:
                 if cmd.split(" ")[0] in dont:
                     await inter.send(f"Do not `{cmd.split(' ')[0]}`")
@@ -91,8 +92,9 @@ class Shell(commands.Cog):
                 await inter.send("No more bash for you")
                 return
 
-            if ":(){ :|:& };:" in cmd:
+            if ":(){ :|:& };:" in cmd or re.search(r"(.)\|\1&", cmd):
                 await inter.send("No forkbombs")
+                write_ignore(inter.author.id)
                 return
 
             un = inter.author.name.lower()
