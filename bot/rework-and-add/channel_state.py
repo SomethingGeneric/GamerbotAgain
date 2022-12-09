@@ -1,5 +1,6 @@
 import os
 
+
 class VoiceState:
     def __init__(self):
         if os.path.exists(".voice_state"):

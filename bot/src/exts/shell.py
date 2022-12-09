@@ -7,6 +7,7 @@ bp = "/gb-data/no_bash.txt"
 
 dont = ["dd", "fallocate", "doas", "pkexec"]
 
+
 def reload_ignore():
     if os.path.exists(bp):
         ignore = []
@@ -16,19 +17,23 @@ def reload_ignore():
         for nid in ids:
             ignore.append(nid)
 
+
 ignore = []
 reload_ignore()
+
 
 def write_ignore(uid):
     with open(bp, "a+") as f:
         f.write(str(uid) + "\n")
     reload_ignore()
 
+
 def remove_ignore(uid):
     ignore.remove(uid)
     with open(bp, "w") as f:
         f.write("\n".join(ignore))
     reload_ignore()
+
 
 @disnake.ext.commands.is_owner()
 @commands.slash_command(name="add-nobash")
@@ -37,12 +42,14 @@ async def add_nobash(inter, uid):
     write_ignore(uid)
     await inter.send("Done")
 
+
 @disnake.ext.commands.is_owner()
 @commands.slash_command(name="remove-nobash")
 async def remove_nobash(inter, uid):
     """I hope this is easy to figure out"""
     remove_ignore(uid)
     await inter.send("Done")
+
 
 @commands.slash_command(name="reset-bash")
 async def reset_bash(inter, confirm="n"):
@@ -65,6 +72,7 @@ async def reset_bash(inter, confirm="n"):
     except Exception as e:
         await inter.send(f"Error: ```{str(e)}```")
 
+
 @commands.slash_command()
 async def bash(inter, *, cmd):
     """Run a command"""
@@ -72,9 +80,7 @@ async def bash(inter, *, cmd):
 
         if " " in cmd:
             if cmd.split(" ")[0] in dont:
-                await inter.send(
-                    f"Do not `{cmd.split(' ')[0]}`"
-                )
+                await inter.send(f"Do not `{cmd.split(' ')[0]}`")
                 return
         elif cmd in dont:
             await inter.send(f"Do not `{cmd}`")
@@ -112,9 +118,7 @@ async def bash(inter, *, cmd):
 
         await run_command_shell(f"ssh {un}@punchingbag 'chmod +x {temp_script_fn}'")
 
-        output = await run_command_shell(
-            f"ssh {un}@punchingbag './{temp_script_fn}'"
-        )
+        output = await run_command_shell(f"ssh {un}@punchingbag './{temp_script_fn}'")
 
         await run_command_shell(f"ssh {un}@punchingbag 'rm {temp_script_fn}'")
 

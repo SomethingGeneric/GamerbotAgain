@@ -29,7 +29,7 @@ for fn in os.listdir("src/exts"):
         try:
             bot.load_extension(f"src.exts.{fn.replace('.py','')}")
         except Exception as e:
-            error = f"Error trying to load extension `{fn}`: ```{str(e)}```"
+            error += f"Error trying to load extension `{fn}`: ```{str(e)}```\n\n"
             load_error = True
 
 
@@ -46,4 +46,7 @@ async def on_ready():
         )
 
     if load_error:
-        await ownerman.send(error)
+        t = error
+        if len(error) > 1000:
+            t = await paste(error)
+        await ownerman.send(t)
