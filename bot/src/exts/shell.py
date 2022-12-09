@@ -129,14 +129,14 @@ class Shell(commands.Cog):
 
             msg = ""
 
-            if len(output) > 1000:
-                link = await paste(output)
+            if len(output) > (999-len(cmd)):
+                link = await paste(f"Command was: '{cmd}', output:\n{output}")
                 msg = f"See output: {link}"
             else:
                 if len(output) != 0:
-                    msg = f"```{output}```"
+                    msg = f"Command '{cmd},' output: \n```{output}```"
                 else:
-                    msg = "No output"
+                    msg = f"Command: '{cmd}', but no output was returned"
 
             await inter.send(msg)
         except Exception as ex:
