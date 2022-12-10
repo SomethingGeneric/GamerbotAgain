@@ -1,12 +1,13 @@
 from disnake.ext import commands
 import json, yaml, os, requests, asyncio, random
 
-volpath = "/gb-data"
+from .util_functions import config
+
+volpath = config['volpath']
 
 primary_url = "https://xkcd.com/info.0.json"
 comic_url = "https://xkcd.com/CN/info.0.json"
 
-# TODO: change fn before commit
 data_fn = f"{volpath}/xkcd.yaml"
 
 

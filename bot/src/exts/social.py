@@ -9,24 +9,15 @@ import re, yaml, asyncio
 
 from .util_functions import *
 
-# /gb-data
+url = config["MASTODON_URL"]
+email = config["MASTODON_EMAIL"]
+passw = config["MASTODON_PASSWORD"]
+volpath = config["volpath"]
 
-volpath = "/gb-data"
 ccredpath = "tootclientcred.secret"
 ucredpath = "tootusercred.secret"
 acf = f"{volpath}/mastodon_linked.toml"
 conf_f = f"{volpath}/mastodon_temp.toml"
-
-with open("conf.yml", "r") as stream:
-    try:
-        fconfig = yaml.safe_load(stream)
-    except yaml.YAMLError as err:
-        print(err)
-
-url = fconfig["MASTODON_URL"]
-email = fconfig["MASTODON_EMAIL"]
-passw = fconfig["MASTODON_PASSWORD"]
-
 
 class Social(commands.Cog):
     """Fediverse stuff"""

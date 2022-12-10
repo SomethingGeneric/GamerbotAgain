@@ -1,12 +1,22 @@
 import asyncio
 import disnake
 import geoip2.database
-import os
+import os,sys
 import random
 import string
 import threading
 import binascii
+import yaml
 
+if not os.path.exists("conf.yml"):
+    print("No config found")
+    sys.exit(1)
+
+with open("conf.yml", "r") as stream:
+    try:
+        config = yaml.safe_load(stream)
+    except yaml.YAMLError as err:
+        print(err)
 
 def fancy_msg(title, text, color, footnote=None):
     e = disnake.Embed(colour=color)

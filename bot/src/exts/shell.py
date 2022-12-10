@@ -3,7 +3,7 @@ from .util_functions import *
 import binascii
 import os, re
 
-bp = "/gb-data/no_bash.txt"
+bp = f"{config['volpath']}/no_bash.txt"
 
 dont = ["dd", "fallocate", "doas", "pkexec"]
 
