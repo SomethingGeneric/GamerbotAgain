@@ -13,21 +13,21 @@ class About(commands.Cog):
     async def source(self, inter):
         """Bot source code link"""
         await inter.send(
-            "My source code lives here: https://github.com/SomethingGeneric/Gamerbot"
+            "My source code lives here: https://github.com/SomethingGeneric/GamerbotAgain"
         )
 
     @commands.slash_command()
     async def license(self, inter):
         """Bot license file"""
         await inter.send(
-            "My license lives here: https://github.com/SomethingGeneric/Gamerbot/-/blob/main/LICENSE",
+            "My license lives here: https://github.com/SomethingGeneric/GamerbotAgain/-/blob/main/LICENSE",
         )
 
     @commands.slash_command()
     async def report(self, inter):
         """Report bot issues"""
         await inter.send(
-            "You can file issues here: https://github.com/SomethingGeneric/Gamerbot/issues",
+            "You can file issues here: https://github.com/SomethingGeneric/GamerbotAgain/issues",
         )
 
     @commands.slash_command()
