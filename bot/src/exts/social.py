@@ -129,6 +129,60 @@ class Social(commands.Cog):
         except Exception as e:
             await inter.send(f"Error: ```{str(e)}```")
 
+    @commands.message_command(name="Toot")
+    async def cmtoot(self, inter, message):
+        await inter.response.defer()
+        try:
+            fns = []
+
+            if len(message.attachments) != 0:
+                for attachment in message.attachments:
+                    await attachment.save(attachment.filename)
+                    fns.append(attachment.filename)
+
+            if not os.path.isfile(f"{volpath}/{ccredpath}"):
+                r = RandomWords()
+                w = r.get_random_word()
+                Mastodon.create_app(
+                    f"gamerthebot-{w}-{str(randint(1, 10))}",
+                    api_base_url=url,
+                    to_file=f"{volpath}/{ccredpath}",
+                )
+
+            mastodon = Mastodon(client_id=f"{volpath}/{ccredpath}")
+
+            mastodon.log_in(
+                email,
+                passw,
+                to_file=f"{volpath}/{ucredpath}",
+            )
+
+            # note the difference here, as the message author
+            # might not be the same as the interaction user
+            un = message.author.name
+            dc = message.author.discriminator
+            cred = f"{un}#{str(dc)}"
+
+            if len(fns) == 0:
+                res = mastodon.toot(f"{message.content} - {cred}")
+            else:
+                media_ids = []
+                for fn in fns:
+                    media_ids.append(mastodon.media_post(fn))
+                    await asyncio.sleep(2)
+                res = mastodon.status_post(
+                    f"{message.content} - {cred}", media_ids=media_ids
+                )
+
+            await inter.send(f"See your post here: {res['url']}")
+
+            # end
+            for fn in fns:
+                os.remove(fn)
+
+        except Exception as e:
+            await inter.send(f"A thing happened: ```{str(e)}```")
+
     @commands.slash_command()
     async def toot(self, inter, media: disnake.Attachment = None, *, text: str = None):
         """Send a post out to the fediverse. (Add your handle in the form of a mention)"""
