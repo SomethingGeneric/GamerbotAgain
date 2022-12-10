@@ -28,10 +28,32 @@ class InternetStuff(commands.Cog):
         self.bot = bot
 
     @commands.slash_command()
+    async def tldr(self, inter, *, query: str):
+        """Look up using tldr pages"""
+        await inter.response.defer()
+        try:
+            res = await run_command_shell(f"tldr -m '{query}'")
+            msg = f"```md\n{res}```"
+            if len(msg) > 1020:
+                link = await paste(res)
+                await inter.send(f"Result was too long. See it here: {link}")
+            else:
+                await inter.send(msg)
+        except Exception as e:
+            await inter.send(f"Error: ```{str(e)}```")
+
+    @commands.slash_command()
+    async def chtsh(self, inter, *, query: str):
+        """Shortcut to cht.sh"""
+        await inter.send(
+            f"Query: `{query}`\nhttps://cht.sh/{urllib.parse.quote(query)}"
+        )
+
+    @commands.slash_command()
     async def kernel(self, inter):
         """Get Linux kernel info for host and latest"""
+        await inter.response.defer()
         try:
-            m = await inter.send(embed=inf_msg("Kernel", "Getting kernel info."))
             data = await get_as_json("https://www.kernel.org/releases.json")
             new_ver = data["latest_stable"]["version"]
             mine = await run_command_shell("uname -r")
@@ -42,7 +64,6 @@ class InternetStuff(commands.Cog):
                 + new_ver
                 + "`"
             )
-            await m.delete()
             await inter.send(embed=inf_msg("Kernel", msg))
         except Exception as e:
             await inter.send(

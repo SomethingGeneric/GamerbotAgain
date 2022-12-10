@@ -19,3 +19,8 @@ WRONG_PERMS: "You're not a special snowflake, so you can't run `{command}`"
 
 # Should the owner get a DM when the bot restarts
 OWNER_DM_RESTART: True
+
+# Don't load these extensions, even if they exist in the src/exts folder
+# Separate with ,
+# Example: "shell,social"
+SKIP_EXT: ""

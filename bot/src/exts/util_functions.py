@@ -122,9 +122,9 @@ async def run_command_shell(command, grc=False):
 
     if not grc:
         # Return stdout
-        return result
+        return result.strip().rstrip()
     else:
-        return process.returncode, result
+        return process.returncode, result.strip().rstrip()
 
 
 async def isup(host):

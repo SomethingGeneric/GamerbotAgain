@@ -25,10 +25,19 @@ bot = commands.InteractionBot(
 error = ""
 load_error = False
 
+skip_exts = []
+
+if config["SKIP_EXT"] != "":
+    if "," in config["SKIP_EXT"]:
+        skip_exts = config["SKIP_EXT"].split(",")
+    else:
+        skip_exts = [config["SKIP_EXT"]]
+
 for fn in os.listdir("src/exts"):
     if (
         "util_functions" not in fn
         and "channel_state" not in fn
+        and fn.replace(".py", "") not in skip_exts
         and not os.path.isdir(f"src/exts/{fn}")
     ):
         try:
