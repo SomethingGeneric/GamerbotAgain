@@ -38,4 +38,3 @@ class RandomThings(commands.Cog):
 def setup(bot):
     print("Adding random ext")
     bot.add_cog(RandomThings(bot))
-    print("Done")

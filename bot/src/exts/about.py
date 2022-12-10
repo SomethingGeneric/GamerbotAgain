@@ -57,4 +57,3 @@ class About(commands.Cog):
 def setup(bot):
     print("Loading About ext.")
     bot.add_cog(About(bot))
-    print("Done.")

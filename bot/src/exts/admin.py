@@ -33,4 +33,3 @@ class Admin(commands.Cog):
 def setup(bot):
     print("Loading Admin Ext.")
     bot.add_cog(Admin(bot))
-    print("Admin Ext. Loaded")

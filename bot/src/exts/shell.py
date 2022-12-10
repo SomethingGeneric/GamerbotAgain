@@ -146,4 +146,3 @@ class Shell(commands.Cog):
 def setup(bot):
     print("Loading shell extension")
     bot.add_cog(Shell(bot))
-    print("Done.")

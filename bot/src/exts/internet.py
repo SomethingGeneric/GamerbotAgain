@@ -219,4 +219,3 @@ class InternetStuff(commands.Cog):
 def setup(bot):
     print("Loading internet ext")
     bot.add_cog(InternetStuff(bot))
-    print("Done")

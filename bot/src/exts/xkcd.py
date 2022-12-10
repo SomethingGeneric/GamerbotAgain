@@ -89,4 +89,5 @@ class xkcd(commands.Cog):
 
 
 def setup(bot):
+    print("Loading XKCD ext")
     bot.add_cog(xkcd(bot))

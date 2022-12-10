@@ -182,4 +182,5 @@ class Speak(commands.Cog):
 
 
 def setup(bot):
+    print("Loading speak ext")
     bot.add_cog(Speak(bot))

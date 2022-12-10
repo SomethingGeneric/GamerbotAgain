@@ -91,4 +91,5 @@ class Status(commands.Cog):
 
 
 def setup(bot):
+    print("Loading status ext")
     bot.add_cog(Status(bot))

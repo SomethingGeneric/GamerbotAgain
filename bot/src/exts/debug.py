@@ -45,4 +45,3 @@ class DebugStuff(commands.Cog):
 def setup(bot):
     print("Loading Debug extension")
     bot.add_cog(DebugStuff(bot))
-    print("Done")

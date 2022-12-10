@@ -56,4 +56,3 @@ class FuckedUpStuff(commands.Cog):
 def setup(bot):
     print("Loading ThatsFuckedUp")
     bot.add_cog(FuckedUpStuff(bot))
-    print("Done")

@@ -210,4 +210,3 @@ class Chat(commands.Cog):
 def setup(bot):
     print("Adding Chat cog")
     bot.add_cog(Chat(bot))
-    print("Done")

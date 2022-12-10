@@ -148,4 +148,3 @@ class ImageMaker(commands.Cog):
 def setup(bot):
     print("Loading imgmaker extension")
     bot.add_cog(ImageMaker(bot))
-    print("Done")

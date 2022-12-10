@@ -272,4 +272,3 @@ class Social(commands.Cog):
 def setup(bot):
     print("Loading Social extension")
     bot.add_cog(Social(bot))
-    print("Done.")
