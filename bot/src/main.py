@@ -59,6 +59,13 @@ async def on_ready():
             "Started/restarted at: `" + str(datetime.datetime.now()) + "`"
         )
 
+    await ownerman.send(
+        f"We have a total of {str(len(bot.slash_commands))} slash commands"
+    )
+    await ownerman.send(
+        f"We have a total of {str(len(bot.application_commands))} app commands"
+    )
+
     if load_error:
         t = error
         if len(error) > 1000:

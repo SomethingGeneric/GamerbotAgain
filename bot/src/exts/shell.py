@@ -40,22 +40,22 @@ class Shell(commands.Cog):
         self.bot = bot
 
     @disnake.ext.commands.is_owner()
-    @commands.slash_command(name="add-nobash")
-    async def add_nobash(self, inter, uid):
+    @commands.slash_command(name="add-noshell")
+    async def add_noshell(self, inter, uid):
         """I hope this is easy to figure out"""
         write_ignore(uid)
         await inter.send("Done")
 
     @disnake.ext.commands.is_owner()
-    @commands.slash_command(name="remove-nobash")
-    async def remove_nobash(self, inter, uid):
+    @commands.slash_command(name="remove-noshell")
+    async def remove_noshell(self, inter, uid):
         """I hope this is easy to figure out"""
         remove_ignore(uid)
         await inter.send("Done")
 
-    @commands.slash_command(name="reset-bash")
-    async def reset_bash(self, inter, confirm="n"):
-        """Reset my bash access"""
+    @commands.slash_command(name="reset-homedir")
+    async def resethomedir(self, inter, confirm="n"):
+        """Reset my user account"""
         try:
             if confirm == "y":
                 un = inter.author.name.lower()
@@ -69,7 +69,7 @@ class Shell(commands.Cog):
                 await inter.send("Done.")
             else:
                 await inter.send(
-                    "Just to confirm, you want to nuke your bash user. If so, re-run with `y`",
+                    "Just to confirm, you want to nuke your user. If so, re-run with `y`",
                 )
         except Exception as e:
             await inter.send(f"Error: ```{str(e)}```")
@@ -134,20 +134,20 @@ class Shell(commands.Cog):
         await inter.send(msg)
 
     @commands.slash_command()
-    async def bash(self, inter, *, cmd: str):
-        """Run a command"""
+    async def shell(self, inter, shell: str = "bash", *, cmd: str = "ls"):
+        """Run a command with a shell"""
         try:
             await inter.response.defer()
-            await self.doshell(inter, cmd)
+            await self.doshell(inter, cmd, shell)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
-    @commands.message_command(name="Shell")
-    async def mbash(self, inter, message):
-        """Run a command"""
+    @commands.message_command(name="Shell Command")
+    async def mshell(self, inter, message):
+        """Run a command with a shell"""
         try:
             await inter.response.defer()
-            await self.doshell(inter, message.content)
+            await self.doshell(inter, message.content, "bash")
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
