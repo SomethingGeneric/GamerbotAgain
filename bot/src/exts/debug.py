@@ -32,6 +32,7 @@ class DebugStuff(commands.Cog):
     @commands.slash_command(name="ds")
     async def ds(self, inter, *, what):
         """Debug shell for the bot owner"""
+        await inter.response.defer()
         what = what.replace("'", "'")
         out = await run_command_shell(f"/bin/bash -c '{what}'")
         msg = f"```{out}```"

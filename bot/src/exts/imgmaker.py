@@ -123,8 +123,7 @@ class ImageMaker(commands.Cog):
             except Exception as e:
                 await inter.send("We had a failure: `" + str(e) + "`")
         else:
-            await inter.send(inter.author.mention + ", who are you sending to space?"
-            )
+            await inter.send(inter.author.mention + ", who are you sending to space?")
 
     @commands.slash_command()
     async def pfp(self, inter, *, who):

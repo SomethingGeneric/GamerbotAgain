@@ -129,7 +129,7 @@ class Shell(commands.Cog):
 
             msg = ""
 
-            if len(output) > (999-len(cmd)):
+            if len(output) > (999 - len(cmd)):
                 link = await paste(f"Command was: '{cmd}', output:\n{output}")
                 msg = f"See output: {link}"
             else:
