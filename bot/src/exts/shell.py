@@ -74,7 +74,7 @@ class Shell(commands.Cog):
         except Exception as e:
             await inter.send(f"Error: ```{str(e)}```")
 
-    async def dothebash(self, inter, cmd):
+    async def doshell(self, inter, cmd, shell="bash"):
         if " " in cmd:
             if cmd.split(" ")[0] in dont:
                 await inter.send(f"Do not `{cmd.split(' ')[0]}`")
@@ -95,10 +95,10 @@ class Shell(commands.Cog):
         un = inter.author.name.lower()
         un = un.replace("-", "").replace("_", "")
         if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-            un = un[1:]
+            un = f"n{un}"
 
         if un == "root":
-            un += "not"
+            un = f"not{un}"
 
         await run_command_shell("scp /bot/bin/has_user punchingbag:.")
         test_user = await run_command_shell(f"ssh punchingbag './has_user {un}'")
@@ -110,7 +110,7 @@ class Shell(commands.Cog):
         temp_script_fn = "." + str(binascii.b2a_hex(os.urandom(15)).decode("utf-8"))
 
         with open(temp_script_fn, "w") as f:
-            f.write(cmd)
+            f.write(f"#!/usr/bin/env {shell}\n{cmd}")
 
         await run_command_shell(f"scp {temp_script_fn} {un}@punchingbag:.")
 
@@ -138,7 +138,7 @@ class Shell(commands.Cog):
         """Run a command"""
         try:
             await inter.response.defer()
-            await self.dothebash(inter, cmd)
+            await self.doshell(inter, cmd)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
@@ -147,7 +147,7 @@ class Shell(commands.Cog):
         """Run a command"""
         try:
             await inter.response.defer()
-            await self.dothebash(inter, message.content)
+            await self.doshell(inter, message.content)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
