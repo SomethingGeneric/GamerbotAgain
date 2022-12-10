@@ -5,7 +5,7 @@ import os, re
 
 bp = f"{config['volpath']}/no_bash.txt"
 
-dont = ["dd", "fallocate", "doas", "pkexec"]
+dont = ["dd", "fallocate", "doas", "pkexec", "truncate"]
 
 
 def reload_ignore():
