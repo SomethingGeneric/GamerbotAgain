@@ -74,71 +74,80 @@ class Shell(commands.Cog):
         except Exception as e:
             await inter.send(f"Error: ```{str(e)}```")
 
+    async def dothebash(self, inter, cmd):
+        if " " in cmd:
+            if cmd.split(" ")[0] in dont:
+                await inter.send(f"Do not `{cmd.split(' ')[0]}`")
+                return
+        elif cmd in dont:
+            await inter.send(f"Do not `{cmd}`")
+            return
+
+        if str(inter.author.id) in ignore:
+            await inter.send("No more bash for you")
+            return
+
+        if ":(){ :|:& };:" in cmd or re.search(r"(.)\|\1&", cmd):
+            await inter.send("No forkbombs")
+            write_ignore(inter.author.id)
+            return
+
+        un = inter.author.name.lower()
+        un = un.replace("-", "").replace("_", "")
+        if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+            un = un[1:]
+
+        if un == "root":
+            un += "not"
+
+        await run_command_shell("scp /bot/bin/has_user punchingbag:.")
+        test_user = await run_command_shell(f"ssh punchingbag './has_user {un}'")
+
+        if "n" in test_user:  # no user
+            await run_command_shell("scp /bot/bin/mk_user punchingbag:.")
+            await run_command_shell(f"ssh punchingbag './mk_user {un}'")
+
+        temp_script_fn = "." + str(binascii.b2a_hex(os.urandom(15)).decode("utf-8"))
+
+        with open(temp_script_fn, "w") as f:
+            f.write(cmd)
+
+        await run_command_shell(f"scp {temp_script_fn} {un}@punchingbag:.")
+
+        await run_command_shell(f"ssh {un}@punchingbag 'chmod +x {temp_script_fn}'")
+
+        output = await run_command_shell(f"ssh {un}@punchingbag './{temp_script_fn}'")
+
+        await run_command_shell(f"ssh {un}@punchingbag 'rm {temp_script_fn}'")
+
+        msg = ""
+
+        if len(output) > (999 - len(cmd)):
+            link = await paste(f"Command was: '{cmd}', output:\n{output}")
+            msg = f"See output: {link}"
+        else:
+            if len(output) != 0:
+                msg = f"Command `{cmd}`, output: \n```{output}```"
+            else:
+                msg = f"Command: `{cmd}`, but no output was returned"
+
+        await inter.send(msg)
+
     @commands.slash_command()
     async def bash(self, inter, *, cmd: str):
         """Run a command"""
         try:
             await inter.response.defer()
+            await self.dothebash(inter, cmd)
+        except Exception as ex:
+            await inter.send(f"Error: ```{str(ex)}```")
 
-            if " " in cmd:
-                if cmd.split(" ")[0] in dont:
-                    await inter.send(f"Do not `{cmd.split(' ')[0]}`")
-                    return
-            elif cmd in dont:
-                await inter.send(f"Do not `{cmd}`")
-                return
-
-            if str(inter.author.id) in ignore:
-                await inter.send("No more bash for you")
-                return
-
-            if ":(){ :|:& };:" in cmd or re.search(r"(.)\|\1&", cmd):
-                await inter.send("No forkbombs")
-                write_ignore(inter.author.id)
-                return
-
-            un = inter.author.name.lower()
-            un = un.replace("-", "").replace("_", "")
-            if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                un = un[1:]
-
-            if un == "root":
-                un += "not"
-
-            await run_command_shell("scp /bot/bin/has_user punchingbag:.")
-            test_user = await run_command_shell(f"ssh punchingbag './has_user {un}'")
-
-            if "n" in test_user:  # no user
-                await run_command_shell("scp /bot/bin/mk_user punchingbag:.")
-                await run_command_shell(f"ssh punchingbag './mk_user {un}'")
-
-            temp_script_fn = "." + str(binascii.b2a_hex(os.urandom(15)).decode("utf-8"))
-
-            with open(temp_script_fn, "w") as f:
-                f.write(cmd)
-
-            await run_command_shell(f"scp {temp_script_fn} {un}@punchingbag:.")
-
-            await run_command_shell(f"ssh {un}@punchingbag 'chmod +x {temp_script_fn}'")
-
-            output = await run_command_shell(
-                f"ssh {un}@punchingbag './{temp_script_fn}'"
-            )
-
-            await run_command_shell(f"ssh {un}@punchingbag 'rm {temp_script_fn}'")
-
-            msg = ""
-
-            if len(output) > (999 - len(cmd)):
-                link = await paste(f"Command was: '{cmd}', output:\n{output}")
-                msg = f"See output: {link}"
-            else:
-                if len(output) != 0:
-                    msg = f"Command `{cmd}`, output: \n```{output}```"
-                else:
-                    msg = f"Command: `{cmd}`, but no output was returned"
-
-            await inter.send(msg)
+    @commands.message_command(name="Shell")
+    async def mbash(self, inter, message):
+        """Run a command"""
+        try:
+            await inter.response.defer()
+            await self.dothebash(inter, message.content)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
