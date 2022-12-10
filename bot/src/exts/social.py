@@ -19,6 +19,7 @@ ucredpath = "tootusercred.secret"
 acf = f"{volpath}/mastodon_linked.toml"
 conf_f = f"{volpath}/mastodon_temp.toml"
 
+
 class Social(commands.Cog):
     """Fediverse stuff"""
 

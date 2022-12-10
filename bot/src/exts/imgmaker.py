@@ -13,6 +13,7 @@ class ImageMaker(commands.Cog):
     @commands.slash_command()
     async def figlet(self, inter, *, text):
         """Fun text art :)"""
+        await inter.response.defer()
         try:
             out = await run_command_shell("figlet " + text.strip())
             if len(out) < 1994:
@@ -35,6 +36,7 @@ class ImageMaker(commands.Cog):
     @commands.slash_command()
     async def onceagain(self, inter, *, text="for your financial support"):
         """What is bernie's campaign this time?"""
+        await inter.response.defer()
         new_text = text
 
         img = Image.open("images/bernie.jpg")
@@ -56,42 +58,45 @@ class ImageMaker(commands.Cog):
     @commands.slash_command()
     async def bonk(self, inter, *, text=""):
         """Bonk a buddy"""
+        await inter.response.defer()
+        try:
+            if text == "":
+                text = inter.author.mention
 
-        if text == "":
-            text = inter.author.mention
+            new_text = text.strip()
+            extra = ""
 
-        new_text = text.strip()
-        extra = ""
+            if "<@!" in new_text or "<@" in new_text:
+                try:
+                    pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
+                    person = await inter.bot.fetch_user(int(pid))
+                    if person is not None:
+                        new_text = person.display_name
+                        extra = "Get bonked, " + person.mention
+                    else:
+                        await inter.send("Had trouble getting a user from: " + text)
+                except Exception as e:
+                    await inter.send("We had a failure: `" + str(e) + "`")
 
-        if "<@!" in new_text or "<@" in new_text:
-            try:
-                pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
-                person = await inter.bot.fetch_user(int(pid))
-                if person is not None:
-                    new_text = person.display_name
-                    extra = "Get bonked, " + person.mention
-                else:
-                    await inter.send("Had trouble getting a user from: " + text)
-            except Exception as e:
-                await inter.send("We had a failure: `" + str(e) + "`")
-
-        if new_text != "":
-            img = Image.open("images/bonk.png")
-            arial_font = ImageFont.truetype(
-                "fonts/arial.ttf", (50 - len(str(new_text)))
-            )
-            draw = ImageDraw.Draw(img)
-            draw.text(
-                (525 - len(str(new_text)) * 5, 300),
-                str(new_text),
-                (0, 0, 0),
-                font=arial_font,
-            )
-            img.save("bonk-s.png")
-            await inter.send(extra, file=disnake.File("bonk-s.png"))
-            os.remove("bonk-s.png")
-        else:
-            await inter.send(file=disnake.File("images/bonk.png"))
+            if new_text != "":
+                img = Image.open("images/bonk.png")
+                arial_font = ImageFont.truetype(
+                    "fonts/arial.ttf", (50 - len(str(new_text)))
+                )
+                draw = ImageDraw.Draw(img)
+                draw.text(
+                    (525 - len(str(new_text)) * 5, 300),
+                    str(new_text),
+                    (0, 0, 0),
+                    font=arial_font,
+                )
+                img.save("bonk-s.png")
+                await inter.send(extra, file=disnake.File("bonk-s.png"))
+                os.remove("bonk-s.png")
+            else:
+                await inter.send(file=disnake.File("images/bonk.png"))
+        except Exception as e:
+            await inter.send(f"Error: ```{str(e)}```")
 
     @commands.slash_command()
     async def space(self, inter, *, who):

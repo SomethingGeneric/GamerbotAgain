@@ -3,7 +3,7 @@ import json, yaml, os, requests, asyncio, random
 
 from .util_functions import config
 
-volpath = config['volpath']
+volpath = config["volpath"]
 
 primary_url = "https://xkcd.com/info.0.json"
 comic_url = "https://xkcd.com/CN/info.0.json"

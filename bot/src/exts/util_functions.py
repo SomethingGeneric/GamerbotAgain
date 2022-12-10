@@ -1,7 +1,7 @@
 import asyncio
 import disnake
 import geoip2.database
-import os,sys
+import os, sys
 import random
 import string
 import threading
@@ -17,6 +17,7 @@ with open("conf.yml", "r") as stream:
         config = yaml.safe_load(stream)
     except yaml.YAMLError as err:
         print(err)
+
 
 def fancy_msg(title, text, color, footnote=None):
     e = disnake.Embed(colour=color)
