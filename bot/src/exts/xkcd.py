@@ -49,9 +49,20 @@ class xkcd(commands.Cog):
                         print(err)
                 latest_comic = int(requests.get(primary_url).json()["num"])
                 if latest_comic not in self.data.keys():
-                    self.data[latest_comic] = requests.get(
-                        comic_url.replace("CN", str(latest_comic))
-                    ).json()["safe_title"]
+                    highest_saved = 0
+                    for key, _ in self.data.items():
+                        if key > highest_saved:
+                            highest_saved = key
+                    for i in range(highest_saved, latest_comic + 1):
+                        try:
+                            print(f"Getting data for comic {str(i)}")
+                            self.data[i] = requests.get(
+                                comic_url.replace("CN", str(i))
+                            ).json()["safe_title"]
+                            await asyncio.sleep(random.uniform(0.1, 0.5))
+                        except Exception as e:
+                            print(f"Error getting comic {str(i)}: {str(e)}")
+                            await owner.send(f"Error getting comic {str(i)}: {str(e)}")
                     with open(data_fn, "w") as f:
                         yaml.dump(self.data, f)
                 await owner.send("All done with XKCD loading")
