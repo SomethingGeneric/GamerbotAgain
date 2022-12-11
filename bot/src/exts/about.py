@@ -31,17 +31,6 @@ class About(commands.Cog):
         )
 
     @commands.slash_command()
-    async def version(self, inter):
-        """Get git info"""
-        commit_msg = await run_command_shell(
-            "git --no-pager log --decorate=short --pretty=oneline -n1"
-        )
-        msg = ""
-        msg += "Latest Git commit: \n"
-        msg += "```" + commit_msg + "```"
-        await inter.send(f"{msg}")
-
-    @commands.slash_command()
     async def invite(self, inter):
         """Add me to another server"""
         await inter.send(

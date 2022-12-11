@@ -25,3 +25,4 @@ geoip2
 Mastodon.py
 toml
 random-word
+python-dateutil

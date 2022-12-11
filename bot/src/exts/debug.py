@@ -9,24 +9,33 @@ class DebugStuff(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.slash_command(name="gitstatus")
-    async def git_status(self, inter):
-        """Show the output of git status"""
-        commit_msg = await run_command_shell(
-            "git --no-pager log --decorate=short --pretty=oneline -n1"
-        )
-        await inter.send(embed=inf_msg("Git Status", "```" + commit_msg + "```"))
-
-    @commands.slash_command(name="purgesyslog")
-    async def purge_syslog(self, inter):
-        """Delete all existing syslogs (USE WITH CARE) (Owner only)"""
-        if inter.message.author.id == self.bot.owner_id:
-            purged = await run_command_shell("rm system_log* -v")
-            await inter.send(
-                embed=inf_msg("Syslog Purger", "We purged:\n```" + purged + "```")
-            )
+    @commands.slash_command()
+    async def check_cog(self, inter, name):
+        """Check if cog is loaded"""
+        if self.bot.get_cog(name) is not None:
+            await inter.send(f"I was able to find `{name}`")
         else:
-            await inter.send(embed=err_msg("Oops", wrong_perms("purgesyslog")))
+            await inter.send(f"I could not find `{name}`")
+
+    @disnake.ext.commands.is_owner()
+    @commands.slash_command()
+    async def remove_cog(self, inter, name):
+        """Force unload a cog"""
+        if self.bot.remove_cog(name) is not None:
+            await inter.send(f"I've removed `{name}`.")
+        else:
+            await inter.send(f"I could not remove `{name}`.")
+
+    @disnake.ext.commands.is_owner()
+    @commands.slash_command()
+    async def add_cog(self, inter, name):
+        """Force load a cog"""
+        try:
+            await inter.response.defer()  # cog loading *could* be slow
+            self.bot.load_extension(name)
+            await inter.send(f"I've loaded `{name}`.")
+        except Exception as e:
+            await inter.send(f"Failed to load `{name}`.")
 
     @disnake.ext.commands.is_owner()
     @commands.slash_command(name="ds")

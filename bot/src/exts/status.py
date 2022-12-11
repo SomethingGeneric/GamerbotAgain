@@ -69,7 +69,7 @@ class Status(commands.Cog):
     async def before_status_task(self):
         print("Waiting for bot to be ready before starting updater task")
         await self.bot.wait_until_ready()
-        print("Bot is ready. Enabling update task")
+        print("Bot is ready. Enabling updater task")
 
     @tasks.loop(seconds=1.0)
     async def uptime_logger(self):
