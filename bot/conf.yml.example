@@ -1,29 +1,29 @@
 ---
 token: "token goes here!"
 
-MASTODON_URL: "https://social.xhec.dev"
-MASTODON_EMAIL: "nope@someone.com"
-MASTODON_PASSWORD: "SomeGreatPassword"
+mastodon_url: "https://social.xhec.dev"
+mastodon_email: "nope@someone.com"
+mastodon_password: "SomeGreatPassword"
 
 # Types: watching, listening, playing
-DEFAULT_STATUS_TYPE: "playing"
+default_status_type: "playing"
 
 # These are currently the only substitutions
 # - {number_users}
 # - {guild_count}
-DEFAULT_STATUS_TEXT: "in {guild_count} servers"
+default_status_text: "in {guild_count} servers"
 
 # Text for messages:
 # Note {command} is the only substitution allowed here (we do auto-mention the user)
-WRONG_PERMS: "You're not a special snowflake, so you can't run `{command}`"
+wrong_perms: "You're not a special snowflake, so you can't run `{command}`"
 
 # Should the owner get a DM when the bot restarts
-OWNER_DM_RESTART: True
+owner_dm_restart: True
 
 # Don't load these extensions, even if they exist in the src/exts folder
 # Separate with ,
 # Example: "shell,social"
-SKIP_EXT: ""
+skip_ext: ""
 
 # Where is the persistent storage?
 # (This is /gb-data if you're using docker,

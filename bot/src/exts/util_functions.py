@@ -94,7 +94,7 @@ def is_whitelisted(word):
 
 def wrong_perms(command):
     print("Someone just failed to run: '" + command + "'")
-    return WRONG_PERMS.replace("{command}", command)
+    return wrong_perms.replace("{command}", command)
 
 
 # Maybe add: https://docs.python.org/3/library/shlex.html#shlex.quote ?

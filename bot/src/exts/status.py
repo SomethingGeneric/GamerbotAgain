@@ -31,15 +31,15 @@ class Status(commands.Cog):
 
         await asyncio.sleep(10)
 
-        if self.fconfig["DEFAULT_STATUS_TYPE"] == "watching":
+        if self.fconfig["default_status_type"] == "watching":
             ac_type = disnake.ActivityType.watching
-        elif self.fconfig["DEFAULT_STATUS_TYPE"] == "listening":
+        elif self.fconfig["default_status_type"] == "listening":
             ac_type = disnake.ActivityType.listening
-        elif self.fconfig["DEFAULT_STATUS_TYPE"] == "streaming":
+        elif self.fconfig["default_status_type"] == "streaming":
             ac_type = disnake.ActivityType.streaming
 
         total = 0
-        if "{number_users}" in self.fconfig["DEFAULT_STATUS_TEXT"]:
+        if "{number_users}" in self.fconfig["default_status_text"]:
             guilds = self.bot.guilds
             for guild in guilds:
                 total += guild.member_count
@@ -50,7 +50,7 @@ class Status(commands.Cog):
         await self.bot.change_presence(
             activity=disnake.Activity(
                 type=ac_type,
-                name=self.fconfig["DEFAULT_STATUS_TEXT"]
+                name=self.fconfig["default_status_text"]
                 .replace("{guild_count}", str(len(list(self.bot.guilds))))
                 .replace("{number_users}", str(total)),
             )

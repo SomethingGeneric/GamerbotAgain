@@ -9,9 +9,9 @@ import re, yaml, asyncio
 
 from .util_functions import *
 
-url = config["MASTODON_URL"]
-email = config["MASTODON_EMAIL"]
-passw = config["MASTODON_PASSWORD"]
+url = config["mastodon_url"]
+email = config["mastodon_email"]
+passw = config["mastodon_password"]
 volpath = config["volpath"]
 
 ccredpath = "tootclientcred.secret"

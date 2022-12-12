@@ -27,11 +27,11 @@ load_error = False
 
 skip_exts = []
 
-if config["SKIP_EXT"] != "":
-    if "," in config["SKIP_EXT"]:
-        skip_exts = config["SKIP_EXT"].split(",")
+if config["skip_ext"] != "":
+    if "," in config["skip_ext"]:
+        skip_exts = config["skip_ext"].split(",")
     else:
-        skip_exts = [config["SKIP_EXT"]]
+        skip_exts = [config["skip_ext"]]
 
 for fn in os.listdir("src/exts"):
     if (
@@ -54,7 +54,7 @@ async def on_ready():
 
     ownerman = await bot.fetch_user(bot.owner_id)
 
-    if config["OWNER_DM_RESTART"]:
+    if config["owner_dm_restart"]:
         await ownerman.send(
             "Started/restarted at: `" + str(datetime.datetime.now()) + "`"
         )
