@@ -29,3 +29,6 @@ SKIP_EXT: ""
 # (This is /gb-data if you're using docker,
 # otherwise it can be any dir you can write to)
 volpath: "/gb-data"
+
+# OpenAI Api key
+openai_key: "incomprehensible string goes here"

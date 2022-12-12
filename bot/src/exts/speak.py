@@ -1,5 +1,6 @@
 # Pip
 from disnake.ext import commands, tasks
+import openai
 
 # Mine
 from .channel_state import VoiceState
@@ -33,6 +34,10 @@ class Speak(commands.Cog):
     async def speak_in_channel(
         self, inter, text="", chan=None, stealth=False, file=None
     ):
+
+        if not isinstance(inter.guild, disnake.Guild):
+            return
+
         if self.voice_client is None and not self.vs.check_state():
             print(
                 "This cog was not playing, nor were others. It's go time.",
@@ -109,6 +114,37 @@ class Speak(commands.Cog):
                 reference=inter.message,
             )
             print("VC is busy somewhere. Doing nothing.")
+
+    def oaiq(self, input_text):
+
+        openai.api_key = config["openai_key"]
+
+        prompt = f"""
+        You are a program answering questions from users through the internet.
+        Please try to answer in less than 1018 characters.
+        The user asks: {input_text}
+        """
+
+        response = openai.Completion.create(
+            model="text-davinci-003", prompt=prompt, temperature=0.7, max_tokens=100
+        )
+
+        return response["choices"][0]["text"]
+
+    @commands.slash_command()
+    async def davinci(self, inter, *, prompt: str):
+        """Ask a question to GPT3 Davinci"""
+        try:
+            await inter.response.defer()
+            result = self.oaiq(prompt)
+            await self.speak_in_channel(inter, result, None, True, None)
+            if len(result) > 1000:
+                link = await paste(result)
+                await inter.send(f"Response was too long. See it here: {link}")
+            else:
+                await inter.send(f"```{result}```")
+        except Exception as e:
+            await inter.send(f"Error: ```{str(e)}```")
 
     @commands.slash_command()
     async def tts(self, inter, *, thing, stealth=False):
