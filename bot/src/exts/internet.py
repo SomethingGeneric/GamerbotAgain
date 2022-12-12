@@ -5,6 +5,7 @@ import urllib.parse
 import duckduckgo
 import gmplot
 from disnake.ext import commands
+import translators as ts
 
 import random
 from .util_functions import *
@@ -214,6 +215,15 @@ class InternetStuff(commands.Cog):
                 duckduckgo.get_zci(message.content.replace("hey gamerbot", "")),
                 reference=message,
             )
+
+    @commands.message_command(name="Translate")
+    async def trns(self, inter, message):
+        """Translate text to English"""
+        try:
+            await inter.response.defer()
+            await inter.send("```" + ts.translate_text(message.content) + "```")
+        except Exception as e:
+            await inter.send(f"Error: `{str(e)}`.")
 
 
 def setup(bot):

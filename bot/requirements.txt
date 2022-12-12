@@ -27,3 +27,4 @@ toml
 random-word
 python-dateutil
 openai
+translators

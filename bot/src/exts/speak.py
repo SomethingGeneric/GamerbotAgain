@@ -56,7 +56,7 @@ class Speak(commands.Cog):
                     )
                     if file is None:
                         await run_command_shell(
-                            'espeak-ng -w espeak.wav "' + text + '"'
+                            'espeak-ng -w espeak.wav "' + text.replace("\"","") + '"'
                         )
                         print(
                             "We have the TTS audio file ready. Playing it.",
