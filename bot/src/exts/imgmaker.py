@@ -78,14 +78,14 @@ class ImageMaker(commands.Cog):
             draw = ImageDraw.Draw(img)
 
             draw.text(
-                (50,100),  # xy
+                (50, 100),  # xy
                 str(text_one),  # text
                 "white",  # fill
                 font=arial_font,  # font
             )
 
             draw.text(
-                (50,300),  # xy
+                (50, 300),  # xy
                 str(text_two),  # text
                 "white",  # fill
                 font=arial_font,  # font
@@ -94,9 +94,8 @@ class ImageMaker(commands.Cog):
             img.save("bugs-gen.png")
             await inter.send(file=disnake.File("bugs-gen.png"))
             os.remove("bugs-gen.png")
-        except Exception as e: 
+        except Exception as e:
             await inter.send("Whoops: `" + str(e) + "`.")
-
 
     @commands.slash_command()
     async def bonk(self, inter, *, text=""):
