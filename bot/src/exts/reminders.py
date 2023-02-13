@@ -66,7 +66,7 @@ class reminders(commands.Cog):
         except Exception as e:
             await inter.send(f"Error: `{str(e)}`")
 
-    @commands.command()
+    @commands.slash_command()
     async def time_for(self, inter, user: disnake.User):
         """Wondering what time it is for a friend?"""
         try:
