@@ -125,7 +125,7 @@ class reminders(commands.Cog):
             await inter.send(f"Error: `{str(e)}`")
 
     @commands.slash_command()
-    async def cancel_reminder(self, inter, event_id=None):
+    async def cancel_reminder(self, inter, event_id: int):
         """Cancel one of your reminders"""
 
         if len(self.data) == 0:
