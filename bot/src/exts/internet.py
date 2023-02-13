@@ -215,7 +215,7 @@ class InternetStuff(commands.Cog):
         try:
             await inter.response.defer()
             code, out = await run_command_shell(
-                f"ssh root@firebox 'python3 /stuff/goongl.py weather {where}'"
+                f"ssh root@firebox 'python3 /stuff/goongl.py weather {where}'", True
             )
             if code == 0:
                 await inter.send(f"In {where}, it's {str(out)}.")
