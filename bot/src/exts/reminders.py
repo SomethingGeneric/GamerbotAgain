@@ -4,14 +4,22 @@ import os
 from disnake.ext import commands, tasks
 import dateutil.parser
 import yaml
+import pytz
+from pytz import timezone, all_timezones
+from dateutil import parser
+
 
 from .util_functions import *
 
 
 class reminders(commands.Cog):
     def __init__(self, bot):
+
         self.bot = bot
+
         self.storage = f"{config['volpath']}/reminders.yaml"
+
+        self.urtz = f"{config['volpath']}/user-tz.yaml"
 
         if os.path.exists(self.storage):
             with open(self.storage, "r") as stream:
@@ -22,22 +30,53 @@ class reminders(commands.Cog):
         else:
             self.data = []
 
+        if os.path.exists(self.urtz):
+            with open(self.urtz, "r") as stream:
+                try:
+                    self.tzdata = yaml.safe_load(stream)
+                except yaml.YAMLError as err:
+                    print(err)
+        else:
+            self.tzdata = []
+
         self.iterate_reminders.start()
 
     def cog_unload(self):
         self.iterate_reminders.cancel()
+        self.write_data()
 
     def write_data(self):
         with open(self.storage, "w") as f:
             yaml.dump(self.data, f)
 
+        with open(self.urtz, "w") as f:
+            yaml.dump(self.tzdata, f)
+
     @commands.slash_command()
     async def show_time(self, inter):
         """Get bot's local time for reminders"""
         try:
-            await inter.send(f"It's currently `{str(datetime.now())}`")
+            utc_ref = datetime.utcnow()
+            await inter.send(f"It's currently `{str(utc_ref)}` for me.")
+            if inter.author.id in self.tzdata.keys():
+                their_timezone_obj = timezone(self.tzdata[inter.author.id])
+                for_them = their_timezone_obj.fromutc(utc_ref)
+                await inter.send(f"If I'm correct, it's {str(for_them)} for you.")
         except Exception as e:
             await inter.send(f"Error: `{str(e)}`")
+
+    @commands.command()
+    async def mytz(self, inter, timez: str):
+        """Tell me your timezone!"""
+        try:
+            await inter.response.defer()
+            if timez in pytz.all_timezones or timez.upper() in pytz.all_timezones: # woo yea
+                self.tzdata[inter.author.id] = timez
+                await inter.send("Noted!")
+            else:
+                await inter.send("That doesn't seem to be a timezone.")
+        except Exception as e:
+            await inter.send("Error: ```" + str(e) + "```")
 
     @commands.slash_command()
     async def remind(self, inter, what: str, when: str):
