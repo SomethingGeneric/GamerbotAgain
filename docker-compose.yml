@@ -7,17 +7,25 @@ services:
     restart: unless-stopped
     container_name: punchingbag
     networks:
-      funny:
+      - funny
+  firebox:
+    build:
+      context: ./firebox
+    restart: unless-stopped
+    container_name: firebox
+    networks:
+      - funny
   bot:
     build:
       context: ./bot
     restart: unless-stopped
     networks:
-      funny:
+      - funny
     volumes:
       - gamerbot-store:/gb-data
     depends_on:
       - punchingbag
+      - firebox
 
 volumes:
   gamerbot-store:
