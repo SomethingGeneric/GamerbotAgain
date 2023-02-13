@@ -66,6 +66,21 @@ class reminders(commands.Cog):
         except Exception as e:
             await inter.send(f"Error: `{str(e)}`")
 
+    @commands.command()
+    async def time_for(self, inter, user: disnake.User):
+        """Wondering what time it is for a friend?"""
+        try:
+            await inter.response.defer()
+            if user.id in self.tzdata.keys():
+                utc_ref = datetime.utcnow()
+                their_timezone_obj = timezone(self.tzdata[user.id])
+                for_them = their_timezone_obj.fromutc(utc_ref)
+                await inter.send(f"It's `{for_them}` for {user.mention}.")
+            else:
+                await inter.send(f"{user.mention} hasn't used `/mytz` :(")
+        except Exception as e:
+            await inter.send(f"Whoops! Error: `{str(e)}`")
+
     @commands.slash_command()
     async def mytz(self, inter, timez: str):
         """Tell me your timezone!"""
