@@ -58,10 +58,7 @@ class Shell(commands.Cog):
         """Reset my bash access"""
         try:
             if confirm == "y":
-                un = inter.author.name.lower()
-                un = un.replace("-", "").replace("_", "")
-                if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                    un = un[1:]
+                un = "user_" + str(inter.author.id)
                 await inter.send("Resetting your user.")
                 await run_command_shell(
                     f"ssh punchingbag 'userdel {un} && rm -rf /home/{un}'"
@@ -92,13 +89,7 @@ class Shell(commands.Cog):
             write_ignore(inter.author.id)
             return
 
-        un = inter.author.name.lower()
-        un = un.replace("-", "").replace("_", "")
-        if un[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-            un = f"n{un}"
-
-        if un == "root":
-            un = f"not{un}"
+        un = "user_" + str(inter.author.id)
 
         await run_command_shell("scp /bot/bin/has_user punchingbag:.")
         test_user = await run_command_shell(f"ssh punchingbag './has_user {un}'")
