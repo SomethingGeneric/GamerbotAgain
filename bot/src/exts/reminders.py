@@ -91,9 +91,15 @@ class reminders(commands.Cog):
             reminder = {"user": inter.author.id, "text": what, "when": when, "utc": utc}
             self.data.append(reminder)
             self.write_data()
-            await inter.send(
-                f"I've saved your reminder `{what}` for `{str(dtobj)}`."
-            )  # maybe we *should* spit out the dateime obj here?
+
+            msg = f"I've saved your reminder `{what}` for `{str(dtobj)}`"
+
+            if utc:
+                msg += " UTC."
+            else:
+                msg += " local time."
+
+            await inter.send(msg)  # maybe we *should* spit out the dateime obj here?
             # DM user?
         except Exception as e:
             await inter.send(f"Error while creating reminder: `{str(e)}`.")
@@ -170,7 +176,9 @@ class reminders(commands.Cog):
                         self.data.remove(reminder)
                         self.write_data()
                 else:
-                    their_tz = timezone(self.tzdata["user"])
+                    their_tz = timezone(
+                        self.tzdata[int(reminder["user"])]
+                    )  # good luck with this one, Satan
                     rem_time = their_tz.localize(
                         dateutil.parser.parse(reminder["when"])
                     )
