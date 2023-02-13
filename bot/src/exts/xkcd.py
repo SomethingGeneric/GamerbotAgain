@@ -41,7 +41,7 @@ class xkcd(commands.Cog):
                     yaml.dump(self.data, f)
                 await owner.send("Done with XKCD initial download")
             else:
-                await owner.send("Loading XKCD data from file")
+                #await owner.send("Loading XKCD data from file")
                 with open(data_fn, "r") as stream:
                     try:
                         self.data = yaml.safe_load(stream)
@@ -65,7 +65,7 @@ class xkcd(commands.Cog):
                             await owner.send(f"Error getting comic {str(i)}: {str(e)}")
                     with open(data_fn, "w") as f:
                         yaml.dump(self.data, f)
-                await owner.send("All done with XKCD loading")
+                #await owner.send("All done with XKCD loading")
             self.data_done = True
             await owner.send("I have unlocked XKCD command for usage.")
         except Exception as e:
