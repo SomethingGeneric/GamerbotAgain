@@ -18,6 +18,11 @@ class RandomThings(commands.Cog):
         )
 
     @commands.slash_command()
+    async def gcache(self, inter, *, url):
+        """For legal reasons this isn't real"""
+        await inter.send(f"https://www.google.com/search?q=cache:{url.replace('https://','').replace('http://','')}")
+
+    @commands.slash_command()
     async def math(self, inter, *, exp):
         """Do simple math on an expression (uses BC)"""
         res = await run_command_shell('echo "' + exp + '" | bc')
