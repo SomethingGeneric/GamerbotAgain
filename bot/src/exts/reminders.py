@@ -55,12 +55,14 @@ class reminders(commands.Cog):
     async def show_time(self, inter):
         """Get bot's local time for reminders"""
         try:
+            await inter.response.defer()
             utc_ref = datetime.utcnow()
-            await inter.send(f"It's currently `{str(utc_ref)}` for me.")
+            msg = f"It's currently `{str(utc_ref)}` for me."
             if inter.author.id in self.tzdata.keys():
                 their_timezone_obj = timezone(self.tzdata[inter.author.id])
                 for_them = their_timezone_obj.fromutc(utc_ref)
-                await inter.send(f"If I'm correct, it's {str(for_them)} for you.")
+                msg += f"\nAnd, it's `{str(for_them)}` for you."
+            await inter.send(msg)
         except Exception as e:
             await inter.send(f"Error: `{str(e)}`")
 
@@ -80,13 +82,13 @@ class reminders(commands.Cog):
             await inter.send("Error: ```" + str(e) + "```")
 
     @commands.slash_command()
-    async def remind(self, inter, what: str, when: str):
+    async def remind(self, inter, what: str, when: str, utc: bool):
         """Set a reminder"""
         try:
             dtobj = dateutil.parser.parse(
                 when
             )  # can't save this in yaml, so this is just to catch invalid strings before they get saved
-            reminder = {"user": inter.author.id, "text": what, "when": when}
+            reminder = {"user": inter.author.id, "text": what, "when": when, "utc": utc}
             self.data.append(reminder)
             self.write_data()
             await inter.send(
@@ -150,20 +152,44 @@ class reminders(commands.Cog):
     async def iterate_reminders(self):
         try:
             for reminder in self.data:
-                dt = dateutil.parser.parse(reminder["when"])  # i fucking love python
-                if datetime.now() > dt:  # i fucking love python (x2)
-                    who = await self.bot.fetch_user(int(reminder["user"]))
-                    await who.send(
-                        who.mention,
-                        embed=inf_msg(
-                            "Reminder!",
-                            f"Hey there! You asked me to remind you: `{reminder['text']}`",
-                        ),
+                dt_raw = dateutil.parser.parse(
+                    reminder["when"]
+                )  # i fucking love python
+                utc_ref = datetime.utcnow()
+
+                if reminder["utc"]:
+                    if utc_ref > dt_raw:
+                        who = await self.bot.fetch_user(int(reminder["user"]))
+                        await who.send(
+                            who.mention,
+                            embed=inf_msg(
+                                "Reminder!",
+                                f"Hey there! You asked me to remind you: `{reminder['text']}`",
+                            ),
+                        )
+                        self.data.remove(reminder)
+                        self.write_data()
+                else:
+                    their_tz = timezone(self.tzdata["user"])
+                    rem_time = their_tz.localize(
+                        dateutil.parser.parse(reminder["when"])
                     )
-                    self.data.remove(reminder)
-                    self.write_data()
+                    comp_local_time = their_tz.localize(utc_ref)
+                    if comp_local_time > rem_time:
+                        who = await self.bot.fetch_user(int(reminder["user"]))
+                        await who.send(
+                            who.mention,
+                            embed=inf_msg(
+                                "Reminder!",
+                                f"Hey there! You asked me to remind you: `{reminder['text']}`",
+                            ),
+                        )
+                        self.data.remove(reminder)
+                        self.write_data()
+
         except Exception as e:
-            print(f"Reminder task error: '{str(e)}'")
+            owner = await self.bot.fetch_user(self.bot.owner_id)
+            await owner.send(f"Reminder task error: '{str(e)}'")
 
     @iterate_reminders.before_loop
     async def before_status_task(self):
