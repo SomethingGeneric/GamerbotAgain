@@ -14,7 +14,6 @@ from .util_functions import *
 
 class reminders(commands.Cog):
     def __init__(self, bot):
-
         self.bot = bot
 
         self.storage = f"{config['volpath']}/reminders.yaml"
@@ -70,7 +69,9 @@ class reminders(commands.Cog):
         """Tell me your timezone!"""
         try:
             await inter.response.defer()
-            if timez in pytz.all_timezones or timez.upper() in pytz.all_timezones: # woo yea
+            if (
+                timez in pytz.all_timezones or timez.upper() in pytz.all_timezones
+            ):  # woo yea
                 self.tzdata[inter.author.id] = timez
                 await inter.send("Noted!")
             else:
