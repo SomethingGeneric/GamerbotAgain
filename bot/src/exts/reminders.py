@@ -18,7 +18,7 @@ class reminders(commands.Cog):
 
         self.storage = f"{config['volpath']}/reminders.yaml"
 
-        self.urtz = f"{config['volpath']}/user-tz.yaml"
+        self.urtz = f"{config['volpath']}/user-tzobj.yamlf"
 
         if os.path.exists(self.storage):
             with open(self.storage, "r") as stream:
