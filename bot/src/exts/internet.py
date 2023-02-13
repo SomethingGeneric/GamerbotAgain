@@ -209,21 +209,6 @@ class InternetStuff(commands.Cog):
         """Search DuckDuckGo"""
         await inter.send(duckduckgo.get_zci(query))
 
-    @commands.slash_command()
-    async def weather(self, inter, *, where):
-        """Google weather go brr"""
-        try:
-            await inter.response.defer()
-            code, out = await run_command_shell(
-                f"ssh root@firebox 'python3 /stuff/goongl.py weather {where}'", True
-            )
-            if code == 0:
-                await inter.send(f"In {where}, it's {str(out)}.")
-            else:
-                await inter.send(f"Had an error: `{str(out)}`")
-        except Exception as e:
-            await inter.send(f"Had an error: `{str(e)}`")
-
     @commands.Cog.listener()
     async def on_message(self, message):
         if "hey gamerbot" in message.content:

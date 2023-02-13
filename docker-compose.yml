@@ -8,13 +8,6 @@ services:
     container_name: punchingbag
     networks:
       - funny
-  firebox:
-    build:
-      context: ./firebox
-    restart: unless-stopped
-    container_name: firebox
-    networks:
-      - funny
   bot:
     build:
       context: ./bot
