@@ -214,7 +214,7 @@ class InternetStuff(commands.Cog):
         """Google weather go brr"""
         try:
             await inter.response.defer()
-            code, out = run_command_shell(
+            code, out = await run_command_shell(
                 f"ssh root@firebox 'python3 /stuff/goongl.py weather {where}'"
             )
             if code == 0:
