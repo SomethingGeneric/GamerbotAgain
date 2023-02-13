@@ -36,7 +36,7 @@ class reminders(commands.Cog):
                 except yaml.YAMLError as err:
                     print(err)
         else:
-            self.tzdata = []
+            self.tzdata = {}
 
         self.iterate_reminders.start()
 
