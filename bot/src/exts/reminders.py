@@ -64,7 +64,7 @@ class reminders(commands.Cog):
         except Exception as e:
             await inter.send(f"Error: `{str(e)}`")
 
-    @commands.command()
+    @commands.slash_command()
     async def mytz(self, inter, timez: str):
         """Tell me your timezone!"""
         try:
