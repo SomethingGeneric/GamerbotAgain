@@ -56,17 +56,10 @@ class ImageMaker(commands.Cog):
         os.remove("bernie-gen.png")
 
     @commands.slash_command()
-    async def bugs(self, inter, *, text=""):
-        """Bugs bunny generator (seperate text w/ a '|' )"""
+    async def bugs(self, inter, *, text_one:str, text_two:str):
+        """Bugs bunny generator"""
         await inter.response.defer()
         try:
-            if "|" in text:
-                text_one = text.split("|")[0]
-                text_two = text.split("|")[1]
-            else:
-                text_one = text
-                text_two = "bottom text"
-
             scale_fac = 2
 
             avg_len = int(len(text_one) + len(text_two) / 2)
