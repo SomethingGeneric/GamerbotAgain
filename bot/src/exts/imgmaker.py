@@ -72,7 +72,7 @@ class ImageMaker(commands.Cog):
             avg_len = int(len(text_one) + len(text_two) / 2)
             avg_len = int(avg_len / scale_fac)
 
-            img = Image.open("bot/images/bugs.png")
+            img = Image.open("images/bugs.png")
             arial_font = ImageFont.truetype("fonts/arial.ttf", (40 - avg_len))
 
             draw = ImageDraw.Draw(img)
