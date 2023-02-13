@@ -105,7 +105,7 @@ class xkcd(commands.Cog):
             await inter.response.defer()
             for k, v in self.data.items():
                 if (
-                    query.lower() in v["safe-title"].lower()
+                    query.lower() in v["safe_title"].lower()
                     or query.lower() in v["alt"].lower()
                 ):
                     await inter.send(
