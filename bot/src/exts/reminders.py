@@ -151,8 +151,6 @@ class reminders(commands.Cog):
 
     # TODO: dump all (admin)? - doesn't seem necesary rn (just '/ds cat /gb-data/reminders.yaml')
     # TODO: cancel reminder (admin) (maybe?)
-    # TODO: cancel reminder
-    # TODO: localize reminder by user timezone (hrrrg)
 
     @tasks.loop(seconds=60)
     async def iterate_reminders(self):
