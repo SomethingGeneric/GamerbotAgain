@@ -13,6 +13,7 @@ from .util_functions import *
 
 # Fun internet things
 
+
 # TODO: find correct exceptions for this
 async def get_as_json(url):
     try:

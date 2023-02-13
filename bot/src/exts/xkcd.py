@@ -32,7 +32,7 @@ class xkcd(commands.Cog):
                         print(f"Getting data for comic {str(i)}")
                         self.data[i] = requests.get(
                             comic_url.replace("CN", str(i))
-                        ).json()["safe_title"]
+                        ).json()
                         await asyncio.sleep(random.uniform(0.1, 0.5))
                     except Exception as e:
                         print(f"Error getting comic {str(i)}: {str(e)}")
@@ -58,7 +58,7 @@ class xkcd(commands.Cog):
                             print(f"Getting data for comic {str(i)}")
                             self.data[i] = requests.get(
                                 comic_url.replace("CN", str(i))
-                            ).json()["safe_title"]
+                            ).json()
                             await asyncio.sleep(random.uniform(0.1, 0.5))
                         except Exception as e:
                             print(f"Error getting comic {str(i)}: {str(e)}")
@@ -82,20 +82,37 @@ class xkcd(commands.Cog):
         await self.setup_data()
 
     @commands.slash_command()
-    async def xkcdsearch(self, inter, *, title: str):
-        """Search for XKCD by title"""
+    async def reset_xkcd(self, inter):
+        """Reset saved XKCD data (owner ownly)"""
+        if inter.author.id == self.bot.owner.id:
+            try:
+                os.remove(data_fn)
+                await inter.send("Deleted data. Restarting load.")
+                await self.setup_data()
+                await inter.send("Reset done")
+            except Exception as e:
+                await inter.send("Problem: `" + str(e) + "`")
+        else:
+            await inter.send("nope")
+
+    @commands.slash_command()
+    async def xkcdsearch(self, inter, *, query: str):
+        """Search for XKCD by title or alt-text"""
         try:
             if not self.data_done:
                 await inter.send("Data is not yet loaded. Try again later!")
                 return
             await inter.response.defer()
             for k, v in self.data.items():
-                if title.lower() in v.lower():
+                if (
+                    query.lower() in v["safe-title"].lower()
+                    or query.lower() in v["alt"].lower()
+                ):
                     await inter.send(
                         f"You're probably looking for: https://xkcd.com/{str(k)}"
                     )
                     return
-            await inter.send(f"Not found: `{title}`")
+            await inter.send(f"Not found: `{query}`")
         except Exception as e:
             await inter.send(f"XKCD Error: `{str(e)}`")
 

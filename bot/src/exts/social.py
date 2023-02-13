@@ -37,7 +37,6 @@ class Social(commands.Cog):
                 # we have a conf in progress
                 person = pending[str(inter.author.id)]
                 if person["code"] == code:
-
                     # commit association to acf
                     if os.path.exists(acf):
                         data = toml.load(acf)

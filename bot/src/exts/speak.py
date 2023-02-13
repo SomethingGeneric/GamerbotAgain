@@ -34,7 +34,6 @@ class Speak(commands.Cog):
     async def speak_in_channel(
         self, inter, text="", chan=None, stealth=False, file=None
     ):
-
         if not isinstance(inter.guild, disnake.Guild):
             return
 
@@ -44,7 +43,6 @@ class Speak(commands.Cog):
             )
 
             try:
-
                 if inter is not None and inter.author.voice is not None:
                     channel = inter.author.voice.channel
                 else:
@@ -56,7 +54,7 @@ class Speak(commands.Cog):
                     )
                     if file is None:
                         await run_command_shell(
-                            'espeak-ng -w espeak.wav "' + text.replace("\"","") + '"'
+                            'espeak-ng -w espeak.wav "' + text.replace('"', "") + '"'
                         )
                         print(
                             "We have the TTS audio file ready. Playing it.",
@@ -116,7 +114,6 @@ class Speak(commands.Cog):
             print("VC is busy somewhere. Doing nothing.")
 
     def oaiq(self, input_text):
-
         openai.api_key = config["openai_key"]
 
         prompt = f"""
