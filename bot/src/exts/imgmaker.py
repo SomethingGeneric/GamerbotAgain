@@ -56,6 +56,49 @@ class ImageMaker(commands.Cog):
         os.remove("bernie-gen.png")
 
     @commands.slash_command()
+    async def bugs(self, inter, *, text=""):
+        """Bugs bunny generator (seperate text w/ a '|' )"""
+        await inter.response.defer()
+        try:
+            if "|" in text:
+                text_one = text.split("|")[0]
+                text_two = text.split("|")[1]
+            else:
+                text_one = text
+                text_two = "bottom text"
+
+            scale_fac = 2
+
+            avg_len = int(len(text_one) + len(text_two) / 2)
+            avg_len = int(avg_len / scale_fac)
+
+            img = Image.open("bot/images/bugs.png")
+            arial_font = ImageFont.truetype("fonts/arial.ttf", (40 - avg_len))
+
+            draw = ImageDraw.Draw(img)
+
+            draw.text(
+                (50,100),  # xy
+                str(text_one),  # text
+                "white",  # fill
+                font=arial_font,  # font
+            )
+
+            draw.text(
+                (50,300),  # xy
+                str(text_two),  # text
+                "white",  # fill
+                font=arial_font,  # font
+            )
+
+            img.save("bugs-gen.png")
+            await inter.send(file=disnake.File("bugs-gen.png"))
+            os.remove("bugs-gen.png")
+        except Exception as e: 
+            await inter.send("Whoops: `" + str(e) + "`.")
+
+
+    @commands.slash_command()
     async def bonk(self, inter, *, text=""):
         """Bonk a buddy"""
         await inter.response.defer()
