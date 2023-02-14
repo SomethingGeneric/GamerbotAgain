@@ -56,7 +56,7 @@ class ImageMaker(commands.Cog):
         os.remove("bernie-gen.png")
 
     @commands.slash_command()
-    async def bugs(self, inter, *, text_one:str, text_two:str):
+    async def bugs(self, inter, *, text_one: str, text_two: str):
         """Bugs bunny generator"""
         await inter.response.defer()
         try:

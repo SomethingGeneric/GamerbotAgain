@@ -100,9 +100,10 @@ class reminders(commands.Cog):
     async def remind(self, inter, what: str, when: str, utc: bool):
         """Set a reminder"""
         try:
-
             if not utc and inter.author.id not in self.tzdata.keys():
-                await inter.send("To set a non-utc reminder, you'll need to use `/mytz` first.")
+                await inter.send(
+                    "To set a non-utc reminder, you'll need to use `/mytz` first."
+                )
                 return
 
             dtobj = dateutil.parser.parse(
