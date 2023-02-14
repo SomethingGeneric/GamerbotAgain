@@ -18,7 +18,7 @@ class DoesNotExist(commands.Cog):
     @commands.slash_command()
     async def dalle(self, inter, *, prompt: str):
         """Image generator thingie"""
-        await inter.reponse.defer()
+        await inter.response.defer()
         openai.api_key = config["openai_key"]
         response = openai.Image.create(prompt=prompt, n=1, size="1024x1024")
         image_url = response["data"][0]["url"]
