@@ -30,3 +30,7 @@ class DoesNotExist(commands.Cog):
 
         await inter.send(file=disnake.File(fn))
         os.remove(fn)
+
+def setup(bot):
+    print("Loading DNE ext")
+    bot.add_cog(DoesNotExist(bot))
