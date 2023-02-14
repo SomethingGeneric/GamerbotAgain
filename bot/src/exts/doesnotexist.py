@@ -28,7 +28,7 @@ class DoesNotExist(commands.Cog):
 
         open(fn, "wb").write(r.content)
 
-        await inter.send(file=disnake.File(fn))
+        await inter.send(f"You said: `{prompt}`.", file=disnake.File(fn))
         os.remove(fn)
 
 def setup(bot):
