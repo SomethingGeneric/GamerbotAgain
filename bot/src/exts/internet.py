@@ -52,6 +52,11 @@ class InternetStuff(commands.Cog):
         )
 
     @commands.slash_command()
+    async def archwiki(self, inter, *, query:str):
+        """Search ArchWiki"""
+        await inter.send(f"https://wiki.archlinux.org/index.php?search={urllib.parse.quote(query)}")
+
+    @commands.slash_command()
     async def kernel(self, inter):
         """Get Linux kernel info for host and latest"""
         await inter.response.defer()
