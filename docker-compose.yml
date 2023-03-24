@@ -8,6 +8,13 @@ services:
     container_name: punchingbag
     networks:
       - funny
+  openboi:
+    build:
+      context: ./openboi
+    restart: unless-stopped
+    container_name: openboi
+    networks:
+      - funny
   bot:
     build:
       context: ./bot

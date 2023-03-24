@@ -26,7 +26,6 @@ Mastodon.py
 toml
 random-word
 python-dateutil
-openai
 translators
 pytz
 python-dateutil

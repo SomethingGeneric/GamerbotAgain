@@ -1,6 +1,6 @@
 # Pip
 from disnake.ext import commands, tasks
-import openai
+import aiohttp
 
 # Mine
 from .channel_state import VoiceState
@@ -113,27 +113,28 @@ class Speak(commands.Cog):
             )
             print("VC is busy somewhere. Doing nothing.")
 
-    def oaiq(self, input_text):
-        openai.api_key = config["openai_key"]
+    async def oaiq(self, input_text):
+        p = f"You are being asked questions in plaintext from unknown users. Complete it or answer as best you can: {input_text}"
 
-        prompt = f"""
-        You are a program answering questions from users through the internet.
-        Please try to answer in less than 1018 characters.
-        The user asks: {input_text}
-        """
+        url = 'http://openboi:5000/generate'
+        headers = {'Content-Type': 'application/json'}
+        data = {'prompt': p, 'length': 100, 'temperature': 0.8}
 
-        response = openai.Completion.create(
-            model="text-davinci-003", prompt=prompt, temperature=0.7, max_tokens=100
-        )
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=data) as response:
+                if response.status == 200:
+                    output = (await response.json())['output']
+                    return output.replace("You are being asked questions in plaintext from unknown users. Complete it or answer as best you can: ","")
+                else:
+                    return "something went silly goofy"
 
-        return response["choices"][0]["text"]
 
     @commands.slash_command()
     async def davinci(self, inter, *, prompt: str):
-        """Ask a question to GPT3 Davinci"""
+        """Ask a question to GPT2"""
         try:
             await inter.response.defer()
-            result = self.oaiq(prompt)
+            result = await self.oaiq(prompt)
             await self.speak_in_channel(inter, result, None, True, None)
             if len(result) > 1000:
                 link = await paste(result)
