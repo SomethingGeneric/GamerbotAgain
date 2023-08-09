@@ -2,4 +2,4 @@
 
 ip a
 
-python app.py
+venv/bin/python app.py
