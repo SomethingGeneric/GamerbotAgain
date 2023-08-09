@@ -17,7 +17,7 @@ class ImageMaker(commands.Cog):
         """Fun text art :)"""
         await inter.response.defer()
         try:
-            if re.match(r"^[a-zA-Z\s]+$", text):
+            if re.search(r"^[a-zA-Z\s]+$", text):
                 out = await run_command_shell("figlet " + text.strip())
                 if len(out) < 1994:
                     await inter.send("```\n " + str(out) + "```")
