@@ -9,16 +9,16 @@ RUN pacman -Sy --noconfirm && \
     pacman -S --noconfirm libffi && \
     pacman -S --noconfirm gcc-libs
 
-RUN python3 -m venv venv
-
-# Install PyTorch
-RUN venv/bin/pip install torch==1.13.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-
 # Set working directory
 WORKDIR /app
 
 # Copy app files
 COPY . /app/
+
+RUN python3 -m venv venv
+
+# Install PyTorch
+RUN venv/bin/pip install torch==1.13.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
 # Install Python packages
 RUN venv/bin/pip install -r requirements.txt
