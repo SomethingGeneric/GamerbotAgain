@@ -3,6 +3,8 @@ RUN pacman -Syu --noconfirm
 RUN pacman -S --noconfirm --needed base-devel git python-pip curl traceroute whois nmap wget figlet espeak-ng ffmpeg bc gnu-netcat openssh tldr nodejs
 WORKDIR /bot
 COPY . .
+RUN python3 -m venv venv
+RUN source venv/bin/activate
 RUN pip3 install -r requirements.txt
 RUN mkdir -p /root/.ssh
 RUN echo "StrictHostKeyChecking no" > /root/.ssh/config
