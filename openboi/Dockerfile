@@ -1,7 +1,7 @@
 FROM archlinux:latest
 
 # Install system dependencies
-RUN pacman -Syu --noconfirm && \
+RUN pacman -Sy --noconfirm && \
     pacman -S --noconfirm python python-pip && \
     pacman -Scc --noconfirm && \
     pacman -S --noconfirm gcc && \
