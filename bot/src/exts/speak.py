@@ -116,18 +116,20 @@ class Speak(commands.Cog):
     async def oaiq(self, input_text):
         p = f"You are being asked questions in plaintext from unknown users. Complete it or answer as best you can: {input_text}"
 
-        url = 'http://openboi:5000/generate'
-        headers = {'Content-Type': 'application/json'}
-        data = {'prompt': p, 'length': 100, 'temperature': 0.8}
+        url = "http://openboi:5000/generate"
+        headers = {"Content-Type": "application/json"}
+        data = {"prompt": p, "length": 100, "temperature": 0.8}
 
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=headers, json=data) as response:
                 if response.status == 200:
-                    output = (await response.json())['output']
-                    return output.replace("You are being asked questions in plaintext from unknown users. Complete it or answer as best you can: ","")
+                    output = (await response.json())["output"]
+                    return output.replace(
+                        "You are being asked questions in plaintext from unknown users. Complete it or answer as best you can: ",
+                        "",
+                    )
                 else:
                     return "something went silly goofy"
-
 
     @commands.slash_command()
     async def davinci(self, inter, *, prompt: str):

@@ -34,6 +34,7 @@ class DoesNotExist(commands.Cog):
         except Exception as e:
             await inter.send(f"Error: ```{str(e)}```")
 
+
 def setup(bot):
     print("Loading DNE ext")
     bot.add_cog(DoesNotExist(bot))
