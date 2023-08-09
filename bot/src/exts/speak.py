@@ -113,39 +113,6 @@ class Speak(commands.Cog):
             )
             print("VC is busy somewhere. Doing nothing.")
 
-    async def oaiq(self, input_text):
-        p = f"You are being asked questions in plaintext from unknown users. Complete it or answer as best you can: {input_text}"
-
-        url = "http://openboi:5000/generate"
-        headers = {"Content-Type": "application/json"}
-        data = {"prompt": p, "length": 100, "temperature": 0.8}
-
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=headers, json=data) as response:
-                if response.status == 200:
-                    output = (await response.json())["output"]
-                    return output.replace(
-                        "You are being asked questions in plaintext from unknown users. Complete it or answer as best you can: ",
-                        "",
-                    )
-                else:
-                    return "something went silly goofy"
-
-    @commands.slash_command()
-    async def davinci(self, inter, *, prompt: str):
-        """Ask a question to GPT2"""
-        try:
-            await inter.response.defer()
-            result = await self.oaiq(prompt)
-            await self.speak_in_channel(inter, result, None, True, None)
-            if len(result) > 1000:
-                link = await paste(result)
-                await inter.send(f"Response was too long. See it here: {link}")
-            else:
-                await inter.send(f"```{result}```")
-        except Exception as e:
-            await inter.send(f"Error: ```{str(e)}```")
-
     @commands.slash_command()
     async def tts(self, inter, *, thing, stealth=False):
         """Talk in voice channel"""
