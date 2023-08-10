@@ -19,7 +19,15 @@ ucredpath = "tootusercred.secret"
 acf = f"{volpath}/mastodon_linked.toml"
 conf_f = f"{volpath}/mastodon_temp.toml"
 
+class Social(commands.Cog):
+    """Fediverse stuff"""
 
-line_before
-new_code
+    def __init__(self, bot):
+        self.bot = bot
+
+    # Rest of the class code...
+
+def setup(bot):
+    print("Loading Social extension")
+    bot.add_cog(Social(bot))
 line_after
