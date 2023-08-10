@@ -30,3 +30,4 @@ translators
 pytz
 python-dateutil
 flask-restful
+pyfiglet
