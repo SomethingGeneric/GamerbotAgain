@@ -1,3 +1,4 @@
+import pyfiglet
 from PIL import Image, ImageDraw, ImageFont
 from disnake.ext import commands
 
@@ -18,7 +19,7 @@ class ImageMaker(commands.Cog):
         await inter.response.defer()
         try:
             if re.search(r"^[a-zA-Z\s]+$", text):
-                out = await run_command_shell("figlet " + text.strip())
+                out = pyfiglet.figlet_format(text.strip())
                 if len(out) < 1994:
                     await inter.send("```\n " + str(out) + "```")
                 else:
