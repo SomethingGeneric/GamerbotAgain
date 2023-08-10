@@ -26,17 +26,17 @@ class reminders(commands.Cog):
                     self.data = yaml.safe_load(stream)
                 except yaml.YAMLError as err:
                     print(err)
-        else:
-            self.data = []
-
+    def __init__(self, bot):
+        self.bot = bot
+        self.urtz = f"{config['volpath']}/user-tzobj.yamlf"
         if os.path.exists(self.urtz):
             with open(self.urtz, "r") as stream:
                 try:
-                    self.tzdata = yaml.safe_load(stream)
+                    self.bot.tzdata = yaml.safe_load(stream)
                 except yaml.YAMLError as err:
                     print(err)
         else:
-            self.tzdata = {}
+            self.bot.tzdata = {}
 
         self.iterate_reminders.start()
 
@@ -89,7 +89,7 @@ class reminders(commands.Cog):
             if (
                 timez in pytz.all_timezones or timez.upper() in pytz.all_timezones
             ):  # woo yea
-                self.tzdata[inter.author.id] = timez
+                self.bot.tzdata[inter.author.id] = timez
                 await inter.send("Noted!")
             else:
                 await inter.send("That doesn't seem to be a timezone.")
