@@ -76,7 +76,7 @@ async def on_ready():
             dt = datetime.datetime.strptime(time_str, '%H:%M')
             tz = pytz.timezone(tz_str)
             dt = tz.localize(dt).astimezone(pytz.UTC)
-            await message.channel.send(f'The time {time_str} {tz_str} is {dt.strftime('%H:%M')} UTC.')
+        await message.channel.send(f"The time {time_str} {tz_str} is {dt.strftime('%H:%M')} UTC.")
         else:
             pattern = r'(\d{1,2}:\d{2})'
             match = re.search(pattern, message.content)
