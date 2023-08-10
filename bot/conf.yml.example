@@ -29,3 +29,9 @@ skip_ext: ""
 # (This is /gb-data if you're using docker,
 # otherwise it can be any dir you can write to)
 volpath: "/gb-data"
+
+# List of permitted guilds
+permitted_guilds:
+  - guild_id_1
+  - guild_id_2
+  - guild_id_3
