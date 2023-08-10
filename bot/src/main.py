@@ -22,6 +22,8 @@ bot = commands.InteractionBot(
     # sync_commands_debug=True
 )
 
+user_timezones = {}
+
 error = ""
 load_error = False
 
