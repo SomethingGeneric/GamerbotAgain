@@ -72,6 +72,13 @@ class Shell(commands.Cog):
             await inter.send(f"Error: ```{str(e)}```")
 
     async def doshell(self, inter, cmd, shell="bash"):
+        guild_id = inter.guild.id
+        permitted_guilds = config.get("permitted_guilds", [])
+        
+        if guild_id not in permitted_guilds:
+            await inter.send("This guild is not permitted to use shell commands.")
+            return
+
         if " " in cmd:
             if cmd.split(" ")[0] in dont:
                 await inter.send(f"Do not `{cmd.split(' ')[0]}`")
@@ -133,7 +140,6 @@ class Shell(commands.Cog):
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
-    @commands.message_command(name="Shell")
     async def mbash(self, inter, message):
         """Run a command"""
         try:
@@ -141,7 +147,6 @@ class Shell(commands.Cog):
             await self.doshell(inter, message.content)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
-
 
 def setup(bot):
     print("Loading shell extension")
