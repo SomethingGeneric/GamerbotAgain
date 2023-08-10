@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python3
       uses: actions/setup-python@v3
       with:
-        python-version: 3.10
+        python-version: 3.11
     - name: Pylint and Format
       uses: itsvinayak/pylint-and-format@v1.1
       with:
