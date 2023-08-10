@@ -8,6 +8,8 @@ services:
     container_name: punchingbag
     networks:
       - funny
+    volumes:
+      - gamerbot-store:/home
   bot:
     build:
       context: ./bot
