@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from disnake.ext import commands
+from pyfiglet import Figlet
 
 import re
 
