@@ -26,9 +26,7 @@ class reminders(commands.Cog):
                     self.data = yaml.safe_load(stream)
                 except yaml.YAMLError as err:
                     print(err)
-    def __init__(self, bot):
-        self.bot = bot
-        self.urtz = f"{config['volpath']}/user-tzobj.yamlf"
+
         if os.path.exists(self.urtz):
             with open(self.urtz, "r") as stream:
                 try:
