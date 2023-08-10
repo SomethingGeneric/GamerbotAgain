@@ -27,7 +27,7 @@ class Social(commands.Cog):
         self.bot = bot
 
     @commands.slash_command()
-    async def fediconfirm(self, inter, code=""):
+    async def fediconfirm(self, inter: disnake.ApplicationCommandInteraction, code: str = ""):
         try:
             pending = {}
             if os.path.exists(conf_f):
