@@ -1,0 +1,4 @@
+discord-py-slash-command
+Pillow
+pyf
+pyfiglet
