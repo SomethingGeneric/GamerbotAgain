@@ -9,4 +9,4 @@ class Text(commands.Cog):
         """Generate ASCII art from text using pyfiglet"""
         f = Figlet()
         ascii_art = f.renderText(text)
-        a
+        await inter.send(f"```\n{ascii_art}\n```")
