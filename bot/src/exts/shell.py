@@ -140,7 +140,6 @@ class Shell(commands.Cog):
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
-    @commands.message_command(name="Shell")
     async def mbash(self, inter, message):
         """Run a command"""
         try:
@@ -148,7 +147,6 @@ class Shell(commands.Cog):
             await self.doshell(inter, message.content)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
-
 
 def setup(bot):
     print("Loading shell extension")
