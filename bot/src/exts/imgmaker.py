@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from disnake.ext import commands
+from pyfiglet import Figlet
 
 import re
 
@@ -17,19 +18,9 @@ class ImageMaker(commands.Cog):
         """Fun text art :)"""
         await inter.response.defer()
         try:
-            if re.search(r"^[a-zA-Z\s]+$", text):
-                out = await run_command_shell("figlet " + text.strip())
-                if len(out) < 1994:
-                    await inter.send("```\n " + str(out) + "```")
-                else:
-                    link = await paste(out)
-                    await inter.send(
-                        inter.author.mention
-                        + ", the figlet output is too long, so here's a link: "
-                        + link
-                    )
-            else:
-                await inter.send("Stop trying to be silly!")
+            f = Figlet()
+            ascii_art = f.renderText(text)
+            await inter.send(f"```\n{ascii_art}\n```")
         except Exception as e:
             await inter.send(
                 embed=err_msg("Error", "Had an issue running figlet: `" + str(e) + "`")
