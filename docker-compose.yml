@@ -9,8 +9,7 @@ services:
     networks:
       - funny
     volumes:
-      - gamerbot-store:/home
-      - second-volume:/path/to/second/volume
+      - second-volume:/home
   bot:
     build:
       context: ./bot
