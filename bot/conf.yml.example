@@ -5,13 +5,14 @@ mastodon_url: "https://social.xhec.dev"
 mastodon_email: "nope@someone.com"
 mastodon_password: "SomeGreatPassword"
 
-# Types: watching, listening, playing
-default_status_type: "playing"
+# Add your desired status messages here as a list of strings
+status_messages:
+  - "Status 1"
+  - "Status 2"
+  - "Status 3"
 
-# These are currently the only substitutions
-# - {number_users}
-# - {guild_count}
-default_status_text: "in {guild_count} servers"
+# Add the interval between status changes here (in seconds)
+status_interval: 60
 
 # Text for messages:
 # Note {command} is the only substitution allowed here (we do auto-mention the user)
