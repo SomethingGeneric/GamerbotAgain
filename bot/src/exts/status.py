@@ -10,7 +10,11 @@ class Status(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.status_messages = ["Status 1", "Status 2", "Status 3"]  # Add status messages as a list of strings
+        self.status_messages = [
+            "Status 1",
+            "Status 2",
+            "Status 3",
+        ]  # Add status messages as a list of strings
         self.status_interval = 60  # Add status interval as an integer
 
         self.status_task.start()
@@ -55,9 +59,9 @@ class Status(commands.Cog):
         await self.bot.change_presence(
             activity=disnake.Activity(
                 type=ac_type,
-                name=status_message
-                .replace("{guild_count}", str(len(list(self.bot.guilds))))
-                .replace("{number_users}", str(total)),
+                name=status_message.replace(
+                    "{guild_count}", str(len(list(self.bot.guilds)))
+                ).replace("{number_users}", str(total)),
             )
         )
 
