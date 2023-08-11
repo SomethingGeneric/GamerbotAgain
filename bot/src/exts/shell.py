@@ -74,7 +74,7 @@ class Shell(commands.Cog):
     async def doshell(self, inter, cmd, shell="bash"):
         guild_id = inter.guild.id
         permitted_guilds = config.get("permitted_guilds", [])
-        
+
         if guild_id not in permitted_guilds:
             await inter.send("This guild is not permitted to use shell commands.")
             return
@@ -147,6 +147,7 @@ class Shell(commands.Cog):
             await self.doshell(inter, message.content)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
+
 
 def setup(bot):
     print("Loading shell extension")
