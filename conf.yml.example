@@ -1,0 +1,27 @@
+# conf.yml.example
+
+# Example configuration file for the bot
+
+# Add your bot token here
+bot_token: "YOUR_BOT_TOKEN"
+
+# Add your desired bot prefix here
+bot_prefix: "!"
+
+# Add your desired status messages here as a list of strings
+status_messages:
+  - "Status 1"
+  - "Status 2"
+  - "Status 3"
+
+# Add the interval between status changes here (in seconds)
+status_interval: 60
+
+# Add your desired status messages here as a list of strings
+status_messages:
+  - "Status 1"
+  - "Status 2"
+  - "Status 3"
+
+# Add the interval between status changes here (in seconds)
+status_interval: 60
