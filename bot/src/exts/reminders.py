@@ -130,7 +130,7 @@ class reminders(commands.Cog):
         """List all of your reminders"""
         try:
             await inter.response.defer()
-            if len(self.data) != 0:
+            if self.data is not None and len(self.data) != 0:
                 n = 0
                 for reminder in self.data:
                     if inter.author.id == int(reminder["user"]):
@@ -176,43 +176,44 @@ class reminders(commands.Cog):
     @tasks.loop(seconds=60)
     async def iterate_reminders(self):
         try:
-            for reminder in self.data:
-                dt_raw = dateutil.parser.parse(
-                    reminder["when"]
-                )  # i fucking love python
-                utc_ref = datetime.utcnow()
+            if self.data is not None:
+                for reminder in self.data:
+                    dt_raw = dateutil.parser.parse(
+                        reminder["when"]
+                    )  # i fucking love python
+                    utc_ref = datetime.utcnow()
 
-                if reminder["utc"]:
-                    if utc_ref > dt_raw:
-                        who = await self.bot.fetch_user(int(reminder["user"]))
-                        await who.send(
-                            who.mention,
-                            embed=inf_msg(
-                                "Reminder!",
-                                f"Hey there! You asked me to remind you: `{reminder['text']}`",
-                            ),
+                    if reminder["utc"]:
+                        if utc_ref > dt_raw:
+                            who = await self.bot.fetch_user(int(reminder["user"]))
+                            await who.send(
+                                who.mention,
+                                embed=inf_msg(
+                                    "Reminder!",
+                                    f"Hey there! You asked me to remind you: `{reminder['text']}`",
+                                ),
+                            )
+                            self.data.remove(reminder)
+                            self.write_data()
+                    else:
+                        their_tz = timezone(
+                            self.tzdata[int(reminder["user"])]
+                        )  # good luck with this one, Satan
+                        rem_time = their_tz.localize(
+                            dateutil.parser.parse(reminder["when"])
                         )
-                        self.data.remove(reminder)
-                        self.write_data()
-                else:
-                    their_tz = timezone(
-                        self.tzdata[int(reminder["user"])]
-                    )  # good luck with this one, Satan
-                    rem_time = their_tz.localize(
-                        dateutil.parser.parse(reminder["when"])
-                    )
-                    comp_local_time = their_tz.localize(utc_ref)
-                    if comp_local_time > rem_time:
-                        who = await self.bot.fetch_user(int(reminder["user"]))
-                        await who.send(
-                            who.mention,
-                            embed=inf_msg(
-                                "Reminder!",
-                                f"Hey there! You asked me to remind you: `{reminder['text']}`",
-                            ),
-                        )
-                        self.data.remove(reminder)
-                        self.write_data()
+                        comp_local_time = their_tz.localize(utc_ref)
+                        if comp_local_time > rem_time:
+                            who = await self.bot.fetch_user(int(reminder["user"]))
+                            await who.send(
+                                who.mention,
+                                embed=inf_msg(
+                                    "Reminder!",
+                                    f"Hey there! You asked me to remind you: `{reminder['text']}`",
+                                ),
+                            )
+                            self.data.remove(reminder)
+                            self.write_data()
 
         except Exception as e:
             owner = await self.bot.fetch_user(self.bot.owner_id)

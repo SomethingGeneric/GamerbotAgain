@@ -1,10 +1,6 @@
 ---
 token: "token goes here!"
 
-mastodon_url: "https://social.xhec.dev"
-mastodon_email: "nope@someone.com"
-mastodon_password: "SomeGreatPassword"
-
 # Add your desired status messages here as a list of strings
 status_messages:
   - "Status 1"

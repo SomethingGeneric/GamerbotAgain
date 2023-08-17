@@ -1,7 +1,4 @@
-FROM archlinux:latest
-COPY mirrorlist /etc/pacman.d/mirrorlist
-RUN pacman -Sy --noconfirm
-RUN pacman -S --noconfirm --needed base-devel git python-pip curl traceroute whois nmap wget figlet espeak-ng ffmpeg bc gnu-netcat openssh tldr nodejs
+FROM gamerthebase:latest
 WORKDIR /bot
 COPY . .
 RUN python3 -m venv venv

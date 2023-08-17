@@ -21,9 +21,8 @@ class Status(commands.Cog):
             except yaml.YAMLError as err:
                 print(err)
 
-        self.status_messages = self.fconfig['status_messages']
-        self.status_interval = self.fconfig['status_interval']
-
+        self.status_messages = self.fconfig["status_messages"]
+        self.status_interval = self.fconfig["status_interval"]
 
     def cog_unload(self):
         self.status_task.cancel()
