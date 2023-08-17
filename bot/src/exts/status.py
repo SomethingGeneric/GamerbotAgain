@@ -10,13 +10,6 @@ class Status(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.status_messages = [
-            "Status 1",
-            "Status 2",
-            "Status 3",
-        ]  # Add status messages as a list of strings
-        self.status_interval = 60  # Add status interval as an integer
-
         self.status_task.start()
         self.uptime_logger.start()
 
@@ -28,33 +21,27 @@ class Status(commands.Cog):
             except yaml.YAMLError as err:
                 print(err)
 
+        self.status_messages = self.fconfig['status_messages']
+        self.status_interval = self.fconfig['status_interval']
+
+
     def cog_unload(self):
         self.status_task.cancel()
         self.uptime_logger.cancel()
 
     async def set_default_status(self):
-        ac_type = None
+        ac_type = disnake.ActivityType.playing
 
         await asyncio.sleep(10)
 
-        if self.fconfig["default_status_type"] == "watching":
-            ac_type = disnake.ActivityType.watching
-        elif self.fconfig["default_status_type"] == "listening":
-            ac_type = disnake.ActivityType.listening
-        elif self.fconfig["default_status_type"] == "streaming":
-            ac_type = disnake.ActivityType.streaming
+        # Select a random status message from status_messages
+        status_message = random.choice(self.status_messages)
 
         total = 0
-        if "{number_users}" in self.fconfig["default_status_text"]:
+        if "{number_users}" in status_message:
             guilds = self.bot.guilds
             for guild in guilds:
                 total += guild.member_count
-
-        if ac_type is None:
-            ac_type = disnake.ActivityType.playing
-
-        # Select a random status message from status_messages
-        status_message = random.choice(self.status_messages)
 
         await self.bot.change_presence(
             activity=disnake.Activity(

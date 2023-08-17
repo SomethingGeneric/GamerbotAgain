@@ -1,5 +1,6 @@
 FROM archlinux:latest
-RUN pacman -Syu --noconfirm
+COPY mirrorlist /etc/pacman.d/mirrorlist
+RUN pacman -Sy --noconfirm
 RUN pacman -S --noconfirm --needed figlet banner cowsay openssh sudo
 WORKDIR /stuff
 COPY . .

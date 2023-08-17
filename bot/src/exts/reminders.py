@@ -26,6 +26,8 @@ class reminders(commands.Cog):
                     self.data = yaml.safe_load(stream)
                 except yaml.YAMLError as err:
                     print(err)
+        else:
+            self.data = {}
 
         if os.path.exists(self.urtz):
             with open(self.urtz, "r") as stream:
