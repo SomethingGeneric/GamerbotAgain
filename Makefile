@@ -1,5 +1,5 @@
 base:
-	cd gamerthebase && docker build -t gamerthebase:latest .
+	./docker-build.sh
 build:
 	docker-compose build --no-cache
 test: build

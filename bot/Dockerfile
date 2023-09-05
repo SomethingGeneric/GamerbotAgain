@@ -2,6 +2,10 @@ FROM gamerthebase:latest
 WORKDIR /bot
 COPY . .
 RUN python3 -m venv venv
+
+RUN pacman -Sy --noconfirm libxml2 libxslt rust
+
+
 RUN venv/bin/pip3 install -r requirements.txt
 RUN mkdir -p /root/.ssh
 RUN echo "StrictHostKeyChecking no" > /root/.ssh/config
