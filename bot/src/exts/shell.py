@@ -142,11 +142,20 @@ class Shell(commands.Cog):
 
     @disnake.ext.commands.is_owner()
     @commands.slash_command()
-    async def mbash(self, inter, message):
+    async def mbash(self, inter, *, cmd: str):
         """Run a command"""
         try:
             await inter.response.defer()
-            await self.doshell(inter, message.content)
+            output = await run_command_shell(cmd)
+            if len(output) > (999 - len(cmd)):
+                link = await paste(f"Command was: '{cmd}', output:\n{output}")
+                msg = f"See output: {link}"
+            else:
+                if len(output) != 0:
+                    msg = f"Command `{cmd}`, output: \n```{output}```"
+                else:
+                    msg = f"Command: `{cmd}`, but no output was returned"
+            await inter.send(msg)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
