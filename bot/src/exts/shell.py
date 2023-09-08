@@ -140,7 +140,8 @@ class Shell(commands.Cog):
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
 
-
+    @disnake.ext.commands.is_owner()
+    @commands.slash_command()
     async def mbash(self, inter, message):
         """Run a command"""
         try:
