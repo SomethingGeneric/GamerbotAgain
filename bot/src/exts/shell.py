@@ -72,12 +72,12 @@ class Shell(commands.Cog):
             await inter.send(f"Error: ```{str(e)}```")
 
     async def doshell(self, inter, cmd, shell="bash"):
-        guild_id = inter.guild.id
-        permitted_guilds = config.get("permitted_guilds", [])
-
-        if guild_id not in permitted_guilds:
-            await inter.send("This guild is not permitted to use shell commands.")
-            return
+        if inter.guild is not None:
+            guild_id = inter.guild.id
+            permitted_guilds = config.get("permitted_guilds", [])
+            if guild_id not in permitted_guilds:
+                await inter.send("This guild is not permitted to use shell commands.")
+                return
 
         if " " in cmd:
             if cmd.split(" ")[0] in dont:
@@ -139,6 +139,7 @@ class Shell(commands.Cog):
             await self.doshell(inter, cmd)
         except Exception as ex:
             await inter.send(f"Error: ```{str(ex)}```")
+
 
     async def mbash(self, inter, message):
         """Run a command"""
