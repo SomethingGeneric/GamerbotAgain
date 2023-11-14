@@ -1,5 +1,5 @@
 from disnake.ext import commands
-import json, yaml, os, requests, asyncio, random
+import json, os, requests, asyncio, random, toml
 
 from .util_functions import config
 
@@ -8,13 +8,13 @@ volpath = config["volpath"]
 primary_url = "https://xkcd.com/info.0.json"
 comic_url = "https://xkcd.com/CN/info.0.json"
 
-data_fn = f"{volpath}/xkcd.yaml"
+data_fn = f"{volpath}/xkcd.toml"
 
 
 class xkcd(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.data = {}
+        self.data = None
         self.data_done = False
 
     async def setup_data(self):
@@ -26,6 +26,7 @@ class xkcd(commands.Cog):
                 await owner.send(
                     "Doing full data download for XKCD. This will take a while"
                 )
+                self.data = {}
                 latest_comic = int(requests.get(primary_url).json()["num"])
                 for i in range(1, latest_comic + 1):
                     try:
@@ -38,21 +39,14 @@ class xkcd(commands.Cog):
                         print(f"Error getting comic {str(i)}: {str(e)}")
                         await owner.send(f"Error getting comic {str(i)}: {str(e)}")
                 with open(data_fn, "w") as f:
-                    yaml.dump(self.data, f)
+                    toml.dump(self.data, f)
                 await owner.send("Done with XKCD initial download")
             else:
                 # await owner.send("Loading XKCD data from file")
-                with open(data_fn, "r") as stream:
-                    try:
-                        self.data = yaml.safe_load(stream)
-                    except yaml.YAMLError as err:
-                        print(err)
-                        await owner.send("Error loading XKCD data from file")
-                        await owner.send(str(err))
-                        await owner.send("XKCD remains locked")
-                        return
+                self.data = toml.load(data_fn)
+
                 latest_comic = int(requests.get(primary_url).json()["num"])
-                if latest_comic not in self.data.keys():
+                if self.data is not None and latest_comic not in self.data.keys():
                     highest_saved = 0
                     for key, _ in self.data.items():
                         if key > highest_saved:
@@ -68,7 +62,7 @@ class xkcd(commands.Cog):
                             print(f"Error getting comic {str(i)}: {str(e)}")
                             await owner.send(f"Error getting comic {str(i)}: {str(e)}")
                     with open(data_fn, "w") as f:
-                        yaml.dump(self.data, f)
+                        toml.dump(self.data, f)
                 # await owner.send("All done with XKCD loading")
             self.data_done = True
             await owner.send("I have unlocked XKCD command for usage.")
@@ -78,7 +72,7 @@ class xkcd(commands.Cog):
     def cog_uload(self):
         print("Saving XKCD data")
         with open(data_fn, "w") as f:
-            yaml.dump(self.data, f)
+            toml.dump(self.data, f)
 
     @commands.Cog.listener()
     async def on_ready(self):
