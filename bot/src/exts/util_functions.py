@@ -6,17 +6,21 @@ import random
 import string
 import threading
 import binascii
-import yaml
+import toml
+#import yaml
 
-if not os.path.exists("conf.yml"):
+if not os.path.exists("config.toml"):
     print("No config found")
     sys.exit(1)
 
-with open("conf.yml", "r") as stream:
-    try:
-        config = yaml.safe_load(stream)
-    except yaml.YAMLError as err:
-        print(err)
+# import yaml
+# with open("conf.yml", "r") as stream:
+#     try:
+#         config = yaml.safe_load(stream)
+#     except yaml.YAMLError as err:
+#         print(err)
+
+config = toml.load("config.toml")
 
 
 def fancy_msg(title, text, color, footnote=None):

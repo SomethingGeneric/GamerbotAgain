@@ -1,0 +1,27 @@
+# Discord bot token
+token = ""
+
+# Status messages
+status_messages = [ "with some code", "with some smelly nerds", "with packets",]
+# Status change interval in seconds
+status_interval = 30
+
+# Message sent when a user doesn't have the required permissions to run a command
+wrong_perms = "You're not a special snowflake, so you can't run `{command}`"
+
+# Should we DM the owner when the bot restarts?
+# (bot owner ID is set by discord)
+owner_dm_restart = true
+
+# Skip loading extensions with these filenames
+skip_ext = ""
+
+# Name of persistent volume for the bot
+# (if you're not using docker, this should be somewhere
+# that your user can write to)
+# NOTE: if you are using docker and change this, you must
+# also edit ../docker-compose.yml
+volpath = "/gb-data"
+
+# Where can shell commands be used?
+permitted_guilds = [ 825473796227858482, 403356796405678090,]

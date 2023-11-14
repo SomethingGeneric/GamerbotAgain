@@ -1,4 +1,4 @@
-import datetime, yaml, asyncio
+import datetime, asyncio, toml
 
 from disnake.ext import commands, tasks
 
@@ -15,11 +15,14 @@ class Status(commands.Cog):
 
         self.upt = 0
 
-        with open("conf.yml", "r") as stream:
-            try:
-                self.fconfig = yaml.safe_load(stream)
-            except yaml.YAMLError as err:
-                print(err)
+        # import yaml
+        # with open("conf.yml", "r") as stream:
+        #     try:
+        #         self.fconfig = yaml.safe_load(stream)
+        #     except yaml.YAMLError as err:
+        #         print(err)
+
+        self.fconfig = toml.load("config.toml")
 
         self.status_messages = self.fconfig["status_messages"]
         self.status_interval = self.fconfig["status_interval"]

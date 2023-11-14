@@ -1,12 +1,15 @@
 import disnake
-import yaml, datetime, os, re
+import datetime, os, re, toml, pytz
 from disnake.ext import commands
 
-with open("conf.yml", "r") as stream:
-    try:
-        config = yaml.safe_load(stream)
-    except yaml.YAMLError as err:
-        print(err)
+# import yaml
+# with open("conf.yml", "r") as stream:
+#     try:
+#         config = yaml.safe_load(stream)
+#     except yaml.YAMLError as err:
+#         print(err)
+
+config = toml.load("config.toml")
 
 intents = disnake.Intents().default()
 # noinspection PyDunderSlots,PyUnresolvedReferences
