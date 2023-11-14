@@ -47,6 +47,10 @@ class xkcd(commands.Cog):
                         self.data = yaml.safe_load(stream)
                     except yaml.YAMLError as err:
                         print(err)
+                        await owner.send("Error loading XKCD data from file")
+                        await owner.send(str(err))
+                        await owner.send("XKCD remains locked")
+                        return
                 latest_comic = int(requests.get(primary_url).json()["num"])
                 if latest_comic not in self.data.keys():
                     highest_saved = 0
