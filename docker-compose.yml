@@ -8,8 +8,8 @@ services:
     container_name: punchingbag
     networks:
       - funny
-    volumes:
-      - second-volume:/home
+    #volumes:
+    #  - second-volume:/home
   bot:
     build:
       context: ./bot
@@ -24,7 +24,7 @@ services:
 
 volumes:
   gamerbot-store:
-  second-volume:
+  #second-volume:
 
 networks:
   funny:
