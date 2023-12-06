@@ -191,7 +191,7 @@ class Chat(commands.Cog):
                     await inter.send("Had trouble getting a user from: " + text)
             except Exception as e:
                 await inter.send("Had trouble getting a user from: " + text)
-                print(e)
+                await inter.send("```" + e + "```")
 
     @commands.Cog.listener()
     async def on_message(self, message):
