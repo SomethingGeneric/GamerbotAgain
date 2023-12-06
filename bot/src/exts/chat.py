@@ -182,6 +182,7 @@ class Chat(commands.Cog):
 
         if "<@!" in new_text or "<@" in new_text:
             try:
+                new_text = new_text.split(">")[0]
                 pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
                 await inter.send("Sending to: " + new_text)
                 person = await inter.bot.fetch_user(int(pid))
