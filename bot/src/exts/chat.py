@@ -172,6 +172,7 @@ class Chat(commands.Cog):
     @commands.slash_command()
     async def dm(self, inter, *, text: str):
         """Make the bot say something"""
+        await inter.response.defer()
 
         if inter.author.id != self.bot.owner_id:
             await inter.send("You can't do that!")
@@ -182,16 +183,17 @@ class Chat(commands.Cog):
         if "<@!" in new_text or "<@" in new_text:
             try:
                 pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
+                await inter.send("Sending to: " + new_text)
                 person = await inter.bot.fetch_user(int(pid))
 
                 if person is not None:
                     await person.send(new_text.split(">")[1])
                     await inter.send("Done.")
                 else:
-                    await inter.send("Had trouble getting a user from: " + text)
+                    await inter.send("Had trouble getting a user from: " + new_text)
             except Exception as e:
-                await inter.send("Had trouble getting a user from: " + text)
-                await inter.send("```" + e + "```")
+                await inter.send("Had trouble getting a user from: " + new_text)
+                await inter.send("```" + str(e) + "```")
 
     @commands.Cog.listener()
     async def on_message(self, message):
