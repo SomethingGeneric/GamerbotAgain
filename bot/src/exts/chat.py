@@ -186,6 +186,7 @@ class Chat(commands.Cog):
 
                 if person is not None:
                     await person.send(new_text.split(">")[1])
+                    await inter.send("Done.")
                 else:
                     await inter.send("Had trouble getting a user from: " + text)
             except Exception as e:
