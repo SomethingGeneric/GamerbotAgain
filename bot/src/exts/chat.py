@@ -169,6 +169,29 @@ class Chat(commands.Cog):
                 else:
                     await inter.send("Too many choices :(")
 
+    @commands.slash_command()
+    async def dm(self, inter, *, text: str):
+        """Make the bot say something"""
+
+        if inter.author.id != self.bot.owner_id:
+            await inter.send("You can't do that!")
+            return
+
+        new_text = text.strip()
+
+        if "<@!" in new_text or "<@" in new_text:
+            try:
+                pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
+                person = await inter.bot.fetch_user(int(pid))
+
+                if person is not None:
+                    await person.send(new_text.split(">")[1])
+                else:
+                    await inter.send("Had trouble getting a user from: " + text)
+            except Exception as e:
+                await inter.send("Had trouble getting a user from: " + text)
+                print(e)
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if "shut" in message.content and "the fuck up" in message.content:
