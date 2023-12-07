@@ -26,5 +26,5 @@ volpath = "/gb-data"
 # Where can shell commands be used?
 permitted_guilds = [ 825473796227858482, 403356796405678090,]
 
-# where can i be weird
+# where can i be weird and silly and goofy and unhinged
 schizo_guilds = []

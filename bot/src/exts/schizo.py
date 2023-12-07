@@ -21,13 +21,14 @@ class Schizo(commands.Cog):
 
     async def be_silly(self):
         for guild in self.bot.guilds:
-            shitposted = False
-            for channel in guild.channels:
-                if type(channel) == disnake.TextChannel:
-                    # time to roll the dice
-                    if random.randint(1, 6) == 3 and not shitposted:  # letsgoo
-                        shitposted = True
-                        await channel.send(random.choice(self.unhinged))
+            if guild.id in self.fconfig["schizo_guilds"]:
+                shitposted = False
+                for channel in guild.channels:
+                    if type(channel) == disnake.TextChannel:
+                        # time to roll the dice
+                        if random.randint(1, 6) == 3 and not shitposted:  # letsgoo
+                            shitposted = True
+                            await channel.send(random.choice(self.unhinged))
 
     @commands.Cog.listener()
     async def on_ready(self):
