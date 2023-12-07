@@ -35,7 +35,7 @@ class Schizo(commands.Cog):
         print("Doing something silly")
         await self.be_silly()
 
-    @tasks.loop(seconds=60.0)
+    @tasks.loop(seconds=7200.0)
     async def schizo_task(self):
         await self.be_silly()
 
