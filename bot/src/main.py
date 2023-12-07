@@ -14,6 +14,9 @@ config = toml.load("config.toml")
 intents = disnake.Intents().default()
 # noinspection PyDunderSlots,PyUnresolvedReferences
 intents.members = True
+intents.messages = True
+intents.guilds = True
+intents.message_content = True
 
 # command_sync_flags = commands.CommandSyncFlags.default()
 # command_sync_flags.sync_commands_debug = True
