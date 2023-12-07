@@ -20,22 +20,15 @@ class Schizo(commands.Cog):
         self.schizo_task.cancel()
 
     async def be_silly(self):
-        for guild in self.bot.guilds:
-            if guild.id in self.fconfig["schizo_guilds"]:
-                shitposted = False
-                for channel in guild.channels:
-                    if type(channel) == disnake.TextChannel:
-                        # time to roll the dice
-                        if random.randint(1, 6) == 3 and not shitposted:  # letsgoo
-                            shitposted = True
-                            await channel.send(random.choice(self.unhinged))
+        hannelore = await self.bot.fetch_user(721355984940957816)
+        await hannelore.send(random.choice(self.unhinged))
 
     @commands.Cog.listener()
     async def on_ready(self):
         print("Doing something silly")
         await self.be_silly()
 
-    @tasks.loop(seconds=7200.0)
+    @tasks.loop(seconds=600.0)
     async def schizo_task(self):
         await self.be_silly()
 
@@ -44,6 +37,13 @@ class Schizo(commands.Cog):
         print("Waiting for bot to be ready before being silly")
         await self.bot.wait_until_ready()
         print("Bot is ready. Enabling silly task")
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.id != self.bot.user.id:
+            if message.author.id == 721355984940957816:
+                if random.randint(1, 100) <= 10:
+                    await message.channel.send(random.choice(self.unhinged))
 
 
 def setup(bot):
