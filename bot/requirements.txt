@@ -31,3 +31,4 @@ pytz
 python-dateutil
 flask-restful
 pyfiglet
+better_profanity

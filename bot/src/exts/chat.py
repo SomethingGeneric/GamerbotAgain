@@ -4,6 +4,7 @@ import urllib
 import requests
 from PIL import Image, ImageDraw, ImageFont
 from disnake.ext import commands
+from better_profanity import profanity
 
 from .util_functions import *
 
@@ -197,8 +198,9 @@ class Chat(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if "shut" in message.content and "the fuck up" in message.content:
-            msg = "no u"
+        if profanity.contains_profanity(message):
+            msg = "stop it"
+            new_text = "boogeyman"
 
             if "shut the" in message.content:
                 new_text = message.author.display_name
@@ -209,11 +211,9 @@ class Chat(commands.Cog):
                     person = await self.bot.fetch_user(int(pid))
                     if person is not None:
                         new_text = person.display_name
-                        msg = "silence " + person.mention
-                    else:
-                        msg = ""
                 except:
-                    msg = "silence"
+                    pass
+
             img = Image.open("images/bonk.png")
 
             arial_font = ImageFont.truetype(
