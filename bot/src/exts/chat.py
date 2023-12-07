@@ -201,19 +201,7 @@ class Chat(commands.Cog):
         if message.author.id != self.bot.user.id:
             if profanity.contains_profanity(message.content):
                 msg = "stop it"
-                new_text = "boogeyman"
-
-                if "shut the" in message.content:
-                    new_text = message.author.display_name
-                else:
-                    new_text = message.content.split(" ")[1]
-                    pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
-                    try:
-                        person = await self.bot.fetch_user(int(pid))
-                        if person is not None:
-                            new_text = person.display_name
-                    except:
-                        pass
+                new_text = message.author.display_name
 
                 img = Image.open("images/bonk.png")
 
