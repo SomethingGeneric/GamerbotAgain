@@ -198,39 +198,40 @@ class Chat(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if profanity.contains_profanity(message):
-            msg = "stop it"
-            new_text = "boogeyman"
+        if message.author.id != self.bot.user.id:
+            if profanity.contains_profanity(message.content):
+                msg = "stop it"
+                new_text = "boogeyman"
 
-            if "shut the" in message.content:
-                new_text = message.author.display_name
-            else:
-                new_text = message.content.split(" ")[1]
-                pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
-                try:
-                    person = await self.bot.fetch_user(int(pid))
-                    if person is not None:
-                        new_text = person.display_name
-                except:
-                    pass
+                if "shut the" in message.content:
+                    new_text = message.author.display_name
+                else:
+                    new_text = message.content.split(" ")[1]
+                    pid = new_text.replace("<@!", "").replace("<@", "").replace(">", "")
+                    try:
+                        person = await self.bot.fetch_user(int(pid))
+                        if person is not None:
+                            new_text = person.display_name
+                    except:
+                        pass
 
-            img = Image.open("images/bonk.png")
+                img = Image.open("images/bonk.png")
 
-            arial_font = ImageFont.truetype(
-                "fonts/arial.ttf", (50 - len(str(new_text)))
-            )
-            draw = ImageDraw.Draw(img)
-            draw.text(
-                (525 - len(str(new_text)) * 5, 300),
-                str(new_text),
-                (0, 0, 0),
-                font=arial_font,
-            )
-            img.save("bonk-s.png")
-            await message.channel.send(
-                msg, reference=message, file=disnake.File("bonk-s.png")
-            )
-            os.remove("bonk-s.png")
+                arial_font = ImageFont.truetype(
+                    "fonts/arial.ttf", (50 - len(str(new_text)))
+                )
+                draw = ImageDraw.Draw(img)
+                draw.text(
+                    (525 - len(str(new_text)) * 5, 300),
+                    str(new_text),
+                    (0, 0, 0),
+                    font=arial_font,
+                )
+                img.save("bonk-s.png")
+                await message.channel.send(
+                    msg, reference=message, file=disnake.File("bonk-s.png")
+                )
+                os.remove("bonk-s.png")
 
 
 def setup(bot):
