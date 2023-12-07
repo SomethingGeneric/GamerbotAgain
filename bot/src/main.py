@@ -73,6 +73,7 @@ async def on_ready():
             t = await paste(error)
         await ownerman.send(t)
 
+
 @bot.event
 async def on_message(message):
     pattern = r"(\d{1,2}:\d{2})\s([a-zA-Z/]+)"

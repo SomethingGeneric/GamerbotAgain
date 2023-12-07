@@ -34,7 +34,7 @@ class Status(commands.Cog):
     async def set_default_status(self):
         ac_type = disnake.ActivityType.playing
 
-        await asyncio.sleep(10)
+        await asyncio.sleep(1)
 
         # Select a random status message from status_messages
         status_message = random.choice(self.status_messages)

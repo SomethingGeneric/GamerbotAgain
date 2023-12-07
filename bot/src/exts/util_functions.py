@@ -8,18 +8,9 @@ import threading
 import binascii
 import toml
 
-# import yaml
-
 if not os.path.exists("config.toml"):
     print("No config found")
     sys.exit(1)
-
-# import yaml
-# with open("conf.yml", "r") as stream:
-#     try:
-#         config = yaml.safe_load(stream)
-#     except yaml.YAMLError as err:
-#         print(err)
 
 config = toml.load("config.toml")
 
