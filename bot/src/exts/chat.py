@@ -175,8 +175,9 @@ class Chat(commands.Cog):
 
                 owner = await self.bot.fetch_user(self.bot.owner_id)
                 await owner.send(
-                    f"**{message.author.display_name}** said `{censored}` in **{message.guild.name}**"
+                    f"**{message.author.display_name}** said `{message.content}` in **{message.guild.name}**"
                 )
+                await owner.send("It was censored to: `" + censored + "`")
 
                 img = Image.open("images/bonk.png")
 
