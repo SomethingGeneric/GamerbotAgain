@@ -1,8 +1,11 @@
 # GamerbotAgain
 Gamerbot with slash commands
 
+## Requirements
+* Docker
+ 
 ## How to run
-* copy `bot/conf.yml.example` to `bot/conf.yml` and edit as needed
+* copy `bot/config.example.toml` to `bot/config.toml` and edit as needed
 * `sudo make base`
 * `sudo make replace`
 
