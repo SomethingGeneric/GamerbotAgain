@@ -8,6 +8,7 @@ from better_profanity import profanity
 
 from .util_functions import *
 
+profanity.load_censor_words(whitelist_words=['tit', 'tits'])
 
 class Chat(commands.Cog):
     """Stuff for the chat... Duh"""
@@ -169,6 +170,13 @@ class Chat(commands.Cog):
             if profanity.contains_profanity(message.content):
                 msg = "stop it"
                 new_text = message.author.display_name
+
+                censored = profanity.censor(message.content)
+
+                owner = await self.bot.fetch_user(self.bot.owner_id)
+                await owner.send(
+                    f"**{message.author.display_name}** said `{censored}` in **{message.guild.name}**"
+                )
 
                 img = Image.open("images/bonk.png")
 
