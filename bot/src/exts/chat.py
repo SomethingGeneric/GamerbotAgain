@@ -8,7 +8,8 @@ from better_profanity import profanity
 
 from .util_functions import *
 
-profanity.load_censor_words(whitelist_words=['tit', 'tits'])
+profanity.load_censor_words(whitelist_words=["tit", "tits"])
+
 
 class Chat(commands.Cog):
     """Stuff for the chat... Duh"""
@@ -137,65 +138,6 @@ class Chat(commands.Cog):
                         eid += 1
                 else:
                     await inter.send("Too many choices :(")
-
-    @commands.slash_command()
-    async def dm(self, inter, *, text: str):
-        """Make the bot say something"""
-        await inter.response.defer()
-
-        if inter.author.id != self.bot.owner_id:
-            await inter.send("You can't do that!")
-            return
-
-        new_text = text.strip()
-
-        if "<@!" in new_text or "<@" in new_text:
-            try:
-                pid = new_text.split(">")[0].replace("<@!", "").replace("<@", "")
-                await inter.send("Sending to: " + new_text)
-                person = await inter.bot.fetch_user(int(pid))
-
-                if person is not None:
-                    await person.send(text.split(">")[1])
-                    await inter.send("Done.")
-                else:
-                    await inter.send("Had trouble getting a user from: " + new_text)
-            except Exception as e:
-                await inter.send("Had trouble getting a user from: " + new_text)
-                await inter.send("```" + str(e) + "```")
-
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.author.id != self.bot.user.id:
-            if profanity.contains_profanity(message.content):
-                msg = "stop it"
-                new_text = message.author.display_name
-
-                censored = profanity.censor(message.content)
-
-                owner = await self.bot.fetch_user(self.bot.owner_id)
-                await owner.send(
-                    f"**{message.author.display_name}** said `{message.content}` in **{message.guild.name}**"
-                )
-                await owner.send("It was censored to: `" + censored + "`")
-
-                img = Image.open("images/bonk.png")
-
-                arial_font = ImageFont.truetype(
-                    "fonts/arial.ttf", (50 - len(str(new_text)))
-                )
-                draw = ImageDraw.Draw(img)
-                draw.text(
-                    (525 - len(str(new_text)) * 5, 300),
-                    str(new_text),
-                    (0, 0, 0),
-                    font=arial_font,
-                )
-                img.save("bonk-s.png")
-                await message.channel.send(
-                    msg, reference=message, file=disnake.File("bonk-s.png")
-                )
-                os.remove("bonk-s.png")
 
 
 def setup(bot):

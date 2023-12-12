@@ -38,12 +38,82 @@ class Schizo(commands.Cog):
         await self.bot.wait_until_ready()
         print("Bot is ready. Enabling silly task")
 
+    @commands.slash_command()
+    async def dm(self, inter, *, text: str):
+        """Make the bot say something"""
+        await inter.response.defer()
+
+        if inter.author.id != self.bot.owner_id:
+            await inter.send("You can't do that!")
+            return
+
+        new_text = text.strip()
+
+        if "<@!" in new_text or "<@" in new_text:
+            try:
+                pid = new_text.split(">")[0].replace("<@!", "").replace("<@", "")
+                await inter.send("Sending to: " + new_text)
+                person = await inter.bot.fetch_user(int(pid))
+
+                if person is not None:
+                    await person.send(text.split(">")[1])
+                    await inter.send("Done.")
+                else:
+                    await inter.send("Had trouble getting a user from: " + new_text)
+            except Exception as e:
+                await inter.send("Had trouble getting a user from: " + new_text)
+                await inter.send("```" + str(e) + "```")
+
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author.id != self.bot.user.id:
-            if message.author.id == 721355984940957816:
-                if random.randint(1, 100) <= 10:
-                    await message.channel.send(random.choice(self.unhinged))
+        if message.author.id != self.bot.user.id:  # nobody cares if it's ourselves
+            if (
+                type(message.channel) == disnake.DMChannel
+                or type(message.channel) == disnake.GroupChannel
+            ):
+                owner = await self.bot.fetch_user(self.bot.owner_id)
+                await owner.send(
+                    f"DM from `{message.author.display_name}` ({message.author.id}): ```{message.content}```"
+                )
+
+            # Code to bother hanne
+            if message.author.id != self.bot.user.id:
+                if message.author.id == 721355984940957816:
+                    if random.randint(1, 100) <= 5:
+                        await message.channel.send(random.choice(self.unhinged))
+
+            # Code to deal with "profanity"
+            if profanity.contains_profanity(message.content):
+                try:  # easiest response is cat
+                    await message.add_reaction("😿")
+                except:
+                    try:  # if we don't have permission to CAT, then
+                        msg = "stop it"
+                        new_text = message.author.display_name
+
+                        censored = profanity.censor(message.content)
+
+                        await owner.send("It was censored to: `" + censored + "`")
+
+                        img = Image.open("images/bonk.png")
+
+                        arial_font = ImageFont.truetype(
+                            "fonts/arial.ttf", (50 - len(str(new_text)))
+                        )
+                        draw = ImageDraw.Draw(img)
+                        draw.text(
+                            (525 - len(str(new_text)) * 5, 300),
+                            str(new_text),
+                            (0, 0, 0),
+                            font=arial_font,
+                        )
+                        img.save("bonk-s.png")
+                        await message.channel.send(
+                            msg, reference=message, file=disnake.File("bonk-s.png")
+                        )
+                        os.remove("bonk-s.png")
+                    except:  # we just send a normal message
+                        await message.channel.send("stop it", reference=message)
 
 
 def setup(bot):
