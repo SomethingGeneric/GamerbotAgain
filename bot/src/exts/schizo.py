@@ -140,6 +140,7 @@ class Schizo(commands.Cog):
                         os.remove("bonk-s.png")
                     except Exception as e:  # we just send a normal message
                         await message.channel.send("stop it", reference=message)
+                        owner = await self.bot.fetch_user(self.bot.owner_id)
                         await owner.send("Error: `" + str(e) + "`")
 
     def make_bonk(self, new_text):
