@@ -3,6 +3,7 @@ from random import randint
 
 from disnake.ext import commands, tasks
 from better_profanity import profanity
+from PIL import Image, ImageDraw, ImageFont
 
 from .util_functions import *
 
