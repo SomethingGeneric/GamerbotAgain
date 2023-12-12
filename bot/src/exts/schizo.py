@@ -5,6 +5,8 @@ from better_profanity import profanity
 
 from .util_functions import *
 
+profanity.load_censor_words(whitelist_words=["tit", "tits"])
+
 
 class Schizo(commands.Cog):
     """This cog keeps the bot (in)sane"""
@@ -68,6 +70,7 @@ class Schizo(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.id != self.bot.user.id:  # nobody cares if it's ourselves
+            # Log any DMs that are not from the owner
             if (
                 type(message.channel) == disnake.DMChannel
                 or type(message.channel) == disnake.GroupChannel
@@ -77,6 +80,23 @@ class Schizo(commands.Cog):
                 await owner.send(
                     f"DM from `{message.author.display_name}` ({message.author.id}): ```{message.content}```"
                 )
+
+            # Check for guild message outside owner's guilds
+            elif type(message.channel) == disnake.TextChannel:
+                if (
+                    message.guild.id not in self.indexed_guilds
+                ):  # Check if guild is indexed
+                    if (
+                        message.guild.owner.id != self.bot.owner_id
+                    ):  # Check if owner is not in guild
+                        self.indexed_guilds.append(
+                            message.guild.id
+                        )  # Add guild ID to list
+                        owner = await self.bot.fetch_user(self.bot.owner_id)
+                        await owner.send(
+                            f"Message in guild `{message.guild.name}` (ID: {message.guild.id}) where owner is not present:\n"
+                            f"From `{message.author.display_name}` ({message.author.id}): `{message.content}`"
+                        )
 
             # Code to bother hanne
             if message.author.id != self.bot.user.id:

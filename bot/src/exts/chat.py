@@ -7,8 +7,6 @@ from disnake.ext import commands
 
 from .util_functions import *
 
-profanity.load_censor_words(whitelist_words=["tit", "tits"])
-
 
 class Chat(commands.Cog):
     """Stuff for the chat... Duh"""
