@@ -1,4 +1,5 @@
 import datetime, asyncio, toml, random, disnake
+from random import randint
 
 from disnake.ext import commands, tasks
 from better_profanity import profanity
@@ -74,10 +75,9 @@ class Schizo(commands.Cog):
         if message.author.id != self.bot.user.id:  # nobody cares if it's ourselves
             # Log any DMs that are not from the owner
             if (
-                (type(message.channel) == disnake.DMChannel
-                or type(message.channel) == disnake.GroupChannel)
-                and message.author.id != self.bot.owner_id
-            ):
+                type(message.channel) == disnake.DMChannel
+                or type(message.channel) == disnake.GroupChannel
+            ) and message.author.id != self.bot.owner_id:
                 owner = await self.bot.fetch_user(self.bot.owner_id)
                 await owner.send(
                     f"DM from `{message.author.display_name}` ({message.author.id}): ```{message.content}```"
@@ -99,21 +99,30 @@ class Schizo(commands.Cog):
                             f"Message in guild `{message.guild.name}` (ID: {message.guild.id}) where owner is not present:\n"
                             f"From `{message.author.display_name}` ({message.author.id}): `{message.content}`"
                         )
-                        await owner.send("Owner is: `" + message.guild.owner.mention + "`")
+                        await owner.send(
+                            "Owner is: `" + message.guild.owner.mention + "`"
+                        )
 
             # Code to bother hanne
             if message.author.id != self.bot.user.id:
                 if message.author.id == 721355984940957816:
                     if random.randint(1, 100) <= 5:
                         await message.channel.send(random.choice(self.unhinged))
-                    if random.randint(1,500) < 100:
+                    if random.randint(1, 500) < 100:
                         await self.be_silly()
 
             # Code to deal with "profanity"
             if profanity.contains_profanity(message.content):
-                try:  # easiest response is cat
+
+                opt = randint(1,4)
+
+                if opt == 1:
                     await message.add_reaction("😿")
-                except:
+                elif opt == 2:
+                    await message.add_reaction("🤬")
+                elif opt == 3:
+                    await message.channel.send("stop it", file=disnake.File("dogegun.jpg"))
+                elif opt == 4:
                     try:  # if we don't have permission to CAT, then
                         msg = "stop it"
                         new_text = message.author.display_name
@@ -122,25 +131,28 @@ class Schizo(commands.Cog):
 
                         await owner.send("It was censored to: `" + censored + "`")
 
-                        img = Image.open("images/bonk.png")
+                        self.make_bonk(new_text)
 
-                        arial_font = ImageFont.truetype(
-                            "fonts/arial.ttf", (50 - len(str(new_text)))
-                        )
-                        draw = ImageDraw.Draw(img)
-                        draw.text(
-                            (525 - len(str(new_text)) * 5, 300),
-                            str(new_text),
-                            (0, 0, 0),
-                            font=arial_font,
-                        )
-                        img.save("bonk-s.png")
                         await message.channel.send(
                             msg, reference=message, file=disnake.File("bonk-s.png")
                         )
+                        
                         os.remove("bonk-s.png")
                     except:  # we just send a normal message
                         await message.channel.send("stop it", reference=message)
+
+    def make_bonk(self, new_text):
+        img = Image.open("images/bonk.png")
+
+        arial_font = ImageFont.truetype("fonts/arial.ttf", (50 - len(str(new_text))))
+        draw = ImageDraw.Draw(img)
+        draw.text(
+            (525 - len(str(new_text)) * 5, 300),
+            str(new_text),
+            (0, 0, 0),
+            font=arial_font,
+        )
+        img.save("bonk-s.png")
 
 
 def setup(bot):
