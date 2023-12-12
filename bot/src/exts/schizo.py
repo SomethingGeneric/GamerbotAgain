@@ -72,8 +72,8 @@ class Schizo(commands.Cog):
         if message.author.id != self.bot.user.id:  # nobody cares if it's ourselves
             # Log any DMs that are not from the owner
             if (
-                type(message.channel) == disnake.DMChannel
-                or type(message.channel) == disnake.GroupChannel
+                (type(message.channel) == disnake.DMChannel
+                or type(message.channel) == disnake.GroupChannel)
                 and message.author.id != self.bot.owner_id
             ):
                 owner = await self.bot.fetch_user(self.bot.owner_id)
