@@ -1,6 +1,7 @@
 import datetime, asyncio, toml, random, disnake
 
 from disnake.ext import commands, tasks
+from better_profanity import profanity
 
 from .util_functions import *
 
@@ -70,6 +71,7 @@ class Schizo(commands.Cog):
             if (
                 type(message.channel) == disnake.DMChannel
                 or type(message.channel) == disnake.GroupChannel
+                and message.author.id != self.bot.owner_id
             ):
                 owner = await self.bot.fetch_user(self.bot.owner_id)
                 await owner.send(

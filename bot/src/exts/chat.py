@@ -4,7 +4,6 @@ import urllib
 import requests
 from PIL import Image, ImageDraw, ImageFont
 from disnake.ext import commands
-from better_profanity import profanity
 
 from .util_functions import *
 
