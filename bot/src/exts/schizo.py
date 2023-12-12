@@ -1,4 +1,4 @@
-import datetime, asyncio, toml, random, disnake
+import datetime, asyncio, toml, random, disnake, requests
 from random import randint
 
 from disnake.ext import commands, tasks
@@ -144,6 +144,22 @@ class Schizo(commands.Cog):
                         await message.channel.send("stop it", reference=message)
                         owner = await self.bot.fetch_user(self.bot.owner_id)
                         await owner.send("Error: `" + str(e) + "`")
+
+
+            url = "http://10.0.0.43:11434/api/generate"
+            data = {
+                "model": "llama2-uncensored",
+                "prompt": message.content,
+                "stream": False
+            }
+
+            response = requests.post(url, json=data)
+
+            if response.status_code == 200:
+                stuff = response.json()
+                if 'response' in stuff:
+                    await message.channel.send(stuff['response'])
+
 
     def make_bonk(self, new_text):
         img = Image.open("images/bonk.png")
