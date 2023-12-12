@@ -180,6 +180,29 @@ class ImageMaker(commands.Cog):
         else:
             await inter.send(inter.author.mention + ", that ain't a user.")
 
+    @commands.slash_command()
+    async def forkbomb(self, inter, *, text=""):
+        """rip to myself"""
+        if text == "":
+            await inter.send(file=disnake.File("images/forkbomb.jpg"))
+        else:
+            await inter.response.defer()
+            new_text = text
+            img = Image.open("images/forkbomb-template.jpg")
+            arial_font = ImageFont.truetype(
+                "fonts/arial.ttf", (50 - len(str(new_text)))
+            )
+            draw = ImageDraw.Draw(img)
+            draw.text(
+                (20, 160),
+                str(new_text),
+                (0, 0, 0),
+                font=arial_font,
+            )
+            img.save("fb-s.jpg")
+            await inter.send(file=disnake.File("fb-s.jpg"))
+            os.remove("fb-s.jpg")
+
 
 def setup(bot):
     print("Loading imgmaker extension")

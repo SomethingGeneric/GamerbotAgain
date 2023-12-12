@@ -54,11 +54,6 @@ class Chat(commands.Cog):
         await inter.send(file=disnake.File("images/stop_talking.png"))
 
     @commands.slash_command()
-    async def forkbomb(self, inter):
-        """rip to myself"""
-        await inter.send(file=disnake.File("images/forkbomb.jpg"))
-
-    @commands.slash_command()
     async def permit(self, inter):
         """go right ahead."""
         await inter.send(file=disnake.File("images/permit_crab.jpg"))

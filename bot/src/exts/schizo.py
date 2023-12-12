@@ -114,15 +114,16 @@ class Schizo(commands.Cog):
 
             # Code to deal with "profanity"
             if profanity.contains_profanity(message.content):
-
-                opt = randint(1,4)
+                opt = randint(1, 4)
 
                 if opt == 1:
                     await message.add_reaction("😿")
                 elif opt == 2:
                     await message.add_reaction("🤬")
                 elif opt == 3:
-                    await message.channel.send("stop it", file=disnake.File("images/dogegun.jpg"))
+                    await message.channel.send(
+                        "stop it", file=disnake.File("images/dogegun.jpg")
+                    )
                 elif opt == 4:
                     try:  # if we don't have permission to CAT, then
                         msg = "stop it"
@@ -130,14 +131,14 @@ class Schizo(commands.Cog):
 
                         censored = profanity.censor(message.content)
 
-                        #await owner.send("It was censored to: `" + censored + "`")
+                        # await owner.send("It was censored to: `" + censored + "`")
 
                         self.make_bonk(new_text)
 
                         await message.channel.send(
                             msg, reference=message, file=disnake.File("bonk-s.png")
                         )
-                        
+
                         os.remove("bonk-s.png")
                     except Exception as e:  # we just send a normal message
                         await message.channel.send("stop it", reference=message)
