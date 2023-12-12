@@ -129,7 +129,7 @@ class Schizo(commands.Cog):
 
                         censored = profanity.censor(message.content)
 
-                        await owner.send("It was censored to: `" + censored + "`")
+                        #await owner.send("It was censored to: `" + censored + "`")
 
                         self.make_bonk(new_text)
 
