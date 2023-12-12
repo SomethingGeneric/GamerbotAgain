@@ -121,7 +121,7 @@ class Schizo(commands.Cog):
                 elif opt == 2:
                     await message.add_reaction("🤬")
                 elif opt == 3:
-                    await message.channel.send("stop it", file=disnake.File("dogegun.jpg"))
+                    await message.channel.send("stop it", file=disnake.File("images/dogegun.jpg"))
                 elif opt == 4:
                     try:  # if we don't have permission to CAT, then
                         msg = "stop it"
