@@ -19,6 +19,8 @@ class Schizo(commands.Cog):
 
         self.unhinged = open("data/hanne.txt").read().split("\n")
 
+        self.indexed_guilds = []
+
     def cog_unload(self):
         self.schizo_task.cancel()
 
