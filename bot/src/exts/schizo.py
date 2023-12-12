@@ -103,6 +103,8 @@ class Schizo(commands.Cog):
                 if message.author.id == 721355984940957816:
                     if random.randint(1, 100) <= 5:
                         await message.channel.send(random.choice(self.unhinged))
+                    if random.randint(1,500) < 100:
+                        await self.be_silly()
 
             # Code to deal with "profanity"
             if profanity.contains_profanity(message.content):
