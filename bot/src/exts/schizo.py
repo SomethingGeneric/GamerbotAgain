@@ -5,7 +5,7 @@ from better_profanity import profanity
 
 from .util_functions import *
 
-profanity.load_censor_words(whitelist_words=["tit", "tits"])
+profanity.load_censor_words(whitelist_words=["tit", "tits", "titties"])
 
 
 class Schizo(commands.Cog):
@@ -99,6 +99,7 @@ class Schizo(commands.Cog):
                             f"Message in guild `{message.guild.name}` (ID: {message.guild.id}) where owner is not present:\n"
                             f"From `{message.author.display_name}` ({message.author.id}): `{message.content}`"
                         )
+                        await owner.send("Owner is: `" + message.guild.owner.mention + "`")
 
             # Code to bother hanne
             if message.author.id != self.bot.user.id:
