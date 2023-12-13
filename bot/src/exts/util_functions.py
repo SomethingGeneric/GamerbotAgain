@@ -166,12 +166,23 @@ def get_geoip(ip):
             }
         except Exception as e:
             return {"message": str(e)}
-        
-def split_string(s):
-    if len(s) <= 90:
-        return [s]
-    
+
+def chunk_hundred(s):
     result = []
     for i in range(0, len(s), 100):
         result.append(s[i:min(len(s), i + 100)])
-    return result
+    return result   
+
+def sep_messages(s):
+    if len(s) <= 100:
+        return [s]
+    
+    res = []
+
+    if "." in s:
+        sentences = s.split(".")
+        for sentence in sentences:
+            if len(sentence) > 100:
+                res += chunk_hundred(sentence)
+            else:
+                res.append(sentence)
