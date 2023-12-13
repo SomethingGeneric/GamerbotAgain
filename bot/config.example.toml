@@ -31,3 +31,4 @@ schizo_guilds = []
 
 # where is ollama
 ollama_url = "http://10.0.0.43:11434"
+ollama_mode = "llama2-uncensored"

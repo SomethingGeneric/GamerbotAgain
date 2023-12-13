@@ -170,7 +170,7 @@ class Schizo(commands.Cog):
 
                     url = config['ollama_url'] + "/api/chat"
                     data = {
-                        "model": "llama2-uncensored",
+                        "model": config['ollama_model'],
                         "messages": history,
                         "stream": False
                     }
