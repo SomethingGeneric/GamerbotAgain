@@ -166,7 +166,7 @@ class Schizo(commands.Cog):
                 data = {
                     "model": "llama2-uncensored",
                     "messages": history,
-                    "stream": "false"
+                    "stream": False
                 }
 
                 response = requests.post(url, json=data)
