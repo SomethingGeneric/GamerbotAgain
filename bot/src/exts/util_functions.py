@@ -166,3 +166,12 @@ def get_geoip(ip):
             }
         except Exception as e:
             return {"message": str(e)}
+        
+def split_string(s):
+    if len(s) <= 100:
+        return [s]
+    
+    result = []
+    for i in range(0, len(s), 100):
+        result.append(s[i:min(len(s), i + 100)])
+    return result

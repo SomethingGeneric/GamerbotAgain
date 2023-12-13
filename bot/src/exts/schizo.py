@@ -145,35 +145,46 @@ class Schizo(commands.Cog):
                         owner = await self.bot.fetch_user(self.bot.owner_id)
                         await owner.send("Error: `" + str(e) + "`")
 
-            history = None
-            convdir = config['volpath'] + "/ollama/"
+            try:
 
-            if not os.path.exists(convdir):
-                os.makedirs(convdir)
+                history = None
+                convdir = config['volpath'] + "/ollama/"
 
-            if str(message.author.id) in os.listdir(convdir):
-                history = json.load(open(convdir + str(message.author.id)))
-                history.append({"role": "user", "content": message.content})
-            else:
-                history = [
-                    {"role": "user", "content": message.content},
-                ]
+                if not os.path.exists(convdir):
+                    os.makedirs(convdir)
 
-            url = config['ollama_url'] + "/api/chat"
-            data = {
-                "model": "llama2-uncensored",
-                "messages": history,
-                "stream": False
-            }
+                if str(message.author.id) in os.listdir(convdir):
+                    history = json.load(open(convdir + str(message.author.id)))
+                    history.append({"role": "user", "content": message.content})
+                else:
+                    history = [
+                        {"role": "user", "content": message.content},
+                    ]
 
-            response = requests.post(url, json=data)
+                url = config['ollama_url'] + "/api/chat"
+                data = {
+                    "model": "llama2-uncensored",
+                    "messages": history,
+                    "stream": False
+                }
 
-            if response.status_code == 200:
-                stuff = response.json()
-                if 'response' in stuff:
-                    await message.channel.send(stuff['response'])
-                    history.append({"role": "assistant", "content": stuff['response']})
-                    json.dump(history, open(convdir + str(message.author.id), "w"))
+                response = requests.post(url, data=data)
+
+                if response.status_code == 200:
+                    stuff = response.json()
+                    if 'response' in stuff.keys():
+                        for pt in split_string(stuff['response']):
+                            await message.channel.send(pt)
+                        history.append({"role": "assistant", "content": stuff['response']})
+                        json.dump(history, open(convdir + str(message.author.id), "w"))
+                else:
+                    await message.channel.send("Error: " + str(response.status_code))
+                    await message.channel.send("```" + response.text + "```")
+
+            except Exception as e:
+                await message.channel.send("Error: " + str(e))
+                owner = await self.bot.fetch_user(self.bot.owner_id)
+                await owner.send("Error: `" + str(e) + "`")
 
 
     def make_bonk(self, new_text):
