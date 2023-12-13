@@ -166,7 +166,7 @@ class Schizo(commands.Cog):
                 data = {
                     "model": "llama2-uncensored",
                     "messages": history,
-                    "stream": False
+                    "stream": "false"
                 }
 
                 response = requests.post(url, data=data)
@@ -181,6 +181,7 @@ class Schizo(commands.Cog):
                 else:
                     await message.channel.send("Error: " + str(response.status_code))
                     await message.channel.send("```" + response.text + "```")
+                    await message.channel.send("We sent: ```" + str(data) + "```")
 
             except Exception as e:
                 await message.channel.send("Error: " + str(e))
