@@ -152,7 +152,7 @@ class Schizo(commands.Cog):
             # Silly LLM stuff
             try:
 
-                if message.author.id == self.bot.owner_id:
+                if message.author.id == self.bot.owner_id and type(message.channel) == disnake.DMChannel:
 
                     history = None
                     convdir = config['volpath'] + "/ollama/"
