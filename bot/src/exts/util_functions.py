@@ -7,6 +7,7 @@ import string
 import threading
 import binascii
 import toml
+import re
 
 if not os.path.exists("config.toml"):
     print("No config found")
@@ -166,28 +167,23 @@ def get_geoip(ip):
             }
         except Exception as e:
             return {"message": str(e)}
-
-def chunk_hundred(s):
-    result = []
-    for i in range(0, len(s), 100):
-        result.append(s[i:min(len(s), i + 100)])
-    return result   
-
-def sep_messages(s):
-    if len(s) <= 100:
-        return [s]
     
-    res = []
+def split_string(text, max_length=130):
+    # Split text into sentences using regular expression
+    sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
 
-    if "." in s:
-        sentences = s.split(".")
-        for sentence in sentences:
-            if sentence == "" or sentence == " ":
-                continue
-            elif len(sentence) > 100:
-                res += chunk_hundred(sentence)
-            else:
-                res.append(sentence)
-        return res
-    else:
-        return chunk_hundred(s)
+    result = []
+    current_part = ""
+
+    for sentence in sentences:
+        # Check if adding the current sentence exceeds the max length
+        if len(current_part) + len(sentence) <= max_length:
+            current_part += sentence + " "
+        else:
+            result.append(current_part.strip())
+            current_part = sentence + " "
+
+    # Add the last part
+    result.append(current_part.strip())
+
+    return result

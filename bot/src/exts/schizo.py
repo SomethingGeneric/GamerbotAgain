@@ -180,8 +180,9 @@ class Schizo(commands.Cog):
                     if response.status == 200:
                         stuff = await response.json()
                         if 'message' in stuff.keys():
-                            for pt in sep_messages(stuff['message']['content']):
-                                await message.channel.send(pt)
+                            for pt in split_string(stuff['message']['content']):
+                                if pt != "":
+                                    await message.channel.send(pt)
                             history.append({"role": "assistant", "content": stuff['message']['content']})
                             json.dump(history, open(convdir + str(message.author.id), "w"))
                         else:
