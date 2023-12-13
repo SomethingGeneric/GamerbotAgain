@@ -1,4 +1,4 @@
-import datetime, asyncio, toml, random, disnake, requests
+import datetime, asyncio, toml, random, disnake, requests, json
 from random import randint
 
 from disnake.ext import commands, tasks
@@ -145,11 +145,21 @@ class Schizo(commands.Cog):
                         owner = await self.bot.fetch_user(self.bot.owner_id)
                         await owner.send("Error: `" + str(e) + "`")
 
+            history = None
+            convdir = config['volpath'] + "/ollama/"
 
-            url = "http://10.0.0.43:11434/api/generate"
+            if str(message.author.id) in os.listdir(convdir):
+                history = json.load(open(convdir + str(message.author.id)))
+                history.append({"role": "user", "content": message.content})
+            else:
+                history = [
+                    {"role": "user", "content": message.content},
+                ]
+
+            url = config['ollama_url'] + "/api/chat"
             data = {
                 "model": "llama2-uncensored",
-                "prompt": message.content,
+                "messages": history,
                 "stream": False
             }
 
@@ -159,6 +169,8 @@ class Schizo(commands.Cog):
                 stuff = response.json()
                 if 'response' in stuff:
                     await message.channel.send(stuff['response'])
+                    history.append({"role": "assistant", "content": stuff['response']})
+                    json.dump(history, open(convdir + str(message.author.id), "w"))
 
 
     def make_bonk(self, new_text):

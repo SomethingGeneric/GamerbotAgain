@@ -28,3 +28,6 @@ permitted_guilds = [ 825473796227858482, 403356796405678090,]
 
 # where can i be weird and silly and goofy and unhinged
 schizo_guilds = []
+
+# where is ollama
+ollama_url = "http://10.0.0.43:11434"
