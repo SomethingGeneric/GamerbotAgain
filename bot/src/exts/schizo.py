@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from .util_functions import *
 
-profanity.load_censor_words(whitelist_words=["tit", "tits", "titties"])
+profanity.load_censor_words(whitelist_words=["tit", "tits", "titties", "god"])
 
 class Schizo(commands.Cog):
     """This cog keeps the bot (in)sane"""
