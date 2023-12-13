@@ -175,7 +175,7 @@ class Schizo(commands.Cog):
                         "stream": False
                     }
 
-                    response = await self.fetch_data(url, json=data)
+                    response = await self.fetch_data(url, data)
 
                     if response.status_code == 200:
                         stuff = response.json()
