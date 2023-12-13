@@ -189,7 +189,7 @@ class Schizo(commands.Cog):
                             await message.channel.send("Error: " + str(stuff))
                             await message.channel.send("We sent: ```" + str(data) + "```")
                     else:
-                        await message.channel.send("Error: " + str(response.status_code))
+                        await message.channel.send("Error: " + str(response.status))
                         await message.channel.send("```" + response.text + "```")
                         await message.channel.send("We sent: ```" + str(data) + "```")
 
