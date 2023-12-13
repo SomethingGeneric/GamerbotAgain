@@ -145,6 +145,7 @@ class Schizo(commands.Cog):
                         owner = await self.bot.fetch_user(self.bot.owner_id)
                         await owner.send("Error: `" + str(e) + "`")
 
+            # Silly LLM stuff
             try:
 
                 history = None
