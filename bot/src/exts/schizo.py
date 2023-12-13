@@ -177,7 +177,7 @@ class Schizo(commands.Cog):
 
                     response = await self.fetch_data(url, data)
 
-                    if response.status_code == 200:
+                    if response.status == 200:
                         stuff = response.json()
                         if 'response' in stuff.keys():
                             for pt in split_string(stuff['response']):
