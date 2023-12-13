@@ -182,7 +182,9 @@ def sep_messages(s):
     if "." in s:
         sentences = s.split(".")
         for sentence in sentences:
-            if len(sentence) > 100:
+            if sentence == "" or sentence == " ":
+                continue
+            elif len(sentence) > 100:
                 res += chunk_hundred(sentence)
             else:
                 res.append(sentence)
