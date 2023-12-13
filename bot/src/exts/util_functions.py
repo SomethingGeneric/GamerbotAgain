@@ -168,7 +168,7 @@ def get_geoip(ip):
             return {"message": str(e)}
         
 def split_string(s):
-    if len(s) <= 100:
+    if len(s) <= 90:
         return [s]
     
     result = []
