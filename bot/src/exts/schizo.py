@@ -148,6 +148,9 @@ class Schizo(commands.Cog):
             history = None
             convdir = config['volpath'] + "/ollama/"
 
+            if not os.path.exists(convdir):
+                os.makedirs(convdir)
+
             if str(message.author.id) in os.listdir(convdir):
                 history = json.load(open(convdir + str(message.author.id)))
                 history.append({"role": "user", "content": message.content})
