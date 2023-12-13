@@ -186,3 +186,6 @@ def sep_messages(s):
                 res += chunk_hundred(sentence)
             else:
                 res.append(sentence)
+        return res
+    else:
+        return chunk_hundred(s)
