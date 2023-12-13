@@ -176,9 +176,11 @@ class Schizo(commands.Cog):
                     }
 
                     response = await self.fetch_data(url, data)
+                    rt = await response.text()
+                    rj = await response.json()
 
                     if response.status == 200:
-                        stuff = await response.json()
+                        stuff = rj
                         if 'message' in stuff.keys():
                             for pt in split_string(stuff['message']['content']):
                                 if pt != "":
@@ -190,7 +192,7 @@ class Schizo(commands.Cog):
                             await message.channel.send("We sent: ```" + str(data) + "```")
                     else:
                         await message.channel.send("Error: " + str(response.status))
-                        await message.channel.send("```" + response.text + "```")
+                        await message.channel.send("```" + str(rt) + "```")
                         await message.channel.send("We sent: ```" + str(data) + "```")
 
             except Exception as e:
