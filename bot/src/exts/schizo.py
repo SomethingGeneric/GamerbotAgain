@@ -1,4 +1,4 @@
-import datetime, asyncio, toml, random, disnake, requests, json
+import datetime, asyncio, toml, random, disnake, requests, json, aiohttp
 from random import randint
 
 from disnake.ext import commands, tasks
@@ -8,7 +8,6 @@ from PIL import Image, ImageDraw, ImageFont
 from .util_functions import *
 
 profanity.load_censor_words(whitelist_words=["tit", "tits", "titties"])
-
 
 class Schizo(commands.Cog):
     """This cog keeps the bot (in)sane"""
@@ -70,6 +69,11 @@ class Schizo(commands.Cog):
             except Exception as e:
                 await inter.send("Had trouble getting a user from: " + new_text)
                 await inter.send("```" + str(e) + "```")
+
+    async def fetch_data(self, url, data):
+        async with aiohttp.ClientSession() as session:
+            response = await session.post(url, json=data)
+            return response
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -171,7 +175,7 @@ class Schizo(commands.Cog):
                         "stream": False
                     }
 
-                    response = requests.post(url, json=data)
+                    response = await self.fetch_data(url, json=data)
 
                     if response.status_code == 200:
                         stuff = response.json()
