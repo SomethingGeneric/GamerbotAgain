@@ -78,7 +78,7 @@ async def on_ready():
 async def on_message(message):
     pattern = r"(\d{1,2}:\d{2})\s([a-zA-Z/]+)"
     match = re.search(pattern, message.content)
-    if match:
+    if match and message.author.id != bot.user.id:
         time_str, tz_str = match.groups()
         dt = datetime.datetime.strptime(time_str, "%H:%M")
         tz = pytz.timezone(tz_str)
