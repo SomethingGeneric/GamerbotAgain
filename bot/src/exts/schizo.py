@@ -7,7 +7,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 from .util_functions import *
 
-profanity.load_censor_words(whitelist_words=["tit", "tits", "titties", "god"])
+profanity.load_censor_words(
+    whitelist_words=["tit", "tits", "titties", "god", "lmao", "spac"]
+)
+
 
 class Schizo(commands.Cog):
     """This cog keeps the bot (in)sane"""
@@ -148,7 +151,6 @@ class Schizo(commands.Cog):
                         await message.channel.send("stop it", reference=message)
                         owner = await self.bot.fetch_user(self.bot.owner_id)
                         await owner.send("Error: `" + str(e) + "`")
-
 
     def make_bonk(self, new_text):
         img = Image.open("images/bonk.png")

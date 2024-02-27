@@ -1,10 +1,8 @@
- # Silly LLM stuff
+# Silly LLM stuff
 try:
-
     if type(message.channel) == disnake.DMChannel:
-
         history = None
-        convdir = config['volpath'] + "/ollama/"
+        convdir = config["volpath"] + "/ollama/"
 
         if not os.path.exists(convdir):
             os.makedirs(convdir)
@@ -17,12 +15,8 @@ try:
                 {"role": "user", "content": message.content},
             ]
 
-        url = config['ollama_url'] + "/api/chat"
-        data = {
-            "model": config['ollama_model'],
-            "messages": history,
-            "stream": False
-        }
+        url = config["ollama_url"] + "/api/chat"
+        data = {"model": config["ollama_model"], "messages": history, "stream": False}
 
         response = await self.fetch_data(url, data)
         rt = await response.text()
@@ -30,11 +24,13 @@ try:
 
         if response.status == 200:
             stuff = rj
-            if 'message' in stuff.keys():
-                for pt in split_string(stuff['message']['content']):
+            if "message" in stuff.keys():
+                for pt in split_string(stuff["message"]["content"]):
                     if pt != "":
                         await message.channel.send(pt)
-                history.append({"role": "assistant", "content": stuff['message']['content']})
+                history.append(
+                    {"role": "assistant", "content": stuff["message"]["content"]}
+                )
                 json.dump(history, open(convdir + str(message.author.id), "w"))
             else:
                 await message.channel.send("Error: " + str(stuff))

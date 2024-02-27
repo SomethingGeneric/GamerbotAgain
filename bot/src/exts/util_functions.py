@@ -167,10 +167,11 @@ def get_geoip(ip):
             }
         except Exception as e:
             return {"message": str(e)}
-    
+
+
 def split_string(text, max_length=130):
     # Split text into sentences using regular expression
-    sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
+    sentences = re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", text)
 
     result = []
     current_part = ""
