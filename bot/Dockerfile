@@ -2,7 +2,7 @@ FROM gamerthebase:latest
 WORKDIR /bot
 COPY . .
 RUN python -m venv /bot/venv
-RUN /bot/venv/bin/python -m pip install --upgrade pip
+RUN /bot/venv/bin/python -m pip install --upgrade pip wheel
 RUN /bot/venv/bin/python -m pip install -r /bot/requirements.txt
 RUN mkdir -p /root/.ssh
 RUN echo "StrictHostKeyChecking no" > /root/.ssh/config
