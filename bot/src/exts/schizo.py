@@ -91,25 +91,28 @@ class Schizo(commands.Cog):
                     f"DM from `{message.author.display_name}` ({message.author.id}): ```{message.content}```"
                 )
 
-            # Check for guild message outside owner's guilds
-            elif type(message.channel) == disnake.TextChannel:
-                if (
-                    message.guild.id not in self.indexed_guilds
-                ):  # Check if guild is indexed
-                    if (
-                        message.guild.owner.id != self.bot.owner_id
-                    ):  # Check if owner is not in guild
-                        self.indexed_guilds.append(
-                            message.guild.id
-                        )  # Add guild ID to list
-                        owner = await self.bot.fetch_user(self.bot.owner_id)
-                        await owner.send(
-                            f"Message in guild `{message.guild.name}` (ID: {message.guild.id}) where owner is not present:\n"
-                            f"From `{message.author.display_name}` ({message.author.id}): `{message.content}`"
-                        )
-                        await owner.send(
-                            "Owner is: `" + message.guild.owner.mention + "`"
-                        )
+            # Disabled because it doesn't work
+            # and I can't be bothered to fix it
+            #
+            # # Check for guild message outside owner's guilds
+            # elif type(message.channel) == disnake.TextChannel:
+            #     if (
+            #         message.guild.id not in self.indexed_guilds
+            #     ):  # Check if guild is indexed
+            #         if (
+            #             message.guild.owner.id != self.bot.owner_id
+            #         ):  # Check if owner is not in guild
+            #             self.indexed_guilds.append(
+            #                 message.guild.id
+            #             )  # Add guild ID to list
+            #             owner = await self.bot.fetch_user(self.bot.owner_id)
+            #             await owner.send(
+            #                 f"Message in guild `{message.guild.name}` (ID: {message.guild.id}) where owner is not present:\n"
+            #                 f"From `{message.author.display_name}` ({message.author.id}): `{message.content}`"
+            #             )
+            #             await owner.send(
+            #                 "Owner is: `" + message.guild.owner.mention + "`"
+            #             )
 
             # Code to bother hanne
             if message.author.id != self.bot.user.id:
@@ -118,6 +121,14 @@ class Schizo(commands.Cog):
                         await message.channel.send(random.choice(self.unhinged))
                     if random.randint(1, 500) < 100:
                         await self.be_silly()
+
+            if (
+                message.author.id == 721355984940957816
+                and message.channel == disnake.DMChannel
+            ):
+                await message.channel.send(random.choice(self.unhinged))
+                with open("data/hanne.txt", "a") as f:
+                    f.write("\n" + message.content)
 
             # Code to deal with "profanity"
             if profanity.contains_profanity(message.content):
