@@ -20,7 +20,7 @@ dill==0.3.8
 discord-pretty-help==2.0.7
 disnake==2.9.1
 duckduckgo3==0.242
-Flask==3.0.2
+Flask==3.0.3
 Flask-RESTful==0.3.10
 frozenlist==1.4.1
 geoip2==4.8.0
