@@ -7,7 +7,7 @@ attrs==23.2.0
 beautifulsoup4==4.12.3
 better-profanity==0.7.0
 black==24.4.2
-blinker==1.7.0
+blinker==1.8.2
 blurhash==1.1.4
 certifi==2024.2.2
 cffi==1.16.0
