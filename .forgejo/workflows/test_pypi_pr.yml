@@ -2,8 +2,10 @@ on: [pull_request]
 jobs:
   testpipstuff:
     runs-on: docker
+    container:
+        image: node:18.19.1-buster-slim
     steps:
-      - run: apt update && apt install nodejs npm build-essential python3-dev python3-pip python3-venv -y
+      - run: apt update && apt install build-essential python3-dev python3-pip python3-venv -y
       - uses: actions/checkout@v4
       - run: python3 -m venv venv
       - run: ./venv/bin/pip install -r bot/requirements.txt
