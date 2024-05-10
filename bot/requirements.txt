@@ -39,7 +39,7 @@ mypy-extensions==1.0.0
 packaging==24.0
 pathos==0.3.2
 pathspec==0.12.1
-peewee==3.17.1
+peewee==3.17.5
 pillow==10.3.0
 platformdirs==4.1.0
 pluggy==1.4.0
