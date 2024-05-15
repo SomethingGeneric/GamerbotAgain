@@ -41,7 +41,7 @@ pathos==0.3.2
 pathspec==0.12.1
 peewee==3.17.1
 pillow==10.3.0
-platformdirs==4.1.0
+platformdirs==4.2.2
 pluggy==1.4.0
 pox==0.3.4
 ppft==1.7.6.8
