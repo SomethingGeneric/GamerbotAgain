@@ -216,14 +216,6 @@ class InternetStuff(commands.Cog):
         """Search DuckDuckGo"""
         await inter.send(duckduckgo.get_zci(query))
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if "hey gamerbot" in message.content:
-            await message.channel.send(
-                duckduckgo.get_zci(message.content.replace("hey gamerbot", "")),
-                reference=message,
-            )
-
     @commands.message_command(name="Translate")
     async def trns(self, inter, message):
         """Translate text to English"""

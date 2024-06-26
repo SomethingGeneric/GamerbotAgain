@@ -9,15 +9,6 @@ class FuckedUpStuff(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        mc = message.content.lower()
-        mchan = message.channel
-
-        if message.author != self.bot.user:
-            if "michal moment" in mc:
-                await mchan.send("yeah......", reference=message)
-
     @commands.slash_command()
     async def forgor(self, inter):
         """🦀🦀🦀🦀🦀"""

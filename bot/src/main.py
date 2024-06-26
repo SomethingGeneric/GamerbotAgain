@@ -57,30 +57,3 @@ async def on_ready():
     #     if len(error) > 1000:
     #         t = await paste(error)
     #     await ownerman.send(t)
-
-
-@bot.event
-async def on_message(message):
-    pattern = r"(\d{1,2}:\d{2})\s([a-zA-Z/]+)"
-    match = re.search(pattern, message.content)
-    if match and message.author.id != bot.user.id:
-        time_str, tz_str = match.groups()
-        dt = datetime.datetime.strptime(time_str, "%H:%M")
-        tz = pytz.timezone(tz_str)
-        dt = tz.localize(dt).astimezone(pytz.UTC)
-        await message.channel.send(
-            f"The time {time_str} {tz_str} is {dt.strftime('%H:%M')} UTC."
-        )
-    else:
-        pattern = r"(\d{1,2}:\d{2})"
-        match = re.search(pattern, message.content)
-        if match:
-            time_str = match.group(1)
-            tz_str = user_timezones.get(message.author.id)
-            if tz_str:
-                dt = datetime.datetime.strptime(time_str, "%H:%M")
-                tz = pytz.timezone(tz_str)
-                dt = tz.localize(dt).astimezone(pytz.UTC)
-                await message.channel.send(
-                    f"Your time {time_str} is {dt.strftime('%H:%M')} UTC."
-                )

@@ -136,54 +136,6 @@ class Speak(commands.Cog):
         await self.do_meow(inter)
         await inter.send("Meow")
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if " bee " in message.content.lower() or " bees " in message.content.lower():
-            print("BEE MOVIE ALERT!!")
-            with open("data/bee.txt") as f:
-                quote = random.choice(f.read().split("\n"))
-                if message.author.voice is not None:
-                    inter = await self.bot.get_context(message)
-                    print("Speak-Client", "Initializing meme session")
-                    tried = await self.speak_in_channel(inter, quote, None, True)
-                    if tried:
-                        print("SPOKE BEE MOVIE QUOTE IN VOICE CHANNEL!!")
-                    else:
-                        print(
-                            "Falling back to text since voice is too busy for memes.",
-                        )
-                        await message.channel.send("`" + quote + "`")
-                        print("SENT BEE MOVIE QUOTE IN TEXT CHAT")
-                else:
-                    print(
-                        "Falling back to text since voice is too busy for memes. (Voice not attempted)",
-                    )
-                    await message.channel.send("`" + quote + "`")
-                    print("SENT BEE MOVIE QUOTE IN TEXT CHAT")
-
-        if (
-            message.channel.id in self.chat_channels
-            and message.author != self.bot.user
-            and message.content != "-makechatchannel"
-            or "hey chatterbot" in message.content
-        ):
-            resp = await run_command_shell(
-                'python3 bin/thechatbot.py "'
-                + message.content.replace('"', "'").replace("hey chatterbot", "")
-                + '"'
-            )
-
-            if len(resp) < 400:
-                await message.channel.send(resp, reference=message)
-            else:
-                url = await paste(resp)
-                await message.channel.send(url, reference=message)
-            if message.author.voice is not None:
-                inter = await self.bot.get_context(message)
-                print("Speaking response as well")
-                await self.speak_in_channel(inter=inter, text=resp)
-
-
 def setup(bot):
     print("Loading speak ext")
     bot.add_cog(Speak(bot))
