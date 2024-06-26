@@ -5,6 +5,6 @@ geoip2==4.8.0
 gmplot==1.4.1
 pyfiglet==1.0.2
 pytz==2024.1
-requests==2.31.0
+requests==2.32.3
 toml==0.10.2
 translators==5.9.0
