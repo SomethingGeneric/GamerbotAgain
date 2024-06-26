@@ -1,3 +1,5 @@
+## Disclaimer - This code was written by ChatGPT
+
 import os
 import re
 import shutil
