@@ -44,16 +44,3 @@ for fn in os.listdir("src/exts"):
 async def on_ready():
     print(f"Logged in as {bot.user}, ID: {bot.user.id}")
     print(f"Connected to {len(bot.guilds)} guilds, serving {len(bot.users)} users")
-
-    ownerman = await bot.fetch_user(bot.owner_id)
-
-    if config["owner_dm_restart"]:
-        await ownerman.send(
-            "Started/restarted at: `" + str(datetime.datetime.now()) + "`"
-        )
-
-    # if load_error:
-    #     t = error
-    #     if len(error) > 1000:
-    #         t = await paste(error)
-    #     await ownerman.send(t)
