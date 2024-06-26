@@ -2,21 +2,14 @@ import disnake
 import datetime, os, re, toml, pytz
 from disnake.ext import commands
 
-# import yaml
-# with open("conf.yml", "r") as stream:
-#     try:
-#         config = yaml.safe_load(stream)
-#     except yaml.YAMLError as err:
-#         print(err)
-
 config = toml.load("config.toml")
 
 intents = disnake.Intents().default()
 # noinspection PyDunderSlots,PyUnresolvedReferences
-intents.members = True
-intents.messages = True
-intents.guilds = True
-intents.message_content = True
+# intents.members = True
+# intents.messages = True
+# intents.guilds = True
+# intents.message_content = True
 
 # command_sync_flags = commands.CommandSyncFlags.default()
 # command_sync_flags.sync_commands_debug = True
@@ -67,11 +60,11 @@ async def on_ready():
             "Started/restarted at: `" + str(datetime.datetime.now()) + "`"
         )
 
-    if load_error:
-        t = error
-        if len(error) > 1000:
-            t = await paste(error)
-        await ownerman.send(t)
+    # if load_error:
+    #     t = error
+    #     if len(error) > 1000:
+    #         t = await paste(error)
+    #     await ownerman.send(t)
 
 
 @bot.event
