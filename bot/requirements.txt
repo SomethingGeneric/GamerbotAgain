@@ -7,4 +7,4 @@ pyfiglet==1.0.2
 pytz==2024.1
 requests==2.31.0
 toml==0.10.2
-translators==5.9.0
+translators==5.9.2
