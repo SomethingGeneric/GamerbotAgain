@@ -1,6 +1,6 @@
 aiohttp==3.9.3
 asyncio==3.4.3
-disnake==2.9.1
+disnake==2.9.2
 geoip2==4.8.0
 gmplot==1.4.1
 pyfiglet==1.0.2
