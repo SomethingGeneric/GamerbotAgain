@@ -13,4 +13,6 @@ cat /stuff/gb.pub >> $HOME/.ssh/authorized_keys
 
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
+echo "Cmnd_Alias PACMAN = /usr/bin/pacman -S, ! /usr/bin/pacman -S -u, ! /usr/bin/pacman -U" >> /etc/sudoers
+
 /usr/bin/sshd -De
