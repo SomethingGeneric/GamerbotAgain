@@ -44,16 +44,15 @@ for fn in os.listdir("src/exts"):
             bot.load_extension(f"src.exts.{fn.replace('.py','')}")
         except Exception as e:
             error += f"Error trying to load extension `{fn}`: ```{str(e)}```\n\n"
-            webhook_log(error)
             load_error = True
 
 
 @bot.event
 async def on_ready():
     try:
-        webhook_log(f"Logged in as {bot.user}, ID: {bot.user.id}")
-        webhook_log(f"Connected to {len(bot.guilds)} guilds, serving {len(bot.users)} users")
+        await webhook_log(f"Logged in as {bot.user}, ID: {bot.user.id}")
+        await webhook_log(f"Connected to {len(bot.guilds)} guilds, serving {len(bot.users)} users")
         if load_error:
-            webhook_log(error)
+            await webhook_log(error)
     except Exception as e:
-        webhook_log(f"Error in on_ready: {str(e)}")
+        await webhook_log(f"Error in on_ready: {str(e)}")

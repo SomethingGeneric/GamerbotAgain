@@ -1,12 +1,13 @@
 import disnake.ext.commands
 from disnake.ext import commands
 
+from util_functions import webhook_log
+
 
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @disnake.ext.commands.is_owner()
     @commands.slash_command(
         name="bot-info",
         description="Get info about the bot",
@@ -27,7 +28,21 @@ class Admin(commands.Cog):
 
         embed.set_thumbnail(url=inter.bot.user.display_avatar.url)
 
-        await inter.send(embed=embed, ephemeral=True)
+        await inter.send(embed=embed)
+
+    @commands.slash_command(
+        name="extentions",
+        description="List all loaded extentions",
+    )
+    async def exts(self, inter):
+        exts = "```"
+        for ext in self.bot.extensions:
+            exts += f"* {ext}\n"
+        exts += "```"
+
+        await webhook_log(exts)
+        await inter.send(exts)
+
 
 
 def setup(bot):
