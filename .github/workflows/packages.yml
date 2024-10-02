@@ -20,7 +20,6 @@ jobs:
     - name: Install dependencies
       run: |
         cd bot
-        sudo apt install -y python3-venv
         python -m venv venv
         ./venv/bin/pip install --upgrade pip
         ./venv/bin/pip install creosote
@@ -30,7 +29,7 @@ jobs:
       # ignoring 'pillow' package (since it's called PIL so it 'seems' unused)
       run: |
         cd bot
-        ./venv/bin/creosote --venv venv --exclude-dep 'pillow'
+        ./venv/bin/creosote --venv venv --deps-file requirements.txt --exclude-dep 'pillow'
     
     - name: Check Creosote output
       run: |
