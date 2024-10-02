@@ -1,5 +1,4 @@
 name: Check Unused Packages
-
 on:
   push:
     branches: [ main ]
@@ -20,14 +19,18 @@ jobs:
     
     - name: Install dependencies
       run: |
+        cd /bot
         python -m pip install --upgrade pip
         pip install creosote
     
     - name: Run Creosote
-      run: creosote --path bot/ --deps-file requirements.txt
+      run: |
+        cd /bot
+        creosote --deps-file requirements.txt
     
     - name: Check Creosote output
       run: |
+        cd /bot
         if [ -s creosote_unused_requirements.txt ]; then
           echo "Unused packages found:"
           cat creosote_unused_requirements.txt
