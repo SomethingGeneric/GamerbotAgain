@@ -19,18 +19,18 @@ jobs:
     
     - name: Install dependencies
       run: |
-        cd /bot
+        cd bot
         python -m pip install --upgrade pip
         pip install creosote
     
     - name: Run Creosote
       run: |
-        cd /bot
+        cd bot
         creosote --deps-file requirements.txt
     
     - name: Check Creosote output
       run: |
-        cd /bot
+        cd bot
         if [ -s creosote_unused_requirements.txt ]; then
           echo "Unused packages found:"
           cat creosote_unused_requirements.txt
