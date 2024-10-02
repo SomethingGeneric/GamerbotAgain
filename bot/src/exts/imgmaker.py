@@ -25,9 +25,6 @@ class ImageMaker(commands.Cog):
             await inter.send(
                 embed=err_msg("Error", "Had an issue running figlet: `" + str(e) + "`")
             )
-            syslog.log(
-                "Memes-Important", "Had an issue running figlet: `" + str(e) + "`"
-            )
 
     @commands.slash_command()
     async def onceagain(self, inter, *, text="for your financial support"):

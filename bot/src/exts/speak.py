@@ -71,9 +71,9 @@ class Speak(commands.Cog):
                     self.isDone = False
                     self.voice_client.play(
                         self.audiosrc,
-                        after=lambda e: print("Player error: %s" % e)
-                        if e
-                        else self.set_done(),
+                        after=lambda e: (
+                            print("Player error: %s" % e) if e else self.set_done()
+                        ),
                     )
                     while self.voice_client.is_playing():
                         self.isDone = False
@@ -135,6 +135,7 @@ class Speak(commands.Cog):
         await inter.response.defer()
         await self.do_meow(inter)
         await inter.send("Meow")
+
 
 def setup(bot):
     print("Loading speak ext")
