@@ -1,0 +1,36 @@
+name: Check Unused Packages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  creosote-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install creosote
+    
+    - name: Run Creosote
+      run: creosote --path bot/ --requirements requirements.txt
+    
+    - name: Check Creosote output
+      run: |
+        if [ -s creosote_unused_requirements.txt ]; then
+          echo "Unused packages found:"
+          cat creosote_unused_requirements.txt
+          exit 1
+        else
+          echo "No unused packages found."
+        fi
