@@ -2,8 +2,6 @@ import json
 import urllib
 import urllib.parse
 
-import duckduckgo
-import gmplot
 from disnake.ext import commands
 import translators as ts
 
@@ -210,11 +208,6 @@ class InternetStuff(commands.Cog):
                     "GeoIP error", "Had an issue getting GeoIP data: `" + str(e) + "`"
                 )
             )
-
-    @commands.slash_command()
-    async def ddg(self, inter, *, query):
-        """Search DuckDuckGo"""
-        await inter.send(duckduckgo.get_zci(query))
 
     @commands.message_command(name="Translate")
     async def trns(self, inter, message):
