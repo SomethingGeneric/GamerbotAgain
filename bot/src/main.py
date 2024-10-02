@@ -44,3 +44,5 @@ for fn in os.listdir("src/exts"):
 async def on_ready():
     print(f"Logged in as {bot.user}, ID: {bot.user.id}")
     print(f"Connected to {len(bot.guilds)} guilds, serving {len(bot.users)} users")
+    if load_error:
+        print(error)
