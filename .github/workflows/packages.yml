@@ -23,7 +23,7 @@ jobs:
         sudo apt install -y python3-venv
         python -m venv venv
         ./venv/bin/pip install --upgrade pip
-        ./venv/binpip install creosote
+        ./venv/bin/pip install creosote
         ./venv/bin/pip install -r requirements.txt
     
     - name: Run Creosote
