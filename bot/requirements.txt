@@ -3,7 +3,6 @@ asyncio==3.4.3
 better-profanity==0.7.0
 disnake==2.9.1
 geoip2==4.8.0
-gmplot==1.4.1
 pillow==10.3.0
 pyfiglet==1.0.2
 pytz==2024.1
@@ -11,3 +10,4 @@ requests==2.32.2
 toml==0.10.2
 translators==5.9.0
 python-dateutil==2.9.0.post0
+PyYAML==6.0.2

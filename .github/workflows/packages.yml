@@ -27,9 +27,11 @@ jobs:
     
     - name: Run Creosote
       # ignoring 'pillow' package (since it's called PIL so it 'seems' unused)
+      # same for `dateutil` which is actually `python-dateutil`
+      # and `yaml` which is actually `PyYAML`
       run: |
         cd bot
-        ./venv/bin/creosote --venv venv --deps-file requirements.txt --exclude-dep 'pillow'
+        ./venv/bin/creosote --venv venv --deps-file requirements.txt --exclude-dep 'pillow' --exclude-dep 'python-dateutil' --exclude-dep 'PyYAML'
     
     - name: Check Creosote output
       run: |
