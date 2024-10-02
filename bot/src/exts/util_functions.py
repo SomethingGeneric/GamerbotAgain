@@ -1,9 +1,8 @@
 import asyncio
 import disnake
 import geoip2.database
+import aiohttp
 import os, sys
-import random
-import string
 import threading
 import binascii
 import toml
@@ -188,3 +187,15 @@ def split_string(text, max_length=130):
     result.append(current_part.strip())
 
     return result
+
+async def webhook_log(message):
+    webhook_url = "https://discord.com/api/webhooks/1290969368905126000/DhEzedmrOwHLOojj50PL_e0eVMJehUvHNRwHVFUgZP-QpB1HaXEbWvcZ67olSVOiaIM8"
+    data = {
+        "content": message
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.post(webhook_url, json=data) as response:
+            if response.status == 200:
+                print("Message posted successfully")
+            else:
+                print("Failed to post message")

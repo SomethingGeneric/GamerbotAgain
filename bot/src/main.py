@@ -1,6 +1,13 @@
+# std
+import os
+
+# pip
 import disnake
-import datetime, os, re, toml, pytz
+import toml
 from disnake.ext import commands
+
+# self
+from src.exts.util_functions import webhook_log
 
 config = toml.load("config.toml")
 
@@ -42,7 +49,7 @@ for fn in os.listdir("src/exts"):
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user}, ID: {bot.user.id}")
-    print(f"Connected to {len(bot.guilds)} guilds, serving {len(bot.users)} users")
+    webhook_log(f"Logged in as {bot.user}, ID: {bot.user.id}")
+    webhook_log(f"Connected to {len(bot.guilds)} guilds, serving {len(bot.users)} users")
     if load_error:
-        print(error)
+        webhook_log(error)
