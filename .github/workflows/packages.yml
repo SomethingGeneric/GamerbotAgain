@@ -24,9 +24,10 @@ jobs:
         pip install creosote
     
     - name: Run Creosote
+      # ignoring 'pillow' package (since it's called PIL so it 'seems' unused)
       run: |
         cd bot
-        creosote --deps-file requirements.txt
+        creosote --deps-file requirements.txt --exclude-dep 'pillow'
     
     - name: Check Creosote output
       run: |
