@@ -59,7 +59,7 @@ requests==2.31.0
 six==1.16.0
 soupsieve==2.5
 toml==0.10.2
-tqdm==4.66.2
+tqdm==4.66.3
 translators==5.9.0
 urllib3==2.2.1
 Werkzeug==3.0.3
