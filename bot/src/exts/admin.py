@@ -1,9 +1,6 @@
 import disnake.ext.commands
 from disnake.ext import commands
 
-from util_functions import webhook_log
-
-
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -40,7 +37,6 @@ class Admin(commands.Cog):
             exts += f"* {ext}\n"
         exts += "```"
 
-        await webhook_log(exts)
         await inter.send(exts)
 
 
