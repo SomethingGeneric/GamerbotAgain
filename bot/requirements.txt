@@ -4,7 +4,7 @@ better-profanity==0.7.0
 disnake==2.9.1
 geoip2==5.1.0
 pillow==11.3.0
-pyfiglet==1.0.3
+pyfiglet==1.0.4
 pytz==2025.2
 requests==2.32.4
 toml==0.10.2
