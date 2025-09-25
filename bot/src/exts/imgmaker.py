@@ -26,6 +26,19 @@ class ImageMaker(commands.Cog):
                 embed=err_msg("Error", "Had an issue running figlet: `" + str(e) + "`")
             )
 
+    def _calculate_font_size(self, text, base_size=50, min_size=16):
+        """
+        Calculate font size based on text length with improved algorithm.
+        Less aggressive than the original (50 - len(text)) approach.
+        """
+        text_len = len(str(text))
+        if text_len <= 10:
+            return base_size
+        else:
+            # Gentler reduction: 0.6 per character after the first 10
+            reduction = int((text_len - 10) * 0.6)
+            return max(base_size - reduction, min_size)
+
     @commands.slash_command()
     async def onceagain(self, inter, *, text="for your financial support"):
         """What is bernie's campaign this time?"""
@@ -33,7 +46,8 @@ class ImageMaker(commands.Cog):
         new_text = text
 
         img = Image.open("images/bernie.jpg")
-        arial_font = ImageFont.truetype("fonts/arial.ttf", (50 - len(str(new_text))))
+        font_size = self._calculate_font_size(new_text)
+        arial_font = ImageFont.truetype("fonts/arial.ttf", font_size)
         draw = ImageDraw.Draw(img)
         draw.text(
             (130, 585),  # xy
