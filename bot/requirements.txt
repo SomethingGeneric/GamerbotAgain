@@ -8,6 +8,6 @@ pyfiglet==1.0.4
 pytz==2025.2
 requests==2.32.4
 toml==0.10.2
-translators==5.9.0
+translators==6.0.1
 python-dateutil==2.9.0.post0
 PyYAML==6.0.2
