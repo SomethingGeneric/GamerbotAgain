@@ -11,3 +11,4 @@ toml==0.10.2
 translators==6.0.1
 python-dateutil==2.9.0.post0
 PyYAML==6.0.3
+audioop-lts
