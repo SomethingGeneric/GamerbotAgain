@@ -20,12 +20,17 @@ class xkcd(commands.Cog):
     async def setup_data(self):
         try:
             self.data_done = False
-            owner = await self.bot.fetch_user(self.bot.owner_id)
-            await owner.send("Starting XKCD data work")
+            if self.bot.owner_id is None:
+                print("Owner ID not available, skipping DM notifications for XKCD setup")
+                owner = None
+            else:
+                owner = await self.bot.fetch_user(self.bot.owner_id)
+                await owner.send("Starting XKCD data work")
             if not os.path.exists(data_fn):
-                await owner.send(
-                    "Doing full data download for XKCD. This will take a while"
-                )
+                if owner:
+                    await owner.send(
+                        "Doing full data download for XKCD. This will take a while"
+                    )
                 self.data = {}
                 latest_comic = int(requests.get(primary_url).json()["num"])
                 for i in range(1, latest_comic + 1):
@@ -37,10 +42,12 @@ class xkcd(commands.Cog):
                         await asyncio.sleep(random.uniform(0.1, 0.5))
                     except Exception as e:
                         print(f"Error getting comic {str(i)}: {str(e)}")
-                        await owner.send(f"Error getting comic {str(i)}: {str(e)}")
+                        if owner:
+                            await owner.send(f"Error getting comic {str(i)}: {str(e)}")
                 with open(data_fn, "w") as f:
                     toml.dump(self.data, f)
-                await owner.send("Done with XKCD initial download")
+                if owner:
+                    await owner.send("Done with XKCD initial download")
             else:
                 # await owner.send("Loading XKCD data from file")
                 self.data = toml.load(data_fn)
@@ -60,12 +67,14 @@ class xkcd(commands.Cog):
                             await asyncio.sleep(random.uniform(0.1, 0.5))
                         except Exception as e:
                             print(f"Error getting comic {str(i)}: {str(e)}")
-                            await owner.send(f"Error getting comic {str(i)}: {str(e)}")
+                            if owner:
+                                await owner.send(f"Error getting comic {str(i)}: {str(e)}")
                     with open(data_fn, "w") as f:
                         toml.dump(self.data, f)
                 # await owner.send("All done with XKCD loading")
             self.data_done = True
-            await owner.send("I have unlocked XKCD command for usage.")
+            if owner:
+                await owner.send("I have unlocked XKCD command for usage.")
         except Exception as e:
             print("XKCD setup error: " + str(e))
 
@@ -82,7 +91,7 @@ class xkcd(commands.Cog):
     @commands.slash_command()
     async def reset_xkcd(self, inter):
         """Reset saved XKCD data (owner ownly)"""
-        if inter.author.id == self.bot.owner.id:
+        if inter.author.id == self.bot.owner_id:
             try:
                 os.remove(data_fn)
                 await inter.send("Deleted data. Restarting load.")

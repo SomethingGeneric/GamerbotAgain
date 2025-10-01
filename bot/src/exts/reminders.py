@@ -216,8 +216,13 @@ class reminders(commands.Cog):
                             self.write_data()
 
         except Exception as e:
-            owner = await self.bot.fetch_user(self.bot.owner_id)
-            await owner.send(f"Reminder task error: '{str(e)}'")
+            print(f"Reminder task error: '{str(e)}'")
+            if self.bot.owner_id is not None:
+                try:
+                    owner = await self.bot.fetch_user(self.bot.owner_id)
+                    await owner.send(f"Reminder task error: '{str(e)}'")
+                except Exception as dm_error:
+                    print(f"Failed to DM owner about reminder error: {str(dm_error)}")
 
     @iterate_reminders.before_loop
     async def before_status_task(self):

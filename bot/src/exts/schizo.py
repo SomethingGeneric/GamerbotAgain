@@ -29,8 +29,11 @@ class Schizo(commands.Cog):
         self.schizo_task.cancel()
 
     async def be_silly(self):
-        hannelore = await self.bot.fetch_user(721355984940957816)
-        await hannelore.send(random.choice(self.unhinged))
+        try:
+            hannelore = await self.bot.fetch_user(721355984940957816)
+            await hannelore.send(random.choice(self.unhinged))
+        except Exception as e:
+            print(f"Failed to send silly message: {str(e)}")
 
     @commands.Cog.listener()
     async def on_ready(self):
