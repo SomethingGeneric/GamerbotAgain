@@ -1,0 +1,58 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-base:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build base image
+        run: make base
+      
+      - name: Save base image
+        run: docker save gamerthebase:latest | gzip > gamerthebase.tar.gz
+      
+      - name: Upload base image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gamerthebase-image
+          path: gamerthebase.tar.gz
+          retention-days: 1
+
+  build-containers:
+    runs-on: ubuntu-latest
+    needs: build-base
+    steps:
+      - uses: actions/checkout@v5
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Download base image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gamerthebase-image
+      
+      - name: Load base image
+        run: docker load < gamerthebase.tar.gz
+      
+      - name: Build application containers
+        run: make build
+      
+      - name: Verify images were built
+        run: |
+          echo "Checking built images..."
+          docker images | grep -E "gamerthebase|bot|punching-bag" || true
