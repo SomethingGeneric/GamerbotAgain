@@ -23,7 +23,7 @@ jobs:
         run: docker save gamerthebase:latest | gzip > gamerthebase.tar.gz
       
       - name: Upload base image artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: gamerthebase-image
           path: gamerthebase.tar.gz
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v6
       
       - name: Download base image artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: gamerthebase-image
       
