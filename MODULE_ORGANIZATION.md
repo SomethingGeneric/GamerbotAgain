@@ -119,14 +119,11 @@ All these commands serve the same purpose: quick reactions/memes for chat.
 
 ## Security Notes
 
-### Issue in imgmaker.py
-The `space` command uses `os.system("wget")` which poses security risks:
-```python
-os.system("wget " + pfp + " -O prof.webp")
-```
+### ✅ Fixed: Command Injection in imgmaker.py
+The `space` command previously used `os.system("wget")` which posed command injection security risks. This has been **fixed** by replacing it with secure `aiohttp` HTTP downloads:
 
-**Recommendation**: Replace with `aiohttp` or `requests`:
 ```python
+# Secure implementation (current):
 async with aiohttp.ClientSession() as session:
     async with session.get(pfp) as resp:
         if resp.status == 200:
@@ -141,6 +138,6 @@ Overall, the bot's module organization is quite good. Most modules are well-focu
 1. Moving web-related utilities to the internet module
 2. Consolidating reaction/meme commands into a single module
 3. Eliminating duplicate image manipulation code
-4. Addressing the security issue with wget
+4. ✅ ~~Addressing the security issue with wget~~ **FIXED**
 
 These changes would improve code maintainability and make it easier for new contributors to understand where different types of commands belong.

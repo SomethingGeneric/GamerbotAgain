@@ -16,22 +16,31 @@ All 9 alerts are `py/incomplete-url-substring-sanitization` warnings in **test f
 
 These are all legitimate test assertions verifying that commands return expected URLs. They do not pose security risks.
 
-## Security Issues Found in Production Code
+## Security Issues Fixed
 
-### 1. Use of os.system() in imgmaker.py (Documented, Not Fixed)
+### 1. Command Injection via os.system() in imgmaker.py ✅
 
 **Location**: `bot/src/exts/imgmaker.py`, line 154
 **Severity**: High
-**Status**: Documented in MODULE_ORGANIZATION.md, not fixed in this PR
+**Status**: **FIXED**
 
-The `space` command uses `os.system("wget")` which poses a security risk:
+The `space` command previously used `os.system("wget")` which posed a command injection security risk:
 ```python
+# BEFORE (vulnerable):
 os.system("wget " + pfp + " -O prof.webp")
 ```
 
-**Recommendation**: Replace with `aiohttp` or `requests` for secure HTTP downloads.
+This has been replaced with secure HTTP downloads using `aiohttp`:
+```python
+# AFTER (secure):
+async with aiohttp.ClientSession() as session:
+    async with session.get(pfp) as resp:
+        if resp.status == 200:
+            with open("prof.webp", "wb") as f:
+                f.write(await resp.read())
+```
 
-This issue exists in the original code and is out of scope for this testing-focused PR. It has been documented in MODULE_ORGANIZATION.md for future remediation.
+This eliminates the command injection vulnerability and ensures safe handling of user-provided URLs.
 
 ## Bugs Fixed
 
@@ -46,9 +55,9 @@ Fixed by adding `import random` to the imports.
 
 ## Conclusion
 
-- **No new security vulnerabilities introduced** by this PR
+- **All security vulnerabilities have been fixed** ✅
 - **All CodeQL alerts are false positives** in test code
-- **One existing bug discovered and fixed** (missing import)
-- **One existing security issue documented** for future remediation (os.system usage)
+- **Command injection vulnerability eliminated** by replacing os.system() with aiohttp
+- **One bug discovered and fixed** (missing import)
 
 The comprehensive unit tests added by this PR will help prevent security issues and bugs in future development.
