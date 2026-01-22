@@ -38,7 +38,7 @@ class TestFuckedUp:
         inter.message.delete.assert_called_once()
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
-        assert "tenor.com" in call_args
+        assert call_args.startswith("https://tenor.com/")
 
     @pytest.mark.asyncio
     async def test_forgor_command_no_delete_perms(self, fuckedup_cog):
@@ -64,7 +64,7 @@ class TestFuckedUp:
         inter.message.delete.assert_called_once()
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
-        assert "tenor.com" in call_args
+        assert call_args.startswith("https://tenor.com/")
 
     @pytest.mark.asyncio
     async def test_facepalm_command(self, fuckedup_cog):
@@ -78,7 +78,7 @@ class TestFuckedUp:
         inter.message.delete.assert_called_once()
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
-        assert "tenor.com" in call_args
+        assert call_args.startswith("https://tenor.com/")
 
 
 # NOTES ON MODULE ORGANIZATION:
