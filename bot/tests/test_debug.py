@@ -37,7 +37,7 @@ class TestDebug:
         inter.send = AsyncMock()
         bot.get_cog.return_value = Mock()  # Cog exists
 
-        await debug_cog.check_cog(inter, name="TestCog")
+        await debug_cog.check_cog.callback(debug_cog, inter, name="TestCog")
 
         bot.get_cog.assert_called_once_with("TestCog")
         inter.send.assert_called_once()
@@ -51,7 +51,7 @@ class TestDebug:
         inter.send = AsyncMock()
         bot.get_cog.return_value = None  # Cog doesn't exist
 
-        await debug_cog.check_cog(inter, name="NonExistent")
+        await debug_cog.check_cog.callback(debug_cog, inter, name="NonExistent")
 
         bot.get_cog.assert_called_once_with("NonExistent")
         inter.send.assert_called_once()
@@ -65,7 +65,7 @@ class TestDebug:
         inter.send = AsyncMock()
         bot.remove_cog.return_value = Mock()  # Success
 
-        await debug_cog.remove_cog(inter, name="TestCog")
+        await debug_cog.remove_cog.callback(debug_cog, inter, name="TestCog")
 
         bot.remove_cog.assert_called_once_with("TestCog")
         inter.send.assert_called_once()
@@ -79,7 +79,7 @@ class TestDebug:
         inter.send = AsyncMock()
         bot.remove_cog.return_value = None  # Failure
 
-        await debug_cog.remove_cog(inter, name="NonExistent")
+        await debug_cog.remove_cog.callback(debug_cog, inter, name="NonExistent")
 
         bot.remove_cog.assert_called_once_with("NonExistent")
         inter.send.assert_called_once()
@@ -93,7 +93,7 @@ class TestDebug:
         inter.response.defer = AsyncMock()
         inter.send = AsyncMock()
 
-        await debug_cog.add_cog(inter, name="src.exts.test")
+        await debug_cog.add_cog.callback(debug_cog, inter, name="src.exts.test")
 
         inter.response.defer.assert_called_once()
         bot.load_extension.assert_called_once_with("src.exts.test")
@@ -109,7 +109,7 @@ class TestDebug:
         inter.send = AsyncMock()
         bot.load_extension.side_effect = Exception("Load error")
 
-        await debug_cog.add_cog(inter, name="src.exts.invalid")
+        await debug_cog.add_cog.callback(debug_cog, inter, name="src.exts.invalid")
 
         inter.response.defer.assert_called_once()
         inter.send.assert_called_once()
@@ -126,7 +126,7 @@ class TestDebug:
         with patch('src.exts.debug.run_command_shell') as mock_run:
             mock_run.return_value = "command output"
             
-            await debug_cog.ds(inter, what="ls -la")
+            await debug_cog.ds.callback(debug_cog, inter, what="ls -la")
 
             inter.response.defer.assert_called_once()
             mock_run.assert_called_once()
@@ -144,7 +144,7 @@ class TestDebug:
             mock_run.return_value = "x" * 2000
             mock_paste.return_value = "http://paste.example.com"
             
-            await debug_cog.ds(inter, what="cat largefile")
+            await debug_cog.ds.callback(debug_cog, inter, what="cat largefile")
 
             mock_paste.assert_called_once()
             inter.send.assert_called_once()

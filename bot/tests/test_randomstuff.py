@@ -33,7 +33,7 @@ class TestRandomStuff:
         inter.send = AsyncMock()
 
         with patch('disnake.File') as mock_file:
-            await random_cog.ping(inter)
+            await random_cog.ping.callback(random_cog, inter)
 
             inter.send.assert_called_once()
             call_args = inter.send.call_args[0][0]
@@ -45,7 +45,7 @@ class TestRandomStuff:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await random_cog.gcache(inter, url="https://example.com")
+        await random_cog.gcache.callback(random_cog, inter, url="https://example.com")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -61,7 +61,7 @@ class TestRandomStuff:
         with patch('src.exts.randomstuff.run_command_shell') as mock_run:
             mock_run.return_value = "42"
             
-            await random_cog.math(inter, exp="6*7")
+            await random_cog.math.callback(random_cog, inter, exp="6*7")
 
             mock_run.assert_called_once()
             inter.send.assert_called_once()
@@ -75,7 +75,7 @@ class TestRandomStuff:
         with patch('src.exts.randomstuff.run_command_shell') as mock_run:
             mock_run.return_value = ""
             
-            await random_cog.math(inter, exp="invalid")
+            await random_cog.math.callback(random_cog, inter, exp="invalid")
 
             inter.send.assert_called_once()
             # Should send warning about no output
@@ -91,7 +91,7 @@ class TestRandomStuff:
             mock_run.return_value = "x" * 2000
             mock_paste.return_value = "http://paste.example.com"
             
-            await random_cog.math(inter, exp="2^1000")
+            await random_cog.math.callback(random_cog, inter, exp="2^1000")
 
             mock_paste.assert_called_once()
             inter.send.assert_called_once()

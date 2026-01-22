@@ -78,7 +78,7 @@ class TestStatus:
         inter.send = AsyncMock()
         status_cog.upt = 3661  # 1 hour, 1 minute, 1 second
 
-        await status_cog.get_uptime(inter)
+        await status_cog.get_uptime.callback(status_cog, inter)
 
         inter.send.assert_called_once()
         # Check that embed was sent

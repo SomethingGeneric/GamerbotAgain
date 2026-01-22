@@ -57,7 +57,7 @@ class TestInternetStuff:
         with patch('src.exts.internet.run_command_shell') as mock_run:
             mock_run.return_value = "# tldr output\nSome documentation"
             
-            await internet_cog.tldr(inter, query="ls")
+            await internet_cog.tldr.callback(internet_cog, inter, query="ls")
 
             inter.response.defer.assert_called_once()
             inter.send.assert_called_once()
@@ -76,7 +76,7 @@ class TestInternetStuff:
             mock_run.return_value = "x" * 2000
             mock_paste.return_value = "http://paste.example.com"
             
-            await internet_cog.tldr(inter, query="ls")
+            await internet_cog.tldr.callback(internet_cog, inter, query="ls")
 
             mock_paste.assert_called_once()
             inter.send.assert_called_once()
@@ -87,7 +87,7 @@ class TestInternetStuff:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await internet_cog.chtsh(inter, query="python list")
+        await internet_cog.chtsh.callback(internet_cog, inter, query="python list")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -100,7 +100,7 @@ class TestInternetStuff:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await internet_cog.archwiki(inter, query="systemd")
+        await internet_cog.archwiki.callback(internet_cog, inter, query="systemd")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -119,7 +119,7 @@ class TestInternetStuff:
             mock_json.return_value = {"latest_stable": {"version": "6.6.1"}}
             mock_run.return_value = "5.15.0-generic"
             
-            await internet_cog.kernel(inter)
+            await internet_cog.kernel.callback(internet_cog, inter)
 
             inter.response.defer.assert_called_once()
             inter.send.assert_called_once()
@@ -131,7 +131,7 @@ class TestInternetStuff:
         inter.typing = MagicMock()
         inter.send = AsyncMock()
 
-        await internet_cog.search(inter, query="python tutorial")
+        await internet_cog.search.callback(internet_cog, inter, query="python tutorial")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args
@@ -148,7 +148,7 @@ class TestInternetStuff:
         with patch('src.exts.internet.run_command_shell') as mock_run:
             mock_run.return_value = "traceroute output"
             
-            await internet_cog.traceroute(inter, url="example.com")
+            await internet_cog.traceroute.callback(internet_cog, inter, url="example.com")
 
             inter.response.defer.assert_called_once()
             mock_run.assert_called_once()
@@ -161,7 +161,7 @@ class TestInternetStuff:
         inter.send = AsyncMock()
         inter.author.mention = "@user"
 
-        await internet_cog.traceroute(inter, url="notaurl")
+        await internet_cog.traceroute.callback(internet_cog, inter, url="notaurl")
 
         inter.send.assert_called_once()
         # Should send error about invalid address
@@ -177,7 +177,7 @@ class TestInternetStuff:
         with patch('src.exts.internet.run_command_shell') as mock_run:
             mock_run.return_value = "whois data"
             
-            await internet_cog.whois(inter, url="example.com")
+            await internet_cog.whois.callback(internet_cog, inter, url="example.com")
 
             inter.response.defer.assert_called_once()
             mock_run.assert_called_once()
@@ -194,7 +194,7 @@ class TestInternetStuff:
         with patch('src.exts.internet.run_command_shell') as mock_run:
             mock_run.return_value = "nmap scan results"
             
-            await internet_cog.nmap(inter, url="example.com")
+            await internet_cog.nmap.callback(internet_cog, inter, url="example.com")
 
             inter.response.defer.assert_called_once()
             mock_run.assert_called_once()
@@ -212,7 +212,7 @@ class TestInternetStuff:
                 "longitude": -122.4194
             }
             
-            await internet_cog.geoip(inter, ip="8.8.8.8")
+            await internet_cog.geoip.callback(internet_cog, inter, ip="8.8.8.8")
 
             mock_geoip.assert_called_once_with("8.8.8.8")
             inter.send.assert_called_once()
@@ -230,7 +230,7 @@ class TestInternetStuff:
         with patch('translators.translate_text') as mock_translate:
             mock_translate.return_value = "Hello world"
             
-            await internet_cog.trns(inter, mock_message)
+            await internet_cog.trns.callback(internet_cog, inter, mock_message)
 
             inter.response.defer.assert_called_once()
             mock_translate.assert_called_once_with("Hola mundo")

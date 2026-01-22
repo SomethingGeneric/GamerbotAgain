@@ -57,7 +57,7 @@ class TestImageMaker:
             mock_figlet_instance.renderText = Mock(return_value="ASCII ART")
             mock_figlet.return_value = mock_figlet_instance
 
-            await imgmaker_cog.figlet(inter, text="test")
+            await imgmaker_cog.figlet.callback(imgmaker_cog, inter, text="test")
 
             inter.response.defer.assert_called_once()
             inter.send.assert_called_once()
@@ -74,7 +74,7 @@ class TestImageMaker:
         with patch('pyfiglet.Figlet') as mock_figlet:
             mock_figlet.side_effect = Exception("Figlet error")
 
-            await imgmaker_cog.figlet(inter, text="test")
+            await imgmaker_cog.figlet.callback(imgmaker_cog, inter, text="test")
 
             inter.send.assert_called_once()
             # Check that error embed was sent
@@ -98,7 +98,7 @@ class TestImageMaker:
             mock_img.save = Mock()
             mock_open.return_value = mock_img
 
-            await imgmaker_cog.onceagain(inter, text="test support")
+            await imgmaker_cog.onceagain.callback(imgmaker_cog, inter, text="test support")
 
             inter.response.defer.assert_called_once()
             mock_img.save.assert_called_with("bernie-gen.png")
@@ -121,7 +121,7 @@ class TestImageMaker:
             mock_img.save = Mock()
             mock_open.return_value = mock_img
 
-            await imgmaker_cog.bugs(inter, text_one="text1", text_two="text2")
+            await imgmaker_cog.bugs.callback(imgmaker_cog, inter, text_one="text1", text_two="text2")
 
             inter.response.defer.assert_called_once()
             mock_img.save.assert_called_with("bugs-gen.png")
@@ -145,7 +145,7 @@ class TestImageMaker:
             mock_img.save = Mock()
             mock_open.return_value = mock_img
 
-            await imgmaker_cog.bonk(inter, text="")
+            await imgmaker_cog.bonk.callback(imgmaker_cog, inter, text="")
 
             inter.response.defer.assert_called_once()
             # With empty text, it should use author mention and send the static image
@@ -173,7 +173,7 @@ class TestImageMaker:
             mock_img.save = Mock()
             mock_open.return_value = mock_img
 
-            await imgmaker_cog.bonk(inter, text="<@!123456>")
+            await imgmaker_cog.bonk.callback(imgmaker_cog, inter, text="<@!123456>")
 
             inter.bot.fetch_user.assert_called_once()
             inter.send.assert_called()
@@ -190,7 +190,7 @@ class TestImageMaker:
         mock_user.display_avatar.url = "https://example.com/avatar.png"
         inter.bot.fetch_user.return_value = mock_user
 
-        await imgmaker_cog.pfp(inter, who="<@!123456>")
+        await imgmaker_cog.pfp.callback(imgmaker_cog, inter, who="<@!123456>")
 
         inter.bot.fetch_user.assert_called_once_with(123456)
         inter.send.assert_called_once()
@@ -204,7 +204,7 @@ class TestImageMaker:
         inter.send = AsyncMock()
         inter.author.mention = "@caller"
 
-        await imgmaker_cog.pfp(inter, who="not_a_mention")
+        await imgmaker_cog.pfp.callback(imgmaker_cog, inter, who="not_a_mention")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -217,7 +217,7 @@ class TestImageMaker:
         inter.send = AsyncMock()
 
         with patch('disnake.File') as mock_file:
-            await imgmaker_cog.forkbomb(inter, text="")
+            await imgmaker_cog.forkbomb.callback(imgmaker_cog, inter, text="")
 
             inter.send.assert_called_once()
             mock_file.assert_called_with("images/forkbomb.jpg")
@@ -238,7 +238,7 @@ class TestImageMaker:
             mock_img.save = Mock()
             mock_open.return_value = mock_img
 
-            await imgmaker_cog.forkbomb(inter, text="custom text")
+            await imgmaker_cog.forkbomb.callback(imgmaker_cog, inter, text="custom text")
 
             inter.response.defer.assert_called_once()
             mock_img.save.assert_called_with("fb-s.jpg")

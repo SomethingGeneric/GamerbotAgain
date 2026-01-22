@@ -32,7 +32,7 @@ class TestFuckedUp:
         inter.message.delete = AsyncMock()
         inter.send = AsyncMock()
 
-        await fuckedup_cog.forgor(inter)
+        await fuckedup_cog.forgor.callback(fuckedup_cog, inter)
 
         # Message deletion should be attempted
         inter.message.delete.assert_called_once()
@@ -47,7 +47,7 @@ class TestFuckedUp:
         inter.message.delete = AsyncMock(side_effect=Exception("No perms"))
         inter.send = AsyncMock()
 
-        await fuckedup_cog.forgor(inter)
+        await fuckedup_cog.forgor.callback(fuckedup_cog, inter)
 
         # Should still send the GIF even if delete fails
         inter.send.assert_called_once()
@@ -59,7 +59,7 @@ class TestFuckedUp:
         inter.message.delete = AsyncMock()
         inter.send = AsyncMock()
 
-        await fuckedup_cog.elb(inter)
+        await fuckedup_cog.elb.callback(fuckedup_cog, inter)
 
         inter.message.delete.assert_called_once()
         inter.send.assert_called_once()
@@ -73,7 +73,7 @@ class TestFuckedUp:
         inter.message.delete = AsyncMock()
         inter.send = AsyncMock()
 
-        await fuckedup_cog.facepalm(inter)
+        await fuckedup_cog.facepalm.callback(fuckedup_cog, inter)
 
         inter.message.delete.assert_called_once()
         inter.send.assert_called_once()

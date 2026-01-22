@@ -42,7 +42,7 @@ class TestSpeak:
         inter.author.voice = None
         inter.guild = Mock(spec=disnake.Guild)
 
-        await speak_cog.tts(inter, thing="test message", stealth=False)
+        await speak_cog.tts.callback(speak_cog, inter, thing="test message", stealth=False)
 
         inter.response.defer.assert_called_once()
         # Should send error about not being in voice channel
@@ -57,7 +57,7 @@ class TestSpeak:
         inter.guild = Mock(spec=disnake.Guild)
 
         with patch('os.listdir', return_value=['meow1.mp3', 'meow2.mp3']):
-            await speak_cog.meow(inter)
+            await speak_cog.meow.callback(speak_cog, inter)
 
             inter.response.defer.assert_called_once()
             inter.send.assert_called_once_with("Meow")

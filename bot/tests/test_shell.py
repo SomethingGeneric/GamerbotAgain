@@ -43,7 +43,7 @@ class TestShell:
         inter.send = AsyncMock()
 
         with patch('src.exts.shell.write_ignore') as mock_write:
-            await shell_cog.add_nobash(inter, uid="123456")
+            await shell_cog.add_nobash.callback(shell_cog, inter, uid="123456")
             
             mock_write.assert_called_once_with("123456")
             inter.send.assert_called_once_with("Done")
@@ -55,7 +55,7 @@ class TestShell:
         inter.send = AsyncMock()
 
         with patch('src.exts.shell.remove_ignore') as mock_remove:
-            await shell_cog.remove_nobash(inter, uid="123456")
+            await shell_cog.remove_nobash.callback(shell_cog, inter, uid="123456")
             
             mock_remove.assert_called_once_with("123456")
             inter.send.assert_called_once_with("Done")
@@ -67,7 +67,7 @@ class TestShell:
         inter.send = AsyncMock()
         inter.author.id = 123456
 
-        await shell_cog.reset_bash(inter, confirm="n")
+        await shell_cog.reset_bash.callback(shell_cog, inter, confirm="n")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -83,7 +83,7 @@ class TestShell:
         with patch('src.exts.shell.run_command_shell') as mock_run:
             mock_run.return_value = ""
             
-            await shell_cog.reset_bash(inter, confirm="y")
+            await shell_cog.reset_bash.callback(shell_cog, inter, confirm="y")
 
             assert inter.send.call_count == 2
             mock_run.assert_called()
@@ -98,7 +98,7 @@ class TestShell:
         inter.guild = Mock()
         inter.guild.id = 123456789
 
-        await shell_cog.bash(inter, cmd="dd if=/dev/zero of=/dev/null")
+        await shell_cog.bash.callback(shell_cog, inter, cmd="dd if=/dev/zero of=/dev/null")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -115,7 +115,7 @@ class TestShell:
         inter.guild.id = 123456789
 
         with patch('src.exts.shell.write_ignore') as mock_write:
-            await shell_cog.bash(inter, cmd=":(){ :|:& };:")
+            await shell_cog.bash.callback(shell_cog, inter, cmd=":(){ :|:& };:")
 
             inter.send.assert_called_once()
             call_args = inter.send.call_args[0][0]
@@ -133,7 +133,7 @@ class TestShell:
         inter.guild.id = 123456789
 
         with patch('src.exts.shell.ignore', ['123456']):
-            await shell_cog.bash(inter, cmd="ls")
+            await shell_cog.bash.callback(shell_cog, inter, cmd="ls")
 
             inter.send.assert_called_once()
             call_args = inter.send.call_args[0][0]
@@ -147,7 +147,7 @@ class TestShell:
         inter.guild = Mock()
         inter.guild.id = 999999999  # Not in permitted_guilds
 
-        await shell_cog.bash(inter, cmd="ls")
+        await shell_cog.bash.callback(shell_cog, inter, cmd="ls")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -178,7 +178,7 @@ class TestShell:
                 ""    # rm temp script
             ]
 
-            await shell_cog.bash(inter, cmd="ls")
+            await shell_cog.bash.callback(shell_cog, inter, cmd="ls")
 
             inter.response.defer.assert_called_once()
             inter.send.assert_called_once()
@@ -193,7 +193,7 @@ class TestShell:
         with patch('src.exts.shell.run_command_shell') as mock_run:
             mock_run.return_value = "command output"
             
-            await shell_cog.mbash(inter, cmd="ls -la")
+            await shell_cog.mbash.callback(shell_cog, inter, cmd="ls -la")
 
             inter.response.defer.assert_called_once()
             mock_run.assert_called_once_with("ls -la")
@@ -211,7 +211,7 @@ class TestShell:
             mock_run.return_value = "x" * 2000
             mock_paste.return_value = "http://paste.example.com"
             
-            await shell_cog.mbash(inter, cmd="ls")
+            await shell_cog.mbash.callback(shell_cog, inter, cmd="ls")
 
             mock_paste.assert_called_once()
             inter.send.assert_called_once()

@@ -32,7 +32,7 @@ class TestChat:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await chat_cog.crab(inter)
+        await chat_cog.crab.callback(chat_cog, inter)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -44,7 +44,7 @@ class TestChat:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await chat_cog.deadchat(inter)
+        await chat_cog.deadchat.callback(chat_cog, inter)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -57,7 +57,7 @@ class TestChat:
         inter.send = AsyncMock()
 
         with patch('disnake.File') as mock_file:
-            await chat_cog.xd(inter)
+            await chat_cog.xd.callback(chat_cog, inter)
 
             inter.send.assert_called_once()
             mock_file.assert_called_with("images/LMAO.jpg")
@@ -69,7 +69,7 @@ class TestChat:
         inter.send = AsyncMock()
 
         with patch('disnake.File') as mock_file:
-            await chat_cog.kat(inter)
+            await chat_cog.kat.callback(chat_cog, inter)
 
             inter.send.assert_called_once()
             mock_file.assert_called_with("images/krying_kat.png")
@@ -81,7 +81,7 @@ class TestChat:
         inter.send = AsyncMock()
 
         with patch('disnake.File') as mock_file:
-            await chat_cog.yea(inter)
+            await chat_cog.yea.callback(chat_cog, inter)
 
             inter.send.assert_called_once()
             mock_file.assert_called_with("images/yeah.png")
@@ -93,7 +93,7 @@ class TestChat:
         inter.send = AsyncMock()
 
         with patch('disnake.File') as mock_file:
-            await chat_cog.no(inter)
+            await chat_cog.no.callback(chat_cog, inter)
 
             inter.send.assert_called_once()
             mock_file.assert_called_with("images/no.png")

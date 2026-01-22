@@ -68,7 +68,7 @@ class TestSchizo:
         mock_user = AsyncMock()
         bot.fetch_user.return_value = mock_user
 
-        await schizo_cog.dm(inter, text="<@!999999>Hello there")
+        await schizo_cog.dm.callback(schizo_cog, inter, text="<@!999999>Hello there")
 
         inter.response.defer.assert_called_once()
         bot.fetch_user.assert_called_once_with(999999)
@@ -82,7 +82,7 @@ class TestSchizo:
         inter.send = AsyncMock()
         inter.author.id = 999999  # Not owner
 
-        await schizo_cog.dm(inter, text="<@!123456>Test")
+        await schizo_cog.dm.callback(schizo_cog, inter, text="<@!123456>Test")
 
         inter.send.assert_called_once_with("You can't do that!")
 

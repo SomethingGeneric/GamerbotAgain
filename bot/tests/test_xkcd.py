@@ -51,7 +51,7 @@ class TestXkcd:
         inter.response.defer = AsyncMock()
         inter.send = AsyncMock()
 
-        await xkcd_cog.xkcdsearch(inter, query="Test Comic")
+        await xkcd_cog.xkcdsearch.callback(xkcd_cog, inter, query="Test Comic")
 
         inter.response.defer.assert_called_once()
         inter.send.assert_called_once()
@@ -65,7 +65,7 @@ class TestXkcd:
         inter.response.defer = AsyncMock()
         inter.send = AsyncMock()
 
-        await xkcd_cog.xkcdsearch(inter, query="Nonexistent Comic")
+        await xkcd_cog.xkcdsearch.callback(xkcd_cog, inter, query="Nonexistent Comic")
 
         inter.response.defer.assert_called_once()
         inter.send.assert_called_once()
@@ -79,7 +79,7 @@ class TestXkcd:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await xkcd_cog.xkcdsearch(inter, query="Test")
+        await xkcd_cog.xkcdsearch.callback(xkcd_cog, inter, query="Test")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -92,7 +92,7 @@ class TestXkcd:
         inter.response.defer = AsyncMock()
         inter.send = AsyncMock()
 
-        await xkcd_cog.xkcdsearch(inter, query="Another alt")
+        await xkcd_cog.xkcdsearch.callback(xkcd_cog, inter, query="Another alt")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -108,7 +108,7 @@ class TestXkcd:
         with patch('os.remove') as mock_remove, \
              patch.object(xkcd_cog, 'setup_data') as mock_setup:
             
-            await xkcd_cog.reset_xkcd(inter)
+            await xkcd_cog.reset_xkcd.callback(xkcd_cog, inter)
 
             mock_remove.assert_called_once()
             mock_setup.assert_called_once()
@@ -120,6 +120,6 @@ class TestXkcd:
         inter.author.id = 999999  # Not owner
         inter.send = AsyncMock()
 
-        await xkcd_cog.reset_xkcd(inter)
+        await xkcd_cog.reset_xkcd.callback(xkcd_cog, inter)
 
         inter.send.assert_called_once_with("nope")

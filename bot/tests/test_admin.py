@@ -40,7 +40,7 @@ class TestAdmin:
         inter.send = AsyncMock()
         inter.bot = bot
 
-        await admin_cog.botinfo(inter)
+        await admin_cog.botinfo.callback(admin_cog, inter)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args
@@ -54,7 +54,7 @@ class TestAdmin:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await admin_cog.exts(inter)
+        await admin_cog.exts.callback(admin_cog, inter)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]

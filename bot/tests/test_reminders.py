@@ -55,7 +55,7 @@ class TestReminders:
         inter.send = AsyncMock()
         inter.author.id = 123456
 
-        await reminders_cog.show_time(inter)
+        await reminders_cog.show_time.callback(reminders_cog, inter)
 
         inter.response.defer.assert_called_once()
         inter.send.assert_called_once()
@@ -71,7 +71,7 @@ class TestReminders:
         inter.author.id = 123456
         reminders_cog.tzdata[123456] = "America/New_York"
 
-        await reminders_cog.show_time(inter)
+        await reminders_cog.show_time.callback(reminders_cog, inter)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -90,7 +90,7 @@ class TestReminders:
         
         reminders_cog.tzdata[654321] = "America/Los_Angeles"
 
-        await reminders_cog.time_for(inter, user)
+        await reminders_cog.time_for.callback(reminders_cog, inter, user)
 
         inter.send.assert_called_once()
 
@@ -105,7 +105,7 @@ class TestReminders:
         user.id = 654321
         user.mention = "@testuser"
 
-        await reminders_cog.time_for(inter, user)
+        await reminders_cog.time_for.callback(reminders_cog, inter, user)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -120,7 +120,7 @@ class TestReminders:
         inter.author.id = 123456
 
         with patch.object(reminders_cog, 'write_data'):
-            await reminders_cog.mytz(inter, timez="America/New_York")
+            await reminders_cog.mytz.callback(reminders_cog, inter, timez="America/New_York")
 
             inter.send.assert_called_once_with("Noted!")
             assert bot.tzdata[123456] == "America/New_York"
@@ -133,7 +133,7 @@ class TestReminders:
         inter.send = AsyncMock()
         inter.author.id = 123456
 
-        await reminders_cog.mytz(inter, timez="Invalid/Timezone")
+        await reminders_cog.mytz.callback(reminders_cog, inter, timez="Invalid/Timezone")
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -146,7 +146,7 @@ class TestReminders:
         inter.send = AsyncMock()
         inter.author.id = 123456
 
-        await reminders_cog.remind(inter, what="Test reminder", when="2025-01-01 12:00", utc=False)
+        await reminders_cog.remind.callback(reminders_cog, inter, what="Test reminder", when="2025-01-01 12:00", utc=False)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -160,7 +160,7 @@ class TestReminders:
         inter.author.id = 123456
 
         with patch.object(reminders_cog, 'write_data'):
-            await reminders_cog.remind(inter, what="Test reminder", when="2025-01-01 12:00", utc=True)
+            await reminders_cog.remind.callback(reminders_cog, inter, what="Test reminder", when="2025-01-01 12:00", utc=True)
 
             inter.send.assert_called_once()
             assert len(reminders_cog.data) == 1
@@ -177,7 +177,7 @@ class TestReminders:
             {"user": 123456, "text": "Test reminder", "when": "2025-01-01 12:00", "utc": True}
         ]
 
-        await reminders_cog.show_reminders(inter)
+        await reminders_cog.show_reminders.callback(reminders_cog, inter)
 
         inter.send.assert_called_once()
 
@@ -191,7 +191,7 @@ class TestReminders:
 
         reminders_cog.data = []
 
-        await reminders_cog.show_reminders(inter)
+        await reminders_cog.show_reminders.callback(reminders_cog, inter)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
@@ -209,7 +209,7 @@ class TestReminders:
         ]
 
         with patch.object(reminders_cog, 'write_data'):
-            await reminders_cog.cancel_reminder(inter, event_id=0)
+            await reminders_cog.cancel_reminder.callback(reminders_cog, inter, event_id=0)
 
             inter.send.assert_called_once()
             assert len(reminders_cog.data) == 0
