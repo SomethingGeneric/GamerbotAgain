@@ -2,6 +2,15 @@
 
 This directory contains comprehensive unit tests for all Gamerbot modules/extensions.
 
+## Installation
+
+Before running tests, install the test dependencies:
+
+```bash
+cd /home/runner/work/GamerbotAgain/GamerbotAgain/bot
+pip install -r requirements.txt -r requirements-test.txt
+```
+
 ## Running Tests
 
 To run all tests:

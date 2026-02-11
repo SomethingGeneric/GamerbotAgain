@@ -115,8 +115,11 @@ These modules have ALL tests passing:
 ## Running Tests
 
 ```bash
-# Run all tests
+# Install test dependencies first
 cd bot
+pip install -r requirements.txt -r requirements-test.txt
+
+# Run all tests
 pytest
 
 # Run specific module
@@ -172,7 +175,8 @@ To improve test coverage:
 - `tests/__init__.py` - Test package marker
 - `tests/README.md` - Testing documentation
 - `tests/test_*.py` - Individual module tests
-- `requirements.txt` - Updated with pytest dependencies
+- `requirements.txt` - Production dependencies
+- `requirements-test.txt` - Test dependencies (pytest, pytest-asyncio, pytest-mock)
 
 ## Acknowledgments
 
