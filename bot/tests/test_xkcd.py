@@ -56,7 +56,7 @@ class TestXkcd:
         inter.response.defer.assert_called_once()
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
-        assert "xkcd.com" in call_args
+        assert "https://xkcd.com" in call_args
 
     @pytest.mark.asyncio
     async def test_xkcdsearch_not_found(self, xkcd_cog):
