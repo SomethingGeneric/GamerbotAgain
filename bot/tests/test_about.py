@@ -74,7 +74,7 @@ class TestAbout:
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
-        assert "discord.com" in call_args
+        assert "discord.com/oauth2/authorize" in call_args
         assert "oauth2/authorize" in call_args
 
     @pytest.mark.asyncio
