@@ -45,12 +45,13 @@ class TestRandomStuff:
         inter = AsyncMock()
         inter.send = AsyncMock()
 
-        await random_cog.gcache.callback(random_cog, inter, url="https://example.com")
+        url = "https://example.com"
+        await random_cog.gcache.callback(random_cog, inter, url=url)
 
         inter.send.assert_called_once()
         call_args = inter.send.call_args[0][0]
         assert "cache:" in call_args
-        assert "example.com" in call_args
+        assert url in call_args
 
     @pytest.mark.asyncio
     async def test_math_command(self, random_cog):
