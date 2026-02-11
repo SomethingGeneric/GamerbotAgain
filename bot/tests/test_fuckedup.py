@@ -1,7 +1,6 @@
 """Tests for fuckedup module"""
 import pytest
-from unittest.mock import Mock, AsyncMock, patch
-import disnake
+from unittest.mock import Mock, AsyncMock
 from disnake.ext import commands
 
 

@@ -1,10 +1,7 @@
 """Tests for reminders module"""
 import pytest
-from unittest.mock import Mock, AsyncMock, patch, mock_open
-import disnake
+from unittest.mock import Mock, AsyncMock, patch
 from disnake.ext import commands
-from datetime import datetime
-import pytz
 
 
 @pytest.fixture

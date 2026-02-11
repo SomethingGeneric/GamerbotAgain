@@ -1,9 +1,7 @@
 """Tests for internet module (Network/Internet Tools)"""
 import pytest
 from unittest.mock import Mock, AsyncMock, patch, MagicMock
-import disnake
 from disnake.ext import commands
-import json
 
 
 @pytest.fixture

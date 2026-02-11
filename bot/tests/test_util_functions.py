@@ -1,6 +1,6 @@
 """Tests for util_functions module"""
 import pytest
-from unittest.mock import Mock, AsyncMock, patch, MagicMock
+from unittest.mock import Mock, patch, MagicMock
 import disnake
 
 

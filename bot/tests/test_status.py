@@ -1,9 +1,7 @@
 """Tests for status module"""
 import pytest
-from unittest.mock import Mock, AsyncMock, patch, MagicMock
-import disnake
+from unittest.mock import Mock, AsyncMock, patch
 from disnake.ext import commands
-import datetime
 
 
 @pytest.fixture

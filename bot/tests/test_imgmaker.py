@@ -1,7 +1,6 @@
 """Tests for imgmaker module (Image Manipulation)"""
 import pytest
-from unittest.mock import Mock, AsyncMock, patch, MagicMock
-import disnake
+from unittest.mock import Mock, AsyncMock, patch
 from disnake.ext import commands
 
 

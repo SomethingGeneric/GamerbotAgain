@@ -1,7 +1,6 @@
 """Tests for debug module"""
 import pytest
 from unittest.mock import Mock, AsyncMock, patch
-import disnake
 from disnake.ext import commands
 
 

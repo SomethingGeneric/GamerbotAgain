@@ -1,7 +1,6 @@
 """Tests for xkcd module"""
 import pytest
-from unittest.mock import Mock, AsyncMock, patch, mock_open
-import disnake
+from unittest.mock import Mock, AsyncMock, patch
 from disnake.ext import commands
 
 
