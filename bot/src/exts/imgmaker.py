@@ -3,6 +3,7 @@ from disnake.ext import commands
 from pyfiglet import Figlet
 
 import re
+import aiohttp
 
 from .util_functions import *
 
@@ -151,7 +152,15 @@ class ImageMaker(commands.Cog):
                 person = await inter.bot.fetch_user(int(pid))
                 if person is not None:
                     pfp = str(person.display_avatar.url)
-                    os.system("wget " + pfp + " -O prof.webp")
+                    # Securely download the avatar using aiohttp instead of os.system
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(pfp) as resp:
+                            if resp.status == 200:
+                                with open("prof.webp", "wb") as f:
+                                    f.write(await resp.read())
+                            else:
+                                await inter.send("Failed to download avatar image.")
+                                return
                     bg = Image.open("images/spacex.jpg")
                     fg = Image.open("prof.webp")
                     fg = fg.resize((128, 128))
